@@ -35,7 +35,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "pd",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
@@ -48,9 +48,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.css"
-            ]
+            "styles": ["src/styles.css"]
           },
           "configurations": {
             "production": {
@@ -83,7 +81,8 @@
               "buildTarget": "prompt-dict:build:production"
             },
             "development": {
-              "buildTarget": "prompt-dict:build:development"
+              "buildTarget": "prompt-dict:build:development",
+              "port": 4600
             }
           },
           "defaultConfiguration": "development"
@@ -101,12 +100,13 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.css"
-            ]
+            "styles": ["src/styles.css"]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
