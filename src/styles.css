@@ -1,1 +1,42 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-azul-50: oklch(0.855 0.08 212);
+  --color-azul-100: oklch(0.771 0.08 212);
+  --color-azul-200: oklch(0.687 0.08 212);
+  --color-azul-300: oklch(0.603 0.08 212);
+  --color-azul-400: oklch(0.519 0.08 212);
+  --color-azul-500: oklch(0.436 0.08 212);
+  --color-azul-600: oklch(0.352 0.08 212);
+  --color-azul-700: oklch(0.268 0.08 212);
+  --color-azul-800: oklch(0.184 0.08 212);
+  --color-azul-900: oklch(0.1 0.08 212);
+
+  --color-fondo-a: oklch(0.975 0.064 73);
+  --color-fondo-b: oklch(0.975 0.064 89);
+  --color-fondo-c: oklch(0.975 0.064 104);
+  --color-fondo-d: oklch(0.975 0.064 120);
+
+  --color-maiz-suave: oklch(0.975 0.184 70);
+}
+
+@layer components {
+  .drawer {
+    overflow: hidden;
+    display: block;
+
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .drawer.open {
+    opacity: 1;
+    @apply left-0;
+    @apply space-y-1;
+  }
+
+  .drawer:not(.open) {
+    @apply -left-48;
+  }
+}
