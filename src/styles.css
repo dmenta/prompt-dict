@@ -37,6 +37,6 @@
   }
 
   .drawer:not(.open) {
-    @apply -left-48;
+    @apply -left-56;
   }
 }

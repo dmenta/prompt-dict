@@ -1,0 +1,476 @@
+import { Prompt } from "../app/models/prompt";
+
+export const promptsNormalizados: Prompt[] = [
+  {
+    titulo: "Conversación con Empatía (Estrés Personal)",
+    descripcion: "Proporciona apoyo empático y un espacio seguro para reflexionar sobre situaciones de estrés.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Hola, me siento muy estresado últimamente por el trabajo y la vida personal. ¿Puedes ayudarme a sentirme mejor?",
+    tags: [] as string[],
+    id: 47,
+    categoria: "Vínculos y Emociones",
+  },
+  {
+    titulo: "Atención al Cliente Empática",
+    descripcion: "Maneja quejas de clientes con empatía, ofreciendo soluciones rápidas.",
+    autor: "Patricia Ceriani",
+    prompt: "Recibí un producto defectuoso y estoy muy decepcionado con el servicio. ¿Qué pueden hacer al respecto?",
+    tags: [] as string[],
+    id: 48,
+    categoria: "Vínculos y Emociones",
+  },
+  {
+    titulo: "Resolución de Conflictos (Colegas)",
+    descripcion: "Sugiere estrategias para mediar conflictos entre colegas, enfatizando la escucha activa.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Mis colegas están en desacuerdo sobre un proyecto y esto está afectando la moral del equipo. ¿Cómo puedo mediar en esta situación?",
+    tags: [] as string[],
+    id: 49,
+    categoria: "Vínculos y Emociones",
+  },
+  {
+    titulo: "Comunicación Interpersonal Empática",
+    descripcion: "Ofrece consejos para mejorar la comunicación empática en relaciones personales.",
+    autor: "Patricia Ceriani",
+    prompt: "Quiero ser más empático en mis conversaciones con amigos y familiares. ¿Tienes algunos consejos?",
+    tags: [] as string[],
+    id: 50,
+    categoria: "Vínculos y Emociones",
+  },
+  {
+    titulo: "El Reparador de Vínculos Rotos",
+    descripcion:
+      "Analiza relaciones deterioradas, brindando claridad emocional y ayudando a redactar mensajes genuinos.",
+    autor: "Santiago Bilinkis",
+    prompt:
+      "Actuá como un terapeuta familiar especializado en conversaciones difíciles. Te voy a contar una relación importante que se deterioró: [describí la relación y el conflicto]. Ayudame a entender qué puede estar sintiendo la otra persona, qué heridas o dinámicas están activas, y cómo podría escribirle un mensaje genuino que exprese mis emociones sin atacar. Dame opciones de mensajes posibles.",
+    tags: [] as string[],
+    id: 51,
+    categoria: "Vínculos y Emociones",
+  },
+  {
+    titulo: "El Creador de Excusas Perfectas (pero éticas)",
+    descripcion: "Ayuda a cancelar actividades con excusas elegantes y creíbles, sin dañar vínculos.",
+    autor: "Santiago Bilinkis",
+    prompt:
+      "Actuá como un asistente creativo especializado en diplomacia. Necesito una excusa elegante, empática y creíble para cancelar [actividad] sin quedar mal. Quiero que suene honesta, que no ofenda y que incluso genere simpatía. Dame 3 opciones con distintos tonos: uno formal, uno amigable y uno con humor sutil.",
+    tags: [] as string[],
+    id: 52,
+    categoria: "Vínculos y Emociones",
+  },
+  {
+    titulo: "El Evitador de Malos Entendidos en Mensajes Antes de Mandarlos",
+    descripcion: "Analiza mensajes para prevenir malentendidos, ajustando el tono y claridad.",
+    autor: "Santiago Bilinkis",
+    prompt:
+      "Te voy a mostrar un mensaje que estoy por mandar por WhatsApp. Quiero que me digas cómo puede interpretarlo la otra persona (tono, impacto emocional, posibles malentendidos) y si hay una forma más clara o empática de decirlo. Quiero sonar sincero, pero no cortante ni pasivo-agresivo.",
+    tags: [] as string[],
+    id: 53,
+    categoria: "Vínculos y Emociones",
+  },
+  {
+    titulo: "El Resolutor Universal de Conflictos",
+    descripcion:
+      "Ayuda a resolver conflictos identificando perspectivas y sugiriendo estrategias de comunicación no violenta.",
+    autor: "Santiago Bilinkis",
+    prompt:
+      "Eres un mediador experto en resolución de conflictos. Tengo un problema con [persona/situación]. Te voy a contar mi versión: [tu perspectiva]. Ahora ayudame a entender posibles perspectivas de la otra parte, identifica malentendidos, sugiere formas de comunicación no violenta, y dame estrategias específicas para resolver este conflicto constructivamente. Ayudame a cambiar la dinámica y encontrar concesiones mutuamente favorables.",
+    tags: [] as string[],
+    id: 54,
+    categoria: "Vínculos y Emociones",
+  },
+  {
+    titulo: "El Reescritor de Currículums Según el Puesto",
+    descripcion: "Adapta el currículum a ofertas de trabajo específicas, resaltando lo relevante para cada empresa.",
+    autor: "Santiago Bilinkis",
+    prompt:
+      "Actuá como un experto en recursos humanos con experiencia en selección. Te voy a mostrar mi CV actual y una oferta de trabajo a la que quiero aplicar. Ayudame a reescribir mi currículum enfocándome en lo que esa empresa busca, resaltando lo más relevante y adaptando el tono si hace falta.",
+    tags: [] as string[],
+    id: 47,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "El Simulador de Respuestas para Entrevistas de Trabajo",
+    descripcion:
+      "Simula entrevistas laborales, proporcionando feedback para mejorar claridad, impacto y confianza en las respuestas.",
+    autor: "Santiago Bilinkis",
+    prompt:
+      "Actuá como un entrevistador exigente para un puesto de [nombre del rol]. Haceme preguntas difíciles típicas de esa entrevista y después dame feedback sobre mis respuestas. Ayudame a mejorar la claridad, el impacto y la confianza.",
+    tags: [] as string[],
+    id: 48,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "El Negociador que Te Ayuda a Pedir Mejor",
+    descripcion:
+      "Ayuda a estructurar propuestas convincentes para negociaciones laborales, como aumentos o cambios de horario.",
+    autor: "Santiago Bilinkis",
+    prompt:
+      "Actuá como un asesor experto en negociación. Quiero pedir [aumento / cambio de horario / presupuesto / permiso especial]. Ayudame a armar una propuesta que sea convincente, empática y difícil de rechazar. Quiero sonar firme pero razonable. Mostrame distintos enfoques según el perfil de la persona a la que se lo voy a decir.",
+    tags: [] as string[],
+    id: 49,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Planificación de Clases de Biología",
+    descripcion: "Ayuda a docentes a planificar clases, incluyendo temas, actividades y evaluaciones.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Soy profesora de Biología de 1° año de Secundaria, necesito planificar mis próximas 12 clases. Cada clase consta de dos módulos de 40 minutos. En el primer módulo quiero explicar el tema y dar lugar a preguntas. En el segundo módulo realizar una actividad con los alumnos. Los temas que necesito desarrollar son los siguientes: UNIDAD 1: Seres vivos, unidad y diversidad. [...] UNIDAD 2: Los seres vivos como sistemas abiertos, intercambios de materia y energía. [...] ¿Puedes realizar la planificación teniendo en cuenta que al finalizar cada unidad debo tomar una evaluación que demanda el tiempo de dos módulos?",
+    tags: [] as string[],
+    id: 50,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Generación de Presentación de Marketing",
+    descripcion:
+      "Crea el contenido para presentaciones de marketing, incluyendo texto para diapositivas y búsqueda de imágenes.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Tengo que realizar una presentación sobre la importancia de la comunicación en marketing ¿puedes escribir el texto de 10 diapositivas y el texto necesario para buscar imágenes en la web para cada una de ellas?",
+    tags: [] as string[],
+    id: 51,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Análisis de Documentos y Hoja de Cálculo",
+    descripcion: "Analiza datos en hojas de cálculo, realizando cálculos, filtrados y generando gráficos.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "(Ejemplo de uso de capacidades de análisis) Puedes pedir a ChatGPT-4 que: Calcule el total de ventas por producto. Determine el promedio de ventas mensuales. Cree un gráfico de barras que compare las ventas totales de cada producto. Genere un gráfico de líneas que muestre la tendencia de ventas a lo largo del tiempo.",
+    tags: [] as string[],
+    id: 52,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Generación de Textos de Venta para Redes Sociales",
+    descripcion: "Escribe textos de venta para publicaciones en Instagram, adaptados a negocios específicos.",
+    autor: "Patricia Ceriani",
+    tags: [] as string[],
+    id: 53,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Generación de Frases Motivacionales para Servicios",
+    descripcion: "Crea frases o preguntas para atraer clientes a servicios profesionales.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Soy abogada y me especializo en mediación de conflictos, ¿me podrías escribir 5 frases o preguntas que motiven a las personas a contratar mis servicios?",
+    tags: [] as string[],
+    id: 54,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Generación de Nombres o Slogans para Eventos",
+    descripcion: "Sugiere nombres creativos para eventos o negocios.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Estoy realizando en la Ciudad de Buenos Aires un espectáculo de tango, pretendo convocar a turistas de todo el mundo a una experiencia inmersiva en el Buenos Aires del arrabal, la libertad y las emociones. ¿Podés sugerirme 5 nombres para el espectáculo?",
+    tags: [] as string[],
+    id: 55,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Generación de Preguntas para Entrevistas Periodísticas",
+    descripcion: "Sugiere preguntas esenciales para entrevistas con figuras públicas.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Soy periodista y voy a entrevistar al escritor Ken Follet en su paso por la Argentina, ¿qué preguntas te parece que no deben faltar en mi entrevista?",
+    tags: [] as string[],
+    id: 56,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Generación de Correspondencia/Email de Presentación",
+    descripcion: "Redacta correos electrónicos profesionales de presentación.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Tengo que enviarle un mail presentándome, mi nombre es Edgardo Barranco y soy especialista en noticias literarias, escribo una columna en el portal de noticias Infobae. Y adelantándole los temas sobre los que me gustaría que trate la entrevista. Y por supuesto agradecerle esta gran oportunidad",
+    tags: [] as string[],
+    id: 57,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Planificación de Posteos en Redes Sociales para Empresas",
+    descripcion:
+      "Planifica publicaciones en redes sociales para empresas, incluyendo frases motivacionales y sugerencias de imágenes.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Podrías planificar los post de Instagram y Facebook para una semana para promocionar mi empresa de turismo de aventura. La empresa se llama Épico y necesito que incluyas frases motivacionales y sugieras fotografías.",
+    tags: [] as string[],
+    id: 58,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Creación de Rúbricas",
+    descripcion: "Ayuda a diseñar rúbricas detalladas para evaluar trabajos de estudiantes.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Necesito que me ayudes a crear una evaluación de 10 preguntas sobre la fotosíntesis. La evaluación debe incluir 5 preguntas de desarrollo y 5 de opción múltiple. Los temas a cubrir son: las etapas de la fotosíntesis, los pigmentos involucrados, la ecuación química de la fotosíntesis, los factores que afectan la fotosíntesis y la importancia de la fotosíntesis para los ecosistemas. También necesito una rúbrica para evaluar las preguntas de desarrollo y una lista de cotejo para las preguntas de opción múltiple.",
+    tags: [] as string[],
+    id: 59,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Creación de Listas de Cotejo",
+    descripcion: "Genera listas de cotejo para verificar el cumplimiento de criterios específicos.",
+    autor: "Patricia Ceriani",
+    prompt: "Sobre la misma evaluación puedes crear una lista de cotejo?",
+    tags: [] as string[],
+    id: 60,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Creación de Listas de Apreciación",
+    descripcion: "Crea listas de apreciación para evaluar el desempeño de estudiantes en diferentes aspectos.",
+    autor: "Patricia Ceriani",
+    prompt: "Ahora crea la lista de apreciación.",
+    tags: [] as string[],
+    id: 61,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Modificación de Rúbrica según Taxonomía de Bloom",
+    descripcion: "Solicita modificaciones a una rúbrica basándose en la Taxonomía de Bloom.",
+    autor: "Patricia Ceriani",
+    prompt: "Teniendo en cuenta la taxonomía de Bloom, cambiarías algo de la rúbrica?",
+    tags: [] as string[],
+    id: 62,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Recomendación sobre Planificación de Clases con ChatGPT",
+    descripcion: "Solicita sugerencias adicionales para planificar clases utilizando ChatGPT y sus capacidades.",
+    autor: "Patricia Ceriani",
+    prompt: "¿Podrías sugerirme algo más sobre la planificación de clases usando ChatGPT?",
+    tags: [] as string[],
+    id: 63,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Generación de Trabajo Práctico sobre Fotosíntesis",
+    descripcion:
+      "Diseña trabajos prácticos para estudiantes de secundaria, combinando preguntas de refuerzo con desafíos prácticos.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Crea un trabajo práctico sobre la fotosíntesis dirigido a estudiantes de secundaria que han comenzado a estudiar biología. Incluye preguntas que refuercen los conceptos básicos y algunos desafíos que requieran aplicar lo aprendido en situaciones prácticas.",
+    tags: [] as string[],
+    id: 64,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Generación de Preguntas de Opción Múltiple para Examen de Historia",
+    descripcion: "Genera preguntas de opción múltiple para exámenes de historia.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Genera un conjunto de 10 preguntas de opción múltiple sobre la Revolución Industrial para un examen de historia de nivel secundario. Asegúrate de cubrir los principales eventos, causas y consecuencias.",
+    tags: [] as string[],
+    id: 65,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Diseño de Caso de Estudio Ambiental",
+    descripcion:
+      "Crea casos de estudio que requieren soluciones a problemas ambientales, considerando impactos económicos, sociales y ecológicos.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Diseña un caso de estudio en el que los estudiantes deban proponer una solución a un problema ambiental en su comunidad. Involucra variables como el impacto económico, social y ecológico, y pide que justifiquen sus decisiones.",
+    tags: [] as string[],
+    id: 66,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Creación de Trabajo Práctico de Ciencias Sociales (Redes Sociales)",
+    descripcion:
+      "Desarrolla trabajos prácticos sobre el impacto de las redes sociales en diferentes culturas, presentando múltiples perspectivas.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Crea un trabajo práctico de ciencias sociales que explore el impacto de las redes sociales en diferentes culturas. Presenta tres perspectivas distintas (por ejemplo, desde el punto de vista de un adolescente, un sociólogo y un empresario) y formula preguntas que inviten a los estudiantes a comparar y contrastar estos puntos de vista.",
+    tags: [] as string[],
+    id: 67,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Generación de Texto para Excel (Tablas y Gráficos)",
+    descripcion: "Permite crear tablas comparativas, realizar cálculos y generar gráficos en documentos de Excel.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "¿Puedes crear una tabla comparativa que muestre las similitudes y diferencias entre ChatGPT 4o y Bing Copilot? / ¿Podés agregar una columna más en la que hagas el cálculo para saber la densidad de población de cada país? / ¿Puedes crear un gráfico que muestre qué porcentaje del territorio ocupa cada país? / ¿Puedes crear un documento de Excel con estos datos y generar en ese documento el gráfico?",
+    tags: [] as string[],
+    id: 68,
+    categoria: "Trabajo y Profesión",
+  },
+  {
+    titulo: "Generación de Texto",
+    descripcion:
+      "Solicita respuestas a preguntas simples o complejas, adaptando el contexto y la audiencia para observar el comportamiento del modelo.",
+    autor: "Patricia Ceriani",
+    prompt: "¿Qué es la inteligencia artificial?",
+    tags: [] as string[],
+    id: 47,
+    categoria: "Docentes",
+  },
+  {
+    titulo: "Contexto",
+    descripcion:
+      "Adapta la respuesta al contexto proporcionado, evaluando cómo el modelo ajusta su respuesta con información adicional.",
+    autor: "Patricia Ceriani",
+    prompt: "Estoy aprendiendo sobre computadoras que pueden pensar. ¿Qué es la inteligencia artificial?",
+    tags: [] as string[],
+    id: 48,
+    categoria: "Docentes",
+  },
+  {
+    titulo: "Audiencia",
+    descripcion:
+      "Adapta el lenguaje y la explicación a una audiencia específica, como niños o estudiantes universitarios.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Tengo 7 años y quiero saber qué es una computadora que puede pensar. ¿Puedes explicarlo con palabras muy sencillas?",
+    tags: [] as string[],
+    id: 49,
+    categoria: "Docentes",
+  },
+  {
+    titulo: "Formato y Estilo Específico",
+    descripcion:
+      "Solicita una explicación en un formato y estilo específicos, como párrafos cortos o ejemplos divertidos.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Soy un niño de 7 años y me gusta aprender jugando. ¿Podrías explicarme qué es la inteligencia artificial en 3 párrafos cortos, usando palabras fáciles y un ejemplo divertido?",
+    tags: [] as string[],
+    id: 50,
+    categoria: "Docentes",
+  },
+  {
+    titulo: "Restricciones y Detalles (IA)",
+    descripcion:
+      "Añade restricciones como límite de palabras o ejemplos específicos para obtener respuestas más precisas.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Tengo 6 años y me gustan los robots. ¿Puedes explicarme qué es la inteligencia artificial en menos de 100 palabras y usando un ejemplo con un robot amigable?",
+    tags: [] as string[],
+    id: 51,
+    categoria: "Docentes",
+  },
+  {
+    titulo: "Resumen de Ideas Principales de un Texto",
+    descripcion: "Resume las ideas principales de un texto complejo, facilitando su comprensión.",
+    autor: "Patricia Ceriani",
+    prompt: "Analiza el siguiente texto y resume las ideas principales. [Copia y pega el elegido a continuación.]",
+    tags: [] as string[],
+    id: 52,
+    categoria: "Docentes",
+  },
+  {
+    titulo: "Explicación del Método Chain-of-Thought",
+    descripcion: "Explica de manera sencilla cómo funciona el método Chain-of-Thought en la IA.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Pide a ChatGPT que te explique de manera sencilla cómo funciona el método Chain-of-Thought en la Inteligencia Artificial.",
+    tags: [] as string[],
+    id: 53,
+    categoria: "Docentes",
+  },
+  {
+    titulo: "Asistente Anfitrión de Reuniones",
+    descripcion:
+      "Ayuda a organizar, gestionar y resumir reuniones, configurando agendas y generando resúmenes detallados.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "(Implied through functionalities) Ayuda a organizar, gestionar y resumir reuniones, configurando agendas, enviando invitaciones, tomando notas en tiempo real y generando resúmenes detallados.",
+    tags: [] as string[],
+    id: 54,
+    categoria: "Docentes",
+  },
+  {
+    titulo: "Ayuda en Programación y Desarrollo Web/Apps",
+    descripcion: "Asiste en la generación de código, desarrollo de aplicaciones y optimización de código.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "(Implied through functionalities) Asiste en la generación de código HTML/CSS/JavaScript, desarrollo de backend (Python, Node.js), aplicaciones móviles (React Native, Flutter), depuración y optimización de código, y generación de documentación y tutoriales.",
+    tags: [] as string[],
+    id: 55,
+    categoria: "Docentes",
+  },
+  {
+    titulo: "Guía de Presentación para Docentes",
+    descripcion: "Estructura contenido educativo en formato de cuento para niños, adecuado para presentaciones.",
+    autor: "Patricia Ceriani",
+    prompt:
+      "Soy docente y quiero mostrar en 6 diapositivas y en formato de cuento para niños la importancia que tiene ser curiosos.",
+    tags: [] as string[],
+    id: 56,
+    categoria: "Docentes",
+  },
+  {
+    titulo: "Tu Mentor de Decisiones Difíciles",
+    descripcion:
+      "Analiza opciones en decisiones complejas utilizando herramientas como la matriz de valores personales, aversión al arrepentimiento y costo de oportunidad emocional. Ideal para cambios de carrera o relaciones personales.",
+    autor: "Santiago Bilinkis",
+    prompt:
+      "Actuá como un experto en toma de decisiones complejas. Voy a contarteuna decisión difícil que tengo que tomar: [describí la situación]. Quiero que analices las opciones usando herramientas como la matriz de valores personales, aversión al arrepentimiento, principio de reversibilidad y costo de oportunidad emocional. Ayudame a pensar con claridad y tomar una decisión alineada con lo que más me importa.",
+    tags: [] as string[],
+    id: 47,
+    categoria: "Decisiones de Desarrollo",
+  },
+  {
+    titulo: "El Simulador de Futuro Profesional",
+    descripcion:
+      "Explora opciones de carrera combinando propósito, ingresos y tendencias del mercado laboral. Ayuda a visualizar futuros profesionales y los pasos para alcanzarlos.",
+    autor: "Santiago Bilinkis",
+    prompt:
+      "Actuá como un experto en planificación de carrera y foresight. Voy a contarte quién soy, qué habilidades tengo, qué me interesa y qué no. Ayudame a explorar opciones de futuro profesional que combinen propósito, ingresos sostenibles y evolución personal. Considerá también tendencias del mercado laboral, automatización y oportunidades emergentes. Quiero visualizar tres posibles futuros a 5 años y qué pasos concretos puedo dar hoy para avanzar hacia ellos.",
+    tags: [] as string[],
+    id: 48,
+    categoria: "Decisiones de Desarrollo",
+  },
+  {
+    titulo: "El asistente de decisiones importantes",
+    descripcion:
+      "Identifica sesgos cognitivos en decisiones personales o profesionales, ayudando a evitar trampas mentales como el sesgo de confirmación o el efecto halo.",
+    autor: "Santiago Bilinkis",
+    prompt:
+      "Actuá como un experto en sesgos cognitivos. Voy a contarte una decisión que tomé o estoy por tomar, y quiero que la analices desde afuera: ¿hay alguna trampa mental en la que esté cayendo sin darme cuenta? ¿Estoy racionalizando algo que no quiero ver? Mostrame posibles sesgos que podrían estar distorsionando mi pensamiento.",
+    tags: [] as string[],
+    id: 49,
+    categoria: "Decisiones de Desarrollo",
+  },
+  {
+    titulo: "El Coach Sin Sarasa Para Tu Narrativa Interna",
+    descripcion:
+      "Reinterpreta experiencias negativas desde una perspectiva compasiva y realista, evitando frases hechas o positividad tóxica.",
+    autor: "Santiago Bilinkis",
+    prompt:
+      "Actuá como un terapeuta cognitivo con enfoque narrativo. Te voy a contar una situación que me hizo sentir mal conmigo mismo. Ayudame a reinterpretarla desde una mirada más compasiva, realista y fortalecedora. No quiero frases hechas ni positividad tóxica: quiero entender por qué me afectó tanto y cómo puedo ver esa experiencia con otros ojos.",
+    tags: [] as string[],
+    id: 50,
+    categoria: "Decisiones de Desarrollo",
+  },
+  {
+    titulo: "El Recomendador De Contenidos",
+    descripcion:
+      "Sugiere libros, películas y canciones basados en el estado emocional o momento vital del usuario, evitando recomendaciones obvias.",
+    autor: "Santiago Bilinkis",
+    prompt:
+      "Actuá como un curador de contenidos con sensibilidad emocional. Te voy a contar cómo me siento hoy o en qué momento vital estoy. Quiero que me recomiendes 3 libros, 3 películas y 3 canciones que puedan resonar conmigo, explicándome brevemente por qué cada una. No quiero cosas obvias ni mainstream: sorpréndeme.",
+    tags: [] as string[],
+    id: 51,
+    categoria: "Decisiones de Desarrollo",
+  },
+  {
+    titulo: "El showrunner de tu vida",
+    descripcion:
+      "Crea una serie dramática basada en la vida del usuario, incorporando elementos de su personalidad y desafíos reales.",
+    autor: "Santiago Bilinkis",
+    prompt:
+      "Actuá como un showrunner y guionista experto de Netflix. Con base en lo que sabés de mí a partir de nuestra conversación, creá el primer borrador de una serie dramática donde yo soy el protagonista. Agregale tensión narrativa, giros inesperados, personajes secundarios memorables y un final que deje a todos pensando. Dividila por episodios con arcos narrativos claros, elegí qué actor/actriz haría de mí y explicá por qué. Incluí elementos de mi personalidad, mis desafíos reales y mis fortalezas como catalizadores de la trama.",
+    tags: [] as string[],
+    id: 52,
+    categoria: "Decisiones de Desarrollo",
+  },
+] as Prompt[];
+
+export default promptsNormalizados;
