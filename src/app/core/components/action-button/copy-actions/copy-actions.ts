@@ -29,15 +29,11 @@ export class CopyActions {
   copyPrompt() {
     if (this.promptText()) {
       this.copyService.copy(this.promptText());
-    } else {
-      console.warn("No prompt text provided to copy.");
     }
   }
   copyUrl() {
     if (this.promptUrl()) {
       this.copyService.copy(this.promptUrl()!);
-    } else {
-      console.warn("No prompt URL provided to copy.");
     }
   }
 }

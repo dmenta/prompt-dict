@@ -22,9 +22,8 @@ export class PromptsByCategory {
   constructor() {
     this.activatedRoute.params.subscribe((params) => {
       this.slug.set(params["slug"]);
-      console.log("Category slug:", this.slug());
+
       const { info, prompts } = this.persistService.promptsOfCategory(this.slug());
-      console.log("PromptsByCategory", info, prompts);
 
       if (info) {
         this.info.set(info);
