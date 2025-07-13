@@ -1,8 +1,8 @@
 import { Component, signal } from "@angular/core";
-import { promptsNormalizados } from "../../../data/normalizados";
-import { CategoryItem } from "../category-item/category-item";
-import { CategoryInfo } from "../../models/caategory-info";
-import { Prompt } from "../../models/prompt";
+import { CategoryItem } from "./category-item/category-item";
+import promptsNormalizados from "../../../../data/normalizados";
+import { Prompt } from "../../prompts/prompt";
+import { CategoryInfo } from "../category-info";
 
 @Component({
   selector: "pd-categories-list",

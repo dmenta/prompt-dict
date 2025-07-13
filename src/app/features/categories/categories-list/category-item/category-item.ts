@@ -1,5 +1,5 @@
 import { Component, input } from "@angular/core";
-import { CategoryInfo } from "../../models/caategory-info";
+import { CategoryInfo } from "../../category-info";
 
 @Component({
   selector: "pd-category-item",

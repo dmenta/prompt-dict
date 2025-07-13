@@ -1,5 +1,5 @@
 import { Component, input } from "@angular/core";
-import { Prompt } from "../../models/prompt";
+import { Prompt } from "../prompt";
 
 @Component({
   selector: "pd-display-prompt",

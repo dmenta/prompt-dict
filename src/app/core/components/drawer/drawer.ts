@@ -15,7 +15,7 @@ import { Component, input, model, signal } from "@angular/core";
           <ng-content select="[drawer-title]"></ng-content>
         </h2>
         <div class="px-2">
-          <ng-content select="[drawer-content]"> </ng-content>
+          <ng-content> </ng-content>
         </div>
       </div>
     </div>

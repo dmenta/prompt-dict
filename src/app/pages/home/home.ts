@@ -1,8 +1,8 @@
 import { Component, model } from "@angular/core";
-import { PromptsList } from "../core/prompts-list/prompts-list";
-import { Drawer } from "../core/drawer/drawer";
-import { Header } from "../core/header/header";
-import { CategoriesList } from "../core/categories-list/categories-list";
+import { Drawer } from "../../core/components/drawer/drawer";
+import { Header } from "../../core/components/header/header";
+import { CategoriesList } from "../../features/categories/categories-list/categories-list";
+import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
 
 @Component({
   selector: "pd-home",
@@ -13,7 +13,7 @@ import { CategoriesList } from "../core/categories-list/categories-list";
       <div class="h-[calc(100svh_-_3rem)] overflow-hidden flex flex-row ">
         <pd-drawer class="w-fit" [(isOpen)]="isOpen">
           <div drawer-title>Tags</div>
-          <pd-categories-list drawer-content></pd-categories-list>
+          <pd-categories-list></pd-categories-list>
         </pd-drawer>
         <pd-prompts-list></pd-prompts-list>
       </div>
