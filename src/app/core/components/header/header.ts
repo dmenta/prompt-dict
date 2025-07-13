@@ -5,7 +5,7 @@ import { Component, model, output } from "@angular/core";
   imports: [],
   template: ` <div
     class="sticky top-0  right-0 left-0  h-12   bg-pink-600  flex items-center
-           justify-start px-2 gap-2  text-pink-100 text-lg shadow-md/30 dark:shadow-black/30">
+           justify-start px-2 gap-2  text-pink-100 text-lg shadow-md/30 dark:shadow-black/20">
     <button
       (click)="open.emit(); $event.stopPropagation()"
       class="h-10 w-10 flex items-center justify-center rounded-md hover:bg-pink-500  transition-colors">

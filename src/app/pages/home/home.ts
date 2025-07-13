@@ -1,16 +1,17 @@
-import { Component, model } from "@angular/core";
+import { Component } from "@angular/core";
 import { Drawer } from "../../core/components/drawer/drawer";
 import { Header } from "../../core/components/header/header";
 import { CategoriesList } from "../../features/categories/categories-list/categories-list";
 import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
+import { CopyActions } from "../../core/components/action-button/copy-actions/copy-actions";
 
 @Component({
   selector: "pd-home",
   imports: [CategoriesList, PromptsList, Drawer, Header],
   template: `
-    <div class=" p-0 m-0 overflow-hidden w-screen h-screen ">
+    <div class="p-0 m-0 overflow-hidden w-screen h-screen">
       <pd-header class="z-10" (open)="drawer.show()">Prompter</pd-header>
-      <div class="h-[calc(100svh_-_3rem)] overflow-hidden flex flex-row ">
+      <div class="h-[calc(100svh_-_3rem)] overflow-hidden flex flex-row">
         <pd-drawer class="w-fit" #drawer>
           <div drawer-title>Tags</div>
           <pd-categories-list></pd-categories-list>
@@ -19,6 +20,5 @@ import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
       </div>
     </div>
   `,
-  styles: ``,
 })
 export class Home {}

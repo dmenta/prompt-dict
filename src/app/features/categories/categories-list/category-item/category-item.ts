@@ -12,7 +12,7 @@ import { CategoryInfo } from "../../category-info";
        justify-start">
       {{ info().name
       }}<span
-        class="ml-auto rounded-full bg-azul-400/70 w-6 h-6 pb-0.5 text-white/90 text-sm flex flex-row items-center justify-center"
+        class="ml-auto rounded-full bg-gray-400 w-6 h-6 pb-0.5 text-white text-sm flex flex-row items-center justify-center"
         >{{ info().numberOfPrompts }}</span
       >
     </button></a

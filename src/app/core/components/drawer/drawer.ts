@@ -5,7 +5,7 @@ import { AfterViewInit, Component, ElementRef, input, model, OnDestroy, Renderer
   imports: [],
   template: `
     <div
-      class="drawer  shadow-lg  absolute top-0   shadow-black/60 border-r-[1px] border-pink-700  bg-gray-100 h-screen"
+      class="drawer  shadow-lg/60   absolute top-0   z-10 shadow-black/80 border-r-[1px] border-pink-700  bg-gray-100 h-screen"
       [class.open]="isOpen()"
       (click)="onClick()">
       <div class=" w-56">
