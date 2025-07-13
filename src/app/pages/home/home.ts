@@ -3,11 +3,11 @@ import { Drawer } from "../../core/components/drawer/drawer";
 import { Header } from "../../core/components/header/header";
 import { CategoriesList } from "../../features/categories/categories-list/categories-list";
 import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
-import { CopyActions } from "../../core/components/action-button/copy-actions/copy-actions";
+import { StatusNotification } from "../../core/components/notification/notification.component";
 
 @Component({
   selector: "pd-home",
-  imports: [CategoriesList, PromptsList, Drawer, Header],
+  imports: [CategoriesList, PromptsList, Drawer, Header, StatusNotification],
   template: `
     <div class="p-0 m-0 overflow-hidden w-screen h-screen">
       <pd-header class="z-10" (open)="drawer.show()">Prompter</pd-header>
@@ -19,6 +19,7 @@ import { CopyActions } from "../../core/components/action-button/copy-actions/co
         <pd-prompts-list></pd-prompts-list>
       </div>
     </div>
+    <pd-notification></pd-notification>
   `,
 })
 export class Home {}

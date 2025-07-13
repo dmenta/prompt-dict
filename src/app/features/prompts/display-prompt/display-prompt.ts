@@ -21,10 +21,13 @@ import { CopyActions } from "../../../core/components/action-button/copy-actions
         }
       </div>
     </div>
+    <pd-copy-actions
+      [promptText]="promptOk.prompt"
+      [promptUrl]="promptOk.id ? '/prompts/' + promptOk.id : null"
+      class="absolute bottom-3 right-5 hidden group-hover:block"></pd-copy-actions>
     } @else{
     <div class="no-prompt">No prompt available</div>
     }
-    <pd-copy-actions class="absolute bottom-3 right-5 hidden group-hover:block"></pd-copy-actions>
   `,
   host: {
     class: "relative inline-block group ",
