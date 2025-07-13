@@ -1,6 +1,7 @@
-import { Component, input } from "@angular/core";
+import { Component, input, OnDestroy, OnInit, Renderer2, signal } from "@angular/core";
 import { Prompt } from "../prompt";
 import { CopyActions } from "../../../core/components/action-button/copy-actions/copy-actions";
+import { fromEvent, Subscription } from "rxjs";
 
 @Component({
   selector: "pd-display-prompt",
@@ -23,9 +24,10 @@ import { CopyActions } from "../../../core/components/action-button/copy-actions
         }
       </div> -->
       <pd-copy-actions
+        [class.hidden]="!visible()"
         [promptText]="promptOk.prompt"
         [promptUrl]="promptOk.id ? this.baseUrl() + '/prompts/' + promptOk.id : null"
-        class="absolute bottom-3 right-5 hidden group-hover:block opacity-80 hover:opacity-100  transition-opacity"></pd-copy-actions>
+        class="absolute bottom-3 right-5  group-hover:block opacity-80 hover:opacity-100  transition-opacity"></pd-copy-actions>
     </div>
     } @else{
     <div class="no-prompt">No prompt available</div>
@@ -36,7 +38,25 @@ import { CopyActions } from "../../../core/components/action-button/copy-actions
       "relative inline-block group p-2 bg-gray-200 rounded-md shadow-sm hover:bg-gray-200 transition-colors duration-150",
   },
 })
-export class DisplayPrompt {
+export class DisplayPrompt implements OnInit, OnDestroy {
+  visible = signal(false);
+
   prompt = input<Prompt | null>(null);
   baseUrl = input<string>(window.location.origin);
+  subscript: Subscription | null = null;
+
+  ngOnInit() {
+    if ("ontouchstart" in window) {
+      this.subscript = fromEvent(document, "touchstart", { passive: true }).subscribe((event) => {
+        this.visible.set(!this.visible());
+        (event as MouseEvent).stopPropagation();
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.subscript) {
+      this.subscript.unsubscribe();
+    }
+  }
 }
