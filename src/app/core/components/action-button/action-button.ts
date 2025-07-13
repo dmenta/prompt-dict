@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, output, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, output, ViewChild } from "@angular/core";
 import { fromEvent, Subscription } from "rxjs";
 
 @Component({

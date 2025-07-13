@@ -7,7 +7,6 @@ import { CategoryInfo } from "../../categories/category-info";
   selector: "pd-prompts-list",
   imports: [DisplayPrompt],
   template: ` <div class="space-y-4  p-4  flex  flex-col h-full overflow-y-auto">
-    <h1 class="text-2xl">{{ info()?.name ?? "" }}</h1>
     @for(item of prompts(); track item.id) {
     <pd-display-prompt [prompt]="item"></pd-display-prompt>
     }
@@ -17,4 +16,5 @@ import { CategoryInfo } from "../../categories/category-info";
 export class PromptsList {
   info = input<CategoryInfo | null>(null);
   prompts = input<Prompt[]>([]);
+
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { PersistService } from "../../core/services/persist.service";
 import { Prompt } from "../../features/prompts/prompt";
 import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "pd-prompts-tag",
@@ -17,12 +18,14 @@ export class PromptsByTag {
   info = signal<string | null>(null);
   prompts = signal<Prompt[]>([] as Prompt[]);
 
-  constructor() {
+  constructor(private title: Title) {
     this.activatedRoute.params.subscribe((params) => {
       this.slug.set(params["slug"]);
 
-      const prompts = this.persistService.tags().filter((tag) => tag.slug === this.slug())[0].prompts || [];
+      const tagPrompts = this.persistService.tags().filter((tag) => tag.slug === this.slug());
+      this.title.setTitle(`Tagged with ${tagPrompts[0].text}`);
 
+      const prompts = tagPrompts[0].prompts || [];
       this.prompts.set(prompts);
     });
   }

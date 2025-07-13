@@ -1,4 +1,5 @@
-import { Component, model, output } from "@angular/core";
+import { Component, model, output, signal } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "pd-header",
@@ -13,9 +14,17 @@ import { Component, model, output } from "@angular/core";
         <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
       </svg>
     </button>
-    <h1><ng-content></ng-content></h1>
+    <h1>{{ this.title.getTitle() }}</h1>
   </div>`,
 })
 export class Header {
   open = output<void>();
+
+  titulo = signal<string>("");
+
+  constructor(public title: Title) {}
+
+  ngOnInit() {
+    this.titulo.set(this.title.getTitle());
+  }
 }

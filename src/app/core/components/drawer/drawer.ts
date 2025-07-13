@@ -5,16 +5,16 @@ import { Component, OnDestroy, Renderer2, signal } from "@angular/core";
   imports: [],
   template: `
     <div
-      class="drawer  shadow-lg/60   absolute top-0   z-10 shadow-black/80 border-r-[1px] border-pink-700  bg-gray-100 h-screen overflow-y-auto"
+      class="drawer  shadow-lg/60   absolute top-0   z-10 shadow-black/80 border-r-[1px] border-pink-700  bg-gray-100 h-screen overflow-hidden"
       [class.open]="isOpen()"
       (click)="onClick()">
-      <div class=" w-56">
-        <h5
-          class=" bg-gray-100 sticky top-0  right-0 left-0  h-12   flex items-center
-           justify-start px-2 ">
-          <ng-content select="[drawer-title]"></ng-content>
-        </h5>
-        <div class="px-3 pt-6 ">
+      <h5
+        class=" bg-gray-300 absolute  top-0  left-0 w-64 h-12 z-20  flex items-center
+      justify-start pl-6 pr-8">
+        <ng-content select="[drawer-title]"></ng-content>
+      </h5>
+      <div class=" w-64 absolute top-12 bottom-0 overflow-x-hidden overflow-y-auto">
+        <div class="px-2  pt-4 h-full">
           <ng-content> </ng-content>
         </div>
       </div>

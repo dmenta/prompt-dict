@@ -4,6 +4,7 @@ import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
 import { PersistService } from "../../core/services/persist.service";
 import { CategoryInfo } from "../../features/categories/category-info";
 import { Prompt } from "../../features/prompts/prompt";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "pd-categories",
@@ -19,7 +20,7 @@ export class PromptsByCategory {
   info = signal<CategoryInfo | null>(null);
   prompts = signal<Prompt[]>([] as Prompt[]);
 
-  constructor() {
+  constructor(private title: Title) {
     this.activatedRoute.params.subscribe((params) => {
       this.slug.set(params["slug"]);
 
@@ -28,6 +29,8 @@ export class PromptsByCategory {
       if (info) {
         this.info.set(info);
         this.prompts.set(prompts);
+
+        this.title.setTitle(info.name);
       }
     });
   }
