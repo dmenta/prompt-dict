@@ -45,10 +45,10 @@ export class App {
   }
 
   inactivo = computed(() => {
-    return this.list() === "categories" ? "Tags" : "Categories";
+    return this.list() === "categories" ? "Etiquetas" : "Categorías";
   });
 
   activo = computed(() => {
-    return this.list() === "categories" ? "Categories" : "Tags";
+    return this.list() === "categories" ? "Categorías" : "Etiquetas";
   });
 }

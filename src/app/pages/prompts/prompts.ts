@@ -14,6 +14,6 @@ export class Prompts {
   todos = this.persistService.prompts;
 
   constructor(private title: Title) {
-    this.title.setTitle("All prompts");
+    this.title.setTitle("Todos los prompts");
   }
 }

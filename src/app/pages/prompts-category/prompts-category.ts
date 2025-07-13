@@ -30,7 +30,7 @@ export class PromptsByCategory {
         this.info.set(info);
         this.prompts.set(prompts);
 
-        this.title.setTitle(info.name);
+        this.title.setTitle(`Categoria ${info.name}`);
       }
     });
   }
