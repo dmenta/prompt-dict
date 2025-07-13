@@ -27,16 +27,18 @@
     overflow: hidden;
     display: block;
 
-    @apply transition-all duration-300 ease-in-out;
+    @apply transition-all  duration-300 ease-in-out;
   }
 
   .drawer.open {
     opacity: 1;
-    @apply left-0;
+    width: 14rem;
+    left: 0;
     @apply space-y-1;
   }
 
   .drawer:not(.open) {
-    @apply -left-56;
+    left: -14rem;
+    opacity: 0;
   }
 }

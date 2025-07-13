@@ -9,9 +9,9 @@ import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
   imports: [CategoriesList, PromptsList, Drawer, Header],
   template: `
     <div class=" p-0 m-0 overflow-hidden w-screen h-screen ">
-      <pd-header class="z-10" (toggleDrawer)="isOpen.set(!isOpen())">Prompter</pd-header>
+      <pd-header class="z-10" (open)="drawer.show()">Prompter</pd-header>
       <div class="h-[calc(100svh_-_3rem)] overflow-hidden flex flex-row ">
-        <pd-drawer class="w-fit" [(isOpen)]="isOpen">
+        <pd-drawer class="w-fit" #drawer>
           <div drawer-title>Tags</div>
           <pd-categories-list></pd-categories-list>
         </pd-drawer>
@@ -21,6 +21,4 @@ import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
   `,
   styles: ``,
 })
-export class Home {
-  isOpen = model(false);
-}
+export class Home {}

@@ -1,13 +1,13 @@
-import { Component, input, model, signal } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, input, model, OnDestroy, Renderer2, signal } from "@angular/core";
 
 @Component({
   selector: "pd-drawer",
   imports: [],
   template: `
     <div
-      class="drawer  shadow-lg  absolute top-0   shadow-black/60 border-r-[1px] border-pink-700  bg-gray-100 h-screen block"
+      class="drawer  shadow-lg  absolute top-0   shadow-black/60 border-r-[1px] border-pink-700  bg-gray-100 h-screen"
       [class.open]="isOpen()"
-      (click)="onToggle()">
+      (click)="onClick()">
       <div class=" w-56">
         <h2
           class="sticky top-0  right-0 left-0  h-12   bg-pink-700  flex items-center
@@ -24,10 +24,49 @@ import { Component, input, model, signal } from "@angular/core";
     class: "",
   },
 })
-export class Drawer {
-  isOpen = model(false);
+export class Drawer implements OnDestroy {
+  protected isOpen = signal(false);
 
-  onToggle() {
-    this.isOpen.set(!this.isOpen());
+  private removeDocumentClickListenerFn: (() => void) | null = null;
+  private removeDocumentEscapeListenerFn: (() => void) | null = null;
+
+  constructor(private renderer: Renderer2) {
+    this.setListeners();
+  }
+
+  public show() {
+    if (this.isOpen() === true) {
+      return;
+    }
+
+    this.isOpen.set(true);
+    this.setListeners();
+  }
+  public hide() {
+    if (!this.isOpen()) {
+      return;
+    }
+    this.isOpen.set(false);
+
+    this.removeDocumentClickListenerFn?.();
+    this.removeDocumentEscapeListenerFn?.();
+  }
+
+  protected onClick() {
+    this.hide();
+  }
+
+  private setListeners() {
+    if (this.isOpen() === true) {
+      this.removeDocumentClickListenerFn = this.renderer.listen("document", "click", () => this.hide());
+      this.removeDocumentEscapeListenerFn = this.renderer.listen("document", "keydown.escape", () => this.hide(), {
+        passive: true,
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    this.removeDocumentClickListenerFn?.();
+    this.removeDocumentEscapeListenerFn?.();
   }
 }
