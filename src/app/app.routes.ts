@@ -16,6 +16,10 @@ export const routes: Routes = [
     path: "categories/:slug",
     loadComponent: () => import("./pages/prompts-category/prompts-category").then((m) => m.PromptsByCategory),
   },
+  {
+    path: "tags/:slug",
+    loadComponent: () => import("./pages/prompts-tag/prompts-tag").then((m) => m.PromptsByTag),
+  },
 
   { path: "**", redirectTo: "" }, // Redirect to home for any unknown routes
 ];

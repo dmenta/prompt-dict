@@ -6,8 +6,8 @@ import { NotificationService } from "../../services/notification.service";
   imports: [],
   template: `<div
       class="fixed duration-200 m-auto z-35 scale-0 left-0 right-0 w-fit shadow-lg shadow-black/30 dark:shadow-black/60 transition-all ease-out"
-      [class.-bottom-18]="!notificationService.showNotification()"
-      [class.bottom-8]="notificationService.showNotification()"
+      [class.-bottom-8]="!notificationService.showNotification()"
+      [class.bottom-18]="notificationService.showNotification()"
       [class.scale-100]="notificationService.showNotification()">
       <div class="rounded-lg w-64 flex bg-gray-50 dark:bg-gray-800 items-center gap-4 pl-2 py-3">
         @if(notificationService.notificationMessage().type === 'warn') {

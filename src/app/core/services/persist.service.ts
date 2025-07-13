@@ -2,6 +2,7 @@ import { Injectable, signal } from "@angular/core";
 import promptsNormalizados from "../../../data/normalizados";
 import { CategoryInfo } from "../../features/categories/category-info";
 import { Prompt } from "../../features/prompts/prompt";
+import { Tag } from "../../features/tags/tag";
 
 @Injectable({
   providedIn: "root",
@@ -11,6 +12,7 @@ export class PersistService {
 
   public prompts = signal(this.promptsList);
   public categories = signal<CategoryInfo[]>([]);
+  public tags = signal<Tag[]>([]);
 
   constructor() {
     const categories = this.prompts().reduce((acc: { [key: string]: CategoryInfo }, prompt: Prompt) => {
@@ -42,6 +44,30 @@ export class PersistService {
     }, {} as { [key: string]: CategoryInfo });
 
     this.categories.set(Object.values(categories).sort((a, b) => a.name.localeCompare(b.name)));
+
+    const tagsSet = new Set<string>();
+    this.categories().forEach((category) => {
+      category.tags.forEach((tag) => {
+        tagsSet.add(tag);
+      });
+    });
+
+    this.tags.set(
+      Array.from(tagsSet)
+        .map((tag) => {
+          const promptsForTag = this.prompts().filter((prompt) => prompt.tags.includes(tag));
+          return {
+            text: tag,
+            slug: tag
+              .toLowerCase()
+              .replace(/\s+/g, "-")
+              .replace(/[^\w-]/g, ""),
+            cantidad: promptsForTag.length,
+            prompts: promptsForTag,
+          };
+        })
+        .sort((a, b) => a.text.localeCompare(b.text))
+    );
   }
 
   promptsOfCategory(slug: string): { info: CategoryInfo; prompts: Prompt[] } {
@@ -51,6 +77,19 @@ export class PersistService {
       return { info: { name: "", slug: "", numberOfPrompts: 0, authors: [], tags: [] }, prompts: [] };
     }
     return { info: category, prompts: this.prompts().filter((prompt) => prompt.categoria === category.name) };
+  }
+
+  promptsOfTag(tag: string): { info: string | null; prompts: Prompt[] } {
+    const prompts = this.prompts().filter((prompt) => prompt.tags.some((t) => t.toLowerCase() === tag.toLowerCase()));
+
+    if (prompts.length === 0) {
+      return { info: null, prompts: [] };
+    }
+
+    return {
+      info: tag,
+      prompts: prompts,
+    };
   }
 
   private slugifyCategoryName(name: string): string {

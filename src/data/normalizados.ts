@@ -1,5 +1,6 @@
 import { Prompt } from "../app/features/prompts/prompt";
 
+//now we need to fill som tags to test our code,ok?
 export const promptsNormalizados: Prompt[] = [
   {
     id: 1,
@@ -8,9 +9,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Hola, me siento muy estresado últimamente por el trabajo y la vida personal. ¿Puedes ayudarme a sentirme mejor?",
-    tags: [] as string[],
+    tags: ["estrés", "empatía", "bienestar emocional"],
 
     categoria: "Vínculos y Emociones",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 2,
@@ -18,9 +22,12 @@ export const promptsNormalizados: Prompt[] = [
     descripcion: "Maneja quejas de clientes con empatía, ofreciendo soluciones rápidas.",
     autor: "Patricia Ceriani",
     prompt: "Recibí un producto defectuoso y estoy muy decepcionado con el servicio. ¿Qué pueden hacer al respecto?",
-    tags: [] as string[],
+    tags: ["atención al cliente", "empatía", "solución de problemas"],
 
     categoria: "Vínculos y Emociones",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 3,
@@ -29,9 +36,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Mis colegas están en desacuerdo sobre un proyecto y esto está afectando la moral del equipo. ¿Cómo puedo mediar en esta situación?",
-    tags: [] as string[],
+    tags: ["conflictos", "mediación", "escucha activa"],
 
     categoria: "Vínculos y Emociones",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 4,
@@ -39,9 +49,12 @@ export const promptsNormalizados: Prompt[] = [
     descripcion: "Ofrece consejos para mejorar la comunicación empática en relaciones personales.",
     autor: "Patricia Ceriani",
     prompt: "Quiero ser más empático en mis conversaciones con amigos y familiares. ¿Tienes algunos consejos?",
-    tags: [] as string[],
+    tags: ["comunicación", "empatía", "relaciones personales"],
 
     categoria: "Vínculos y Emociones",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 5,
@@ -51,9 +64,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Santiago Bilinkis",
     prompt:
       "Actuá como un terapeuta familiar especializado en conversaciones difíciles. Te voy a contar una relación importante que se deterioró: [describí la relación y el conflicto]. Ayudame a entender qué puede estar sintiendo la otra persona, qué heridas o dinámicas están activas, y cómo podría escribirle un mensaje genuino que exprese mis emociones sin atacar. Dame opciones de mensajes posibles.",
-    tags: [] as string[],
+    tags: ["relaciones", "terapia", "mensajes sinceros"],
 
     categoria: "Vínculos y Emociones",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 6,
@@ -62,9 +78,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Santiago Bilinkis",
     prompt:
       "Actuá como un asistente creativo especializado en diplomacia. Necesito una excusa elegante, empática y creíble para cancelar [actividad] sin quedar mal. Quiero que suene honesta, que no ofenda y que incluso genere simpatía. Dame 3 opciones con distintos tonos: uno formal, uno amigable y uno con humor sutil.",
-    tags: [] as string[],
+    tags: ["excusas", "diplomacia", "comunicación"],
 
     categoria: "Vínculos y Emociones",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 7,
@@ -73,9 +92,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Santiago Bilinkis",
     prompt:
       "Te voy a mostrar un mensaje que estoy por mandar por WhatsApp. Quiero que me digas cómo puede interpretarlo la otra persona (tono, impacto emocional, posibles malentendidos) y si hay una forma más clara o empática de decirlo. Quiero sonar sincero, pero no cortante ni pasivo-agresivo.",
-    tags: [] as string[],
+    tags: ["mensajes", "comunicación", "prevención de malentendidos"],
 
     categoria: "Vínculos y Emociones",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 8,
@@ -85,9 +107,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Santiago Bilinkis",
     prompt:
       "Eres un mediador experto en resolución de conflictos. Tengo un problema con [persona/situación]. Te voy a contar mi versión: [tu perspectiva]. Ahora ayudame a entender posibles perspectivas de la otra parte, identifica malentendidos, sugiere formas de comunicación no violenta, y dame estrategias específicas para resolver este conflicto constructivamente. Ayudame a cambiar la dinámica y encontrar concesiones mutuamente favorables.",
-    tags: [] as string[],
+    tags: ["resolución de conflictos", "mediación", "comunicación no violenta"],
 
     categoria: "Vínculos y Emociones",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 9,
@@ -96,9 +121,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Santiago Bilinkis",
     prompt:
       "Actuá como un experto en recursos humanos con experiencia en selección. Te voy a mostrar mi CV actual y una oferta de trabajo a la que quiero aplicar. Ayudame a reescribir mi currículum enfocándome en lo que esa empresa busca, resaltando lo más relevante y adaptando el tono si hace falta.",
-    tags: [] as string[],
+    tags: ["currículum", "selección de personal", "adaptación profesional"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 10,
@@ -108,9 +136,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Santiago Bilinkis",
     prompt:
       "Actuá como un entrevistador exigente para un puesto de [nombre del rol]. Haceme preguntas difíciles típicas de esa entrevista y después dame feedback sobre mis respuestas. Ayudame a mejorar la claridad, el impacto y la confianza.",
-    tags: [] as string[],
+    tags: ["entrevista de trabajo", "simulación", "feedback profesional"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 11,
@@ -120,9 +151,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Santiago Bilinkis",
     prompt:
       "Actuá como un asesor experto en negociación. Quiero pedir [aumento / cambio de horario / presupuesto / permiso especial]. Ayudame a armar una propuesta que sea convincente, empática y difícil de rechazar. Quiero sonar firme pero razonable. Mostrame distintos enfoques según el perfil de la persona a la que se lo voy a decir.",
-    tags: [] as string[],
+    tags: ["negociación", "propuestas", "persuasión"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 12,
@@ -131,9 +165,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Soy profesora de Biología de 1° año de Secundaria, necesito planificar mis próximas 12 clases. Cada clase consta de dos módulos de 40 minutos. En el primer módulo quiero explicar el tema y dar lugar a preguntas. En el segundo módulo realizar una actividad con los alumnos. Los temas que necesito desarrollar son los siguientes: UNIDAD 1: Seres vivos, unidad y diversidad. [...] UNIDAD 2: Los seres vivos como sistemas abiertos, intercambios de materia y energía. [...] ¿Puedes realizar la planificación teniendo en cuenta que al finalizar cada unidad debo tomar una evaluación que demanda el tiempo de dos módulos?",
-    tags: [] as string[],
+    tags: ["planificación", "educación", "biología"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     titulo: "Generación de Presentación de Marketing",
@@ -143,9 +180,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Tengo que realizar una presentación sobre la importancia de la comunicación en marketing ¿puedes escribir el texto de 10 diapositivas y el texto necesario para buscar imágenes en la web para cada una de ellas?",
-    tags: [] as string[],
+    tags: ["presentación", "marketing", "contenido visual"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 14,
@@ -154,18 +194,24 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "(Ejemplo de uso de capacidades de análisis) Puedes pedir a ChatGPT-4 que: Calcule el total de ventas por producto. Determine el promedio de ventas mensuales. Cree un gráfico de barras que compare las ventas totales de cada producto. Genere un gráfico de líneas que muestre la tendencia de ventas a lo largo del tiempo.",
-    tags: [] as string[],
+    tags: ["análisis de datos", "hoja de cálculo", "gráficos"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 15,
     titulo: "Generación de Textos de Venta para Redes Sociales",
     descripcion: "Escribe textos de venta para publicaciones en Instagram, adaptados a negocios específicos.",
     autor: "Patricia Ceriani",
-    tags: [] as string[],
+    tags: ["redes sociales", "venta", "marketing digital"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 16,
@@ -174,9 +220,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Soy abogada y me especializo en mediación de conflictos, ¿me podrías escribir 5 frases o preguntas que motiven a las personas a contratar mis servicios?",
-    tags: [] as string[],
+    tags: ["frases motivacionales", "servicios profesionales", "abogacía"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 17,
@@ -185,9 +234,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Estoy realizando en la Ciudad de Buenos Aires un espectáculo de tango, pretendo convocar a turistas de todo el mundo a una experiencia inmersiva en el Buenos Aires del arrabal, la libertad y las emociones. ¿Podés sugerirme 5 nombres para el espectáculo?",
-    tags: [] as string[],
+    tags: ["nombres creativos", "eventos", "tango"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 18,
@@ -196,9 +248,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Soy periodista y voy a entrevistar al escritor Ken Follet en su paso por la Argentina, ¿qué preguntas te parece que no deben faltar en mi entrevista?",
-    tags: [] as string[],
+    tags: ["entrevistas", "periodismo", "preguntas esenciales"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 19,
@@ -207,9 +262,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Tengo que enviarle un mail presentándome, mi nombre es Edgardo Barranco y soy especialista en noticias literarias, escribo una columna en el portal de noticias Infobae. Y adelantándole los temas sobre los que me gustaría que trate la entrevista. Y por supuesto agradecerle esta gran oportunidad",
-    tags: [] as string[],
+    tags: ["correo electrónico", "presentación profesional", "comunicación escrita"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 20,
@@ -219,9 +277,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Podrías planificar los post de Instagram y Facebook para una semana para promocionar mi empresa de turismo de aventura. La empresa se llama Épico y necesito que incluyas frases motivacionales y sugieras fotografías.",
-    tags: [] as string[],
+    tags: ["redes sociales", "planificación de contenido", "marketing digital"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 21,
@@ -230,9 +291,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Necesito que me ayudes a crear una evaluación de 10 preguntas sobre la fotosíntesis. La evaluación debe incluir 5 preguntas de desarrollo y 5 de opción múltiple. Los temas a cubrir son: las etapas de la fotosíntesis, los pigmentos involucrados, la ecuación química de la fotosíntesis, los factores que afectan la fotosíntesis y la importancia de la fotosíntesis para los ecosistemas. También necesito una rúbrica para evaluar las preguntas de desarrollo y una lista de cotejo para las preguntas de opción múltiple.",
-    tags: [] as string[],
+    tags: ["rúbricas", "evaluación", "educación"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     titulo: "Creación de Listas de Cotejo",
@@ -243,6 +307,9 @@ export const promptsNormalizados: Prompt[] = [
     tags: [] as string[],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 23,
@@ -253,6 +320,9 @@ export const promptsNormalizados: Prompt[] = [
     tags: [] as string[],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 24,
@@ -263,6 +333,9 @@ export const promptsNormalizados: Prompt[] = [
     tags: [] as string[],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 25,
@@ -270,9 +343,12 @@ export const promptsNormalizados: Prompt[] = [
     descripcion: "Solicita sugerencias adicionales para planificar clases utilizando ChatGPT y sus capacidades.",
     autor: "Patricia Ceriani",
     prompt: "¿Podrías sugerirme algo más sobre la planificación de clases usando ChatGPT?",
-    tags: [] as string[],
+    tags: ["planificación de clases", "ChatGPT", "educación"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 26,
@@ -282,9 +358,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Crea un trabajo práctico sobre la fotosíntesis dirigido a estudiantes de secundaria que han comenzado a estudiar biología. Incluye preguntas que refuercen los conceptos básicos y algunos desafíos que requieran aplicar lo aprendido en situaciones prácticas.",
-    tags: [] as string[],
+    tags: ["trabajo práctico", "fotosíntesis", "biología"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 27,
@@ -293,9 +372,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Genera un conjunto de 10 preguntas de opción múltiple sobre la Revolución Industrial para un examen de historia de nivel secundario. Asegúrate de cubrir los principales eventos, causas y consecuencias.",
-    tags: [] as string[],
+    tags: ["preguntas de opción múltiple", "examen de historia", "Revolución Industrial"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 28,
@@ -305,9 +387,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Diseña un caso de estudio en el que los estudiantes deban proponer una solución a un problema ambiental en su comunidad. Involucra variables como el impacto económico, social y ecológico, y pide que justifiquen sus decisiones.",
-    tags: [] as string[],
+    tags: ["caso de estudio", "problemas ambientales", "soluciones"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 29,
@@ -317,9 +402,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Crea un trabajo práctico de ciencias sociales que explore el impacto de las redes sociales en diferentes culturas. Presenta tres perspectivas distintas (por ejemplo, desde el punto de vista de un adolescente, un sociólogo y un empresario) y formula preguntas que inviten a los estudiantes a comparar y contrastar estos puntos de vista.",
-    tags: [] as string[],
+    tags: ["trabajo práctico", "ciencias sociales", "redes sociales"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 30,
@@ -328,9 +416,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "¿Puedes crear una tabla comparativa que muestre las similitudes y diferencias entre ChatGPT 4o y Bing Copilot? / ¿Podés agregar una columna más en la que hagas el cálculo para saber la densidad de población de cada país? / ¿Puedes crear un gráfico que muestre qué porcentaje del territorio ocupa cada país? / ¿Puedes crear un documento de Excel con estos datos y generar en ese documento el gráfico?",
-    tags: [] as string[],
+    tags: ["Excel", "tablas", "gráficos"],
 
     categoria: "Trabajo y Profesión",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 31,
@@ -339,9 +430,12 @@ export const promptsNormalizados: Prompt[] = [
       "Solicita respuestas a preguntas simples o complejas, adaptando el contexto y la audiencia para observar el comportamiento del modelo.",
     autor: "Patricia Ceriani",
     prompt: "¿Qué es la inteligencia artificial?",
-    tags: [] as string[],
+    tags: ["inteligencia artificial", "tecnología", "educación"],
 
     categoria: "Docentes",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 32,
@@ -350,9 +444,12 @@ export const promptsNormalizados: Prompt[] = [
       "Adapta la respuesta al contexto proporcionado, evaluando cómo el modelo ajusta su respuesta con información adicional.",
     autor: "Patricia Ceriani",
     prompt: "Estoy aprendiendo sobre computadoras que pueden pensar. ¿Qué es la inteligencia artificial?",
-    tags: [] as string[],
+    tags: ["inteligencia artificial", "tecnología", "educación"],
 
     categoria: "Docentes",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 33,
@@ -362,9 +459,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Tengo 7 años y quiero saber qué es una computadora que puede pensar. ¿Puedes explicarlo con palabras muy sencillas?",
-    tags: [] as string[],
+    tags: ["inteligencia artificial", "tecnología", "educación"],
 
     categoria: "Docentes",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 34,
@@ -374,9 +474,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Soy un niño de 7 años y me gusta aprender jugando. ¿Podrías explicarme qué es la inteligencia artificial en 3 párrafos cortos, usando palabras fáciles y un ejemplo divertido?",
-    tags: [] as string[],
+    tags: ["inteligencia artificial", "tecnología", "educación"],
 
     categoria: "Docentes",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 35,
@@ -386,9 +489,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Tengo 6 años y me gustan los robots. ¿Puedes explicarme qué es la inteligencia artificial en menos de 100 palabras y usando un ejemplo con un robot amigable?",
-    tags: [] as string[],
+    tags: ["inteligencia artificial", "tecnología", "educación"],
 
     categoria: "Docentes",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 36,
@@ -399,6 +505,9 @@ export const promptsNormalizados: Prompt[] = [
     tags: [] as string[],
 
     categoria: "Docentes",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 37,
@@ -407,9 +516,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Pide a ChatGPT que te explique de manera sencilla cómo funciona el método Chain-of-Thought en la Inteligencia Artificial.",
-    tags: [] as string[],
+    tags: ["método Chain-of-Thought", "inteligencia artificial", "educación"],
 
     categoria: "Docentes",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 38,
@@ -419,9 +531,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "(Implied through functionalities) Ayuda a organizar, gestionar y resumir reuniones, configurando agendas, enviando invitaciones, tomando notas en tiempo real y generando resúmenes detallados.",
-    tags: [] as string[],
+    tags: ["asistente de reuniones", "organización", "gestión de reuniones"],
 
     categoria: "Docentes",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 39,
@@ -430,9 +545,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "(Implied through functionalities) Asiste en la generación de código HTML/CSS/JavaScript, desarrollo de backend (Python, Node.js), aplicaciones móviles (React Native, Flutter), depuración y optimización de código, y generación de documentación y tutoriales.",
-    tags: [] as string[],
+    tags: ["programación", "desarrollo web", "aplicaciones móviles"],
 
     categoria: "Docentes",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 40,
@@ -441,9 +559,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Patricia Ceriani",
     prompt:
       "Soy docente y quiero mostrar en 6 diapositivas y en formato de cuento para niños la importancia que tiene ser curiosos.",
-    tags: [] as string[],
+    tags: ["presentación", "educación", "cuento para niños"],
 
     categoria: "Docentes",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 41,
@@ -453,9 +574,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Santiago Bilinkis",
     prompt:
       "Actuá como un experto en toma de decisiones complejas. Voy a contarteuna decisión difícil que tengo que tomar: [describí la situación]. Quiero que analices las opciones usando herramientas como la matriz de valores personales, aversión al arrepentimiento, principio de reversibilidad y costo de oportunidad emocional. Ayudame a pensar con claridad y tomar una decisión alineada con lo que más me importa.",
-    tags: [] as string[],
+    tags: ["decisiones", "toma de decisiones", "análisis de opciones"],
 
     categoria: "Decisiones de Desarrollo",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 42,
@@ -465,9 +589,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Santiago Bilinkis",
     prompt:
       "Actuá como un experto en planificación de carrera y foresight. Voy a contarte quién soy, qué habilidades tengo, qué me interesa y qué no. Ayudame a explorar opciones de futuro profesional que combinen propósito, ingresos sostenibles y evolución personal. Considerá también tendencias del mercado laboral, automatización y oportunidades emergentes. Quiero visualizar tres posibles futuros a 5 años y qué pasos concretos puedo dar hoy para avanzar hacia ellos.",
-    tags: [] as string[],
+    tags: ["carrera", "planificación profesional", "futuro laboral"],
 
     categoria: "Decisiones de Desarrollo",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 43,
@@ -477,9 +604,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Santiago Bilinkis",
     prompt:
       "Actuá como un experto en sesgos cognitivos. Voy a contarte una decisión que tomé o estoy por tomar, y quiero que la analices desde afuera: ¿hay alguna trampa mental en la que esté cayendo sin darme cuenta? ¿Estoy racionalizando algo que no quiero ver? Mostrame posibles sesgos que podrían estar distorsionando mi pensamiento.",
-    tags: [] as string[],
+    tags: ["decisiones", "sesgos cognitivos", "análisis crítico"],
 
     categoria: "Decisiones de Desarrollo",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 44,
@@ -489,9 +619,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Santiago Bilinkis",
     prompt:
       "Actuá como un terapeuta cognitivo con enfoque narrativo. Te voy a contar una situación que me hizo sentir mal conmigo mismo. Ayudame a reinterpretarla desde una mirada más compasiva, realista y fortalecedora. No quiero frases hechas ni positividad tóxica: quiero entender por qué me afectó tanto y cómo puedo ver esa experiencia con otros ojos.",
-    tags: [] as string[],
+    tags: ["reinterpreta", "narrativa interna", "terapia cognitiva"],
 
     categoria: "Decisiones de Desarrollo",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 45,
@@ -501,9 +634,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Santiago Bilinkis",
     prompt:
       "Actuá como un curador de contenidos con sensibilidad emocional. Te voy a contar cómo me siento hoy o en qué momento vital estoy. Quiero que me recomiendes 3 libros, 3 películas y 3 canciones que puedan resonar conmigo, explicándome brevemente por qué cada una. No quiero cosas obvias ni mainstream: sorpréndeme.",
-    tags: [] as string[],
+    tags: ["recomendaciones", "libros", "películas", "música"],
 
     categoria: "Decisiones de Desarrollo",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
   {
     id: 46,
@@ -513,9 +649,12 @@ export const promptsNormalizados: Prompt[] = [
     autor: "Santiago Bilinkis",
     prompt:
       "Actuá como un showrunner y guionista experto de Netflix. Con base en lo que sabés de mí a partir de nuestra conversación, creá el primer borrador de una serie dramática donde yo soy el protagonista. Agregale tensión narrativa, giros inesperados, personajes secundarios memorables y un final que deje a todos pensando. Dividila por episodios con arcos narrativos claros, elegí qué actor/actriz haría de mí y explicá por qué. Incluí elementos de mi personalidad, mis desafíos reales y mis fortalezas como catalizadores de la trama.",
-    tags: [] as string[],
+    tags: ["serie", "drama", "vida real", "narrativa"],
 
     categoria: "Decisiones de Desarrollo",
+    uso: "texto",
+    idioma: "es-AR",
+    fechaCreacion: new Date("2023-10-01"),
   },
 ] as Prompt[];
 

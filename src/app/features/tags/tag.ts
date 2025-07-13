@@ -1,7 +1,8 @@
+import { Prompt } from "../prompts/prompt";
+
 export type Tag = {
-  id: string;
-  name: string;
-  label: string;
-  url: string;
+  text: string;
+  slug: string;
   cantidad: number;
+  prompts?: Prompt[];
 };

@@ -3,21 +3,23 @@ export interface Prompt {
   titulo: string;
   descripcion: string;
   autor: string;
+  categoria: string;
   tags: string[];
   prompt: string;
-  fechaCreacion?: Date;
+  uso: "texto" | "código" | "imagen" | "video" | "audio" | "otro";
+  idioma: string;
+  fechaCreacion: Date;
   fechaEdicion?: Date;
-  lenguaje?: string;
+  modelo: string;
   ejemplo?: string;
-  categoria: string;
   fuente?: string;
   referencias?: string[];
   notas?: string;
   estado?: string;
   version?: number;
   comentarios?: string[];
-  uso?: string;
   feedback?: string;
+  rating: 1 | 2 | 3 | 4 | 5;
   visibilidad?: string;
   licencia?: string;
 }

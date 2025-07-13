@@ -1,7 +1,6 @@
-import { Component, inject, input } from "@angular/core";
+import { Component, input } from "@angular/core";
 import { Prompt } from "../prompt";
 import { CopyActions } from "../../../core/components/action-button/copy-actions/copy-actions";
-import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "pd-display-prompt",
@@ -9,30 +8,32 @@ import { ActivatedRoute } from "@angular/router";
 
   template: `
     @if(prompt(); as promptOk) {
-    <div class="relative prompt w-full h-40  p-2 border border-gray-300 rounded-md shadow-sm overflow-y-auto">
-      <div>{{ promptOk.titulo }}</div>
-      <div>{{ promptOk.descripcion }}</div>
-      <div class="category">Category: {{ promptOk.categoria }}</div>
-      <div class="prompt-text">{{ promptOk.prompt }}</div>
-      <div class="author">Author: {{ promptOk.autor }}</div>
+    <div>{{ promptOk.titulo }}</div>
+    <div
+      class="relative prompt w-full   opacity-70 group-hover:opacity-100 text-black  transition-opacity duration-300 p-2 border border-gray-300 rounded-md shadow-sm overflow-y-auto">
       <div class="prompt-id">ID: {{ promptOk.id }}</div>
+      <div>{{ promptOk.descripcion }}</div>
+      <!-- <div class="category">Category: {{ promptOk.categoria }}</div> -->
+      <div class="prompt-text font-merri  text-lg/8 italic">{{ promptOk.prompt }}</div>
+      <div class="author">Author: {{ promptOk.autor }}</div>
 
-      <div class="tags">
+      <!-- <div class="tags">
         @for(tag of promptOk?.tags??[]; track tag) {
         <span class="tag">{{ tag }}</span>
         }
-      </div>
+      </div> -->
+      <pd-copy-actions
+        [promptText]="promptOk.prompt"
+        [promptUrl]="promptOk.id ? this.baseUrl() + '/prompts/' + promptOk.id : null"
+        class="absolute bottom-3 right-5 hidden group-hover:block opacity-80 hover:opacity-100  transition-opacity"></pd-copy-actions>
     </div>
-    <pd-copy-actions
-      [promptText]="promptOk.prompt"
-      [promptUrl]="promptOk.id ? this.baseUrl() + '/prompts/' + promptOk.id : null"
-      class="absolute bottom-3 right-5 hidden group-hover:block"></pd-copy-actions>
     } @else{
     <div class="no-prompt">No prompt available</div>
     }
   `,
   host: {
-    class: "relative inline-block group ",
+    class:
+      "relative inline-block group p-2 bg-gray-200 rounded-md shadow-sm hover:bg-gray-200 transition-colors duration-150",
   },
 })
 export class DisplayPrompt {

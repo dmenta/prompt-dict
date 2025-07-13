@@ -1,8 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital@0;1&family=Merriweather+Sans:ital@0;1&family=Paprika&display=swap&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzáéíóúÁÉÍÓÚ0123456789:.,-");
+
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --font-lato: "Lato";
+  --font-merri: "Merriweather Sans";
+  --font-pprika: "Paprika";
   --color-azul-50: oklch(0.855 0.08 212);
   --color-azul-100: oklch(0.771 0.08 212);
   --color-azul-200: oklch(0.687 0.08 212);
@@ -32,13 +37,13 @@
 
   .drawer.open {
     opacity: 1;
-    width: 14rem;
+    width: 16rem;
     left: 0;
     @apply space-y-1;
   }
 
   .drawer:not(.open) {
-    left: -14rem;
+    left: -16rem;
     opacity: 0;
   }
 }

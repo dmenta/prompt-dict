@@ -1,20 +1,20 @@
-import { AfterViewInit, Component, ElementRef, input, model, OnDestroy, Renderer2, signal } from "@angular/core";
+import { Component, OnDestroy, Renderer2, signal } from "@angular/core";
 
 @Component({
   selector: "pd-drawer",
   imports: [],
   template: `
     <div
-      class="drawer  shadow-lg/60   absolute top-0   z-10 shadow-black/80 border-r-[1px] border-pink-700  bg-gray-100 h-screen"
+      class="drawer  shadow-lg/60   absolute top-0   z-10 shadow-black/80 border-r-[1px] border-pink-700  bg-gray-100 h-screen overflow-y-auto"
       [class.open]="isOpen()"
       (click)="onClick()">
       <div class=" w-56">
-        <h2
-          class="sticky top-0  right-0 left-0  h-12   bg-pink-700  flex items-center
-           justify-start px-4  text-pink-100 text-lg ">
+        <h5
+          class=" bg-gray-100 sticky top-0  right-0 left-0  h-12   flex items-center
+           justify-start px-2 ">
           <ng-content select="[drawer-title]"></ng-content>
-        </h2>
-        <div class="px-2">
+        </h5>
+        <div class="px-3 pt-6 ">
           <ng-content> </ng-content>
         </div>
       </div>
