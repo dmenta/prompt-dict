@@ -1,4 +1,16 @@
-import { Component, input, OnDestroy, OnInit, Renderer2, signal, ViewChild } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Host,
+  HostListener,
+  input,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  signal,
+  ViewChild,
+} from "@angular/core";
 import { Prompt } from "../prompt";
 import { CopyActions } from "../../../core/components/action-button/copy-actions/copy-actions";
 import { fromEvent, Subscription } from "rxjs";
@@ -9,13 +21,12 @@ import { fromEvent, Subscription } from "rxjs";
 
   template: `
     @if(prompt(); as promptOk) {
-    <div id="contenedor" class="text-azul-500 px-4 text-xl font-semibold uppercase" style="text-wrap: balance">
+    <div class="text-azul-500 px-4 text-xl font-semibold uppercase" style="text-wrap: balance">
       {{ promptOk.titulo }}
     </div>
     <div
       class="relative prompt w-full group-hover:opacity-100 text-black 
-       transition-opacity duration-300 px-4 
-        overflow-y-auto">
+       transition-opacity duration-300 px-4 ">
       <!-- <div class="prompt-id">ID: {{ promptOk.id }}</div> -->
       <!-- <div class="category">Category: {{ promptOk.categoria }}</div> -->
       <div class="prompt-text font-merri py-6 text-lg/8 italic">{{ promptOk.prompt }}</div>
@@ -28,11 +39,11 @@ import { fromEvent, Subscription } from "rxjs";
         }
       </div> -->
       <pd-copy-actions
-        [class.hidden]="!visible()"
+        class="absolute bottom-3 right-5  opacity-70 hidden group-active:block group-hover:block group-focus:block  focus:block hover:opacity-100
+         transition-opacity"
+        tabindex="2"
         [promptText]="promptOk.prompt"
-        [promptUrl]="promptOk.id ? this.baseUrl() + '/prompts/' + promptOk.id : null"
-        class="absolute bottom-3 right-5  group-hover:block opacity-80 hover:opacity-100 
-         transition-opacity"></pd-copy-actions>
+        [promptUrl]="promptOk.id ? this.baseUrl() + '/prompts/' + promptOk.id : null"></pd-copy-actions>
     </div>
     } @else{
     <div class="no-prompt">No prompt available</div>
@@ -43,29 +54,9 @@ import { fromEvent, Subscription } from "rxjs";
       "relative inline-block group px-2 py-4  shadow-md/40 shadow-black/60 hover:bg-gray-200 transition-colors duration-150",
   },
 })
-export class DisplayPrompt implements OnInit, OnDestroy {
-  @ViewChild("#contenedor") container: HTMLDivElement | null = null;
-
+export class DisplayPrompt {
   visible = signal(false);
 
   prompt = input<Prompt | null>(null);
   baseUrl = input<string>(window.location.origin);
-  subscript: Subscription | null = null;
-
-  ngOnInit() {
-    console.log("DisplayPrompt initialized with prompt:", this.container);
-    if ("ontouchstart" in window) {
-      console.log("Touch device detected, enabling touch toggle for visibility");
-      this.subscript = fromEvent(document, "touchstart", { passive: true }).subscribe((event) => {
-        this.visible.set(!this.visible());
-        (event as MouseEvent).stopPropagation();
-      });
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.subscript) {
-      this.subscript.unsubscribe();
-    }
-  }
 }

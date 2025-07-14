@@ -23,7 +23,7 @@ export class PromptsByTag {
       this.slug.set(params["slug"]);
 
       const tagPrompts = this.persistService.tags().filter((tag) => tag.slug === this.slug());
-      this.title.setTitle(`Etiquetados como ${tagPrompts[0].text}`);
+      this.title.setTitle(`Etiqueta | ${tagPrompts[0].text}`);
 
       const prompts = tagPrompts[0].prompts || [];
       this.prompts.set(prompts);

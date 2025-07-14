@@ -31,19 +31,19 @@
   .drawer {
     overflow: hidden;
     display: block;
+    width: 16rem;
 
     @apply transition-all  duration-300 ease-in-out;
   }
 
   .drawer.open {
     opacity: 1;
-    width: 16rem;
     left: 0;
     @apply space-y-1;
   }
 
   .drawer:not(.open) {
     left: -16rem;
-    opacity: 0;
+    opacity: 1;
   }
 }

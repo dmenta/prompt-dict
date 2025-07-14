@@ -14,7 +14,7 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
         class="rounded-full bg-azul-400/70   min-w-6  h-6 pb-0.5 text-white  flex flex-row items-center justify-center"
         >{{ cantidad() }}</span
       >
-      <span> {{ text() }}</span>
+      <span class="lowercase first-letter:uppercase"> {{ text() }}</span>
     </button></a
   >`,
   styles: ``,

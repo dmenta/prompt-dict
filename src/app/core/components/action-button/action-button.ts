@@ -19,13 +19,13 @@ import { fromEvent, Subscription } from "rxjs";
 export class ActionButton implements OnInit, OnDestroy {
   subscript: Subscription | null = null;
   @ViewChild("pdbutton") pdbutton: HTMLButtonElement | null = null;
-  clicked = output<MouseEvent>();
+  clicked = output<MouseEvent | TouchEvent>();
 
   ngOnInit() {
     if (window.ontouchstart && this.pdbutton) {
       this.subscript = fromEvent(this.pdbutton, "touchstart", { passive: true }).subscribe((event) => {
         console.log("Touch event detected");
-        this.clicked.emit(event as MouseEvent);
+        this.clicked.emit(event as TouchEvent);
       });
     }
   }

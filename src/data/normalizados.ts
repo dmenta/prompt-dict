@@ -206,6 +206,8 @@ export const promptsNormalizados: Prompt[] = [
     titulo: "Generación de Textos de Venta para Redes Sociales",
     descripcion: "Escribe textos de venta para publicaciones en Instagram, adaptados a negocios específicos.",
     autor: "Patricia Ceriani",
+    prompt:
+      "Tengo un emprendimiento de venta de macetas de barro pintadas a mano artesanalmente, escribe 5 textos de venta para post en Instagram.",
     tags: ["redes sociales", "venta", "marketing digital"],
 
     categoria: "Trabajo y Profesión",
