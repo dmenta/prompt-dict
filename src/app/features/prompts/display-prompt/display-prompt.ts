@@ -1,19 +1,6 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Host,
-  HostListener,
-  input,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-  signal,
-  ViewChild,
-} from "@angular/core";
+import { Component, input, signal } from "@angular/core";
 import { Prompt } from "../prompt";
 import { CopyActions } from "../../../core/components/action-button/copy-actions/copy-actions";
-import { fromEvent, Subscription } from "rxjs";
 
 @Component({
   selector: "pd-display-prompt",
@@ -26,7 +13,7 @@ import { fromEvent, Subscription } from "rxjs";
     </div>
     <div
       class="relative prompt w-full group-hover:opacity-100 text-black 
-      transition-opacity duration-300 px-4 ">
+      transition-opacity duration-150 px-4 ">
       <!-- <div class="prompt-id">ID: {{ promptOk.id }}</div> -->
       <!-- <div class="category">Category: {{ promptOk.categoria }}</div> -->
       <div class="prompt-text font-merri py-6 text-lg/8 italic">{{ promptOk.prompt }}</div>
@@ -39,8 +26,8 @@ import { fromEvent, Subscription } from "rxjs";
         }
       </div> -->
       <pd-copy-actions
-        class="absolute bottom-3 right-5  opacity-70 hidden z-3 group-active:block group-hover:block group-focus:block  focus:block hover:opacity-100
-      transition-opacity"
+        class="absolute bottom-3 right-5  opacity-0 hidden z-3 group-active:block group-hover:block group-focus:block group-focus:opacity-100   group-hover:opacity-80
+      hover:opacity-100 transition-opacity"
         tabindex="2"
         [promptText]="promptOk.prompt"
         [promptUrl]="promptOk.id ? this.baseUrl() + '/prompts/' + promptOk.id : null"></pd-copy-actions>
