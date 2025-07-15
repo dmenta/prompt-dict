@@ -55,10 +55,10 @@
   --color-app-back: var(--color-neutral-800);
   --color-app-fore: var(--color-neutral-50);
 
-  --color-action: oklch(0.404 0.055 204);
-  --color-primary: oklch(0.743 0.181 46);
-  --color-primary-light: oklch(0.683 0.181 46);
-  --color-primary-dark: oklch(0.803 0.181 46);
+  --color-action: oklch(0.695 0.181 46);
+  --color-primary: var(--color-azul-300);
+  --color-primary-light: var(--color-azul-400);
+  --color-primary-dark: var(--color-azul-200);
 
   --color-contrast: var(--color-white);
   --color-inverse: var(--color-white);
@@ -73,11 +73,11 @@
   --color-button-contrast: var(--color-contrast);
   --color-card-hover: var(--color-neutral-900);
 
-  --color-search-contrast: var(--color-black);
+  --color-search-contrast: var(--color-inverse);
   --color-item-hover-contrast: var(--color-inverse);
   --color-prompt: var(--color-contrast);
 
-  --color-search: var(--color-white);
+  --color-search: var(--color-neutral-800);
   --color-placeholder: var(--color-neutral-400);
   --color-drawer: var(--color-neutral-800);
   --color-drawer-header: var(--color-neutral-800);
