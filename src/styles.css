@@ -26,6 +26,9 @@
 
   --color-maiz-suave: oklch(0.975 0.184 70);
 
+  --color-app-back: var(--color-white);
+  --color-app-fore: var(--color-neutral-800);
+
   --color-action: var(--color-azul-500);
   --color-action-contrast: var(--color-white);
   --color-primary: var(--color-orange-400);
@@ -35,6 +38,7 @@
   --color-search-contrast: var(--color-blck);
   --color-placeholder: var(--color-neutral-400);
   --color-drawer: var(--color-neutral-50);
+  --color-drawer-header: var(--color-neutral-50);
   --color-header: var(--color-neutral-200);
   --color-header-contrast: var(--color-black);
   --color-button-hover: var(--color-neutral-100);
@@ -49,6 +53,9 @@
 }
 
 .dark {
+  --color-app-back: var(--color-neutral-800);
+  --color-app-fore: var(--color-neutral-50);
+
   --color-action: var(--color-pink-600);
   --color-action-contrast: var(--color-white);
   --color-primary: var(--color-lime-700);
@@ -58,6 +65,7 @@
   --color-search-contrast: var(--color-white);
   --color-placeholder: var(--color-neutral-400);
   --color-drawer: var(--color-neutral-800);
+  --color-drawer-header: var(--color-neutral-800);
   --color-header: var(--color-neutral-900);
   --color-header-contrast: var(--color-white);
   --color-button-hover: var(--color-neutral-700);

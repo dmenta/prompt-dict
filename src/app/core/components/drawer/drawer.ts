@@ -5,11 +5,11 @@ import { Component, OnDestroy, Renderer2, signal } from "@angular/core";
   imports: [],
   template: `
     <div
-      class="drawer  shadow-lg/60   absolute top-0   z-10 shadow-black/80  bg-drawer h-screen overflow-hidden"
+      class="drawer  shadow-lg/60 dark:shadow-lg/70   absolute top-0   z-10 dark:shadow-black shadow-black/80  bg-drawer h-screen overflow-hidden"
       [class.open]="isOpen()"
       (click)="onClick()">
       <h5
-        class=" bg-header absolute  top-0  left-0 w-64 h-14 z-20  flex items-center
+        class=" bg-drawer-header absolute  top-0  left-0 w-64 h-14 z-20  flex items-center
       justify-start pl-6 pr-8">
         <ng-content select="[drawer-title]"></ng-content>
       </h5>
