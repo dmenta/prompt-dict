@@ -44,7 +44,7 @@ import { RouterLink } from "@angular/router";
   `,
   host: {
     class:
-      "relative inline-block group px-2 py-4  shadow-md/40 shadow-black/60 hover:bg-gray-200 transition-colors duration-150",
+      "select-none relative inline-block group px-2 py-4  shadow-md/40 shadow-black/60 hover:bg-gray-200 transition-colors duration-150",
   },
 })
 export class DisplayPrompt {

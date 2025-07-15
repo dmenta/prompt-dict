@@ -12,7 +12,7 @@ import { PreviousRouteService } from "../../services/previous-route.service";
     class="sticky top-0  right-0 left-0  h-12   bg-pink-600  flex items-center
            justify-start px-2 gap-2  text-pink-100 shadow-md/30 dark:shadow-black/20">
     <a
-      [routerLink]="['/prompts']"
+      [routerLink]="['./']"
       [queryParams]="previousRouteService.previousParams()"
       [class.hidden]="!hideBack()"
       class="h-10 w-10 flex items-center justify-center rounded-md hover:bg-pink-500  transition-colors">
@@ -54,7 +54,7 @@ export class Header {
 
   constructor(public title: Title, private router: Router, protected previousRouteService: PreviousRouteService) {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
-      this.hideBack.set(event.url !== "/prompts");
+      this.hideBack.set(event.url !== "/");
 
       const pageTitle = this.title.getTitle();
       const partes = pageTitle.split("|");

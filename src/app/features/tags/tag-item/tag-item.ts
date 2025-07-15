@@ -4,7 +4,12 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
 @Component({
   selector: "pd-tag-item",
   imports: [RouterLink, RouterLinkActive],
-  template: ` <a [routerLink]="['./prompts']" [queryParams]="{ tag: slug() }" routerLinkActive #rla="routerLinkActive"
+  template: ` <a
+    [routerLink]="['./prompts']"
+    [queryParams]="{ tag: slug() }"
+    routerLinkActive
+    #rla="routerLinkActive"
+    class="select-none "
     ><button
       [disabled]="rla.isActive"
       class="inline-flex items-center whitespace-nowrap rounded-md font-medium ring-offset-background

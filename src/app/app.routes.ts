@@ -2,7 +2,7 @@ import { Routes } from "@angular/router";
 
 export const routes: Routes = [
   {
-    path: "prompts",
+    path: "",
     loadComponent: () => import("./pages/prompts/prompts").then((m) => m.Prompts),
   },
 
@@ -13,8 +13,8 @@ export const routes: Routes = [
   },
 
   {
-    path: "",
-    redirectTo: "prompts",
+    path: "prompts",
+    redirectTo: "",
     pathMatch: "full",
   },
 

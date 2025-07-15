@@ -10,17 +10,16 @@ import { TagsList } from "./features/tags/tags-list/tags-list";
   selector: "pd-root",
   imports: [CategoriesList, TagsList, Drawer, Header, StatusNotification, RouterOutlet],
   template: `
-    <div class="p-0 m-0 overflow-hidden w-screen h-screen">
+    <div class="p-0 m-0 overflow-hidden w-screen h-screen select-none ">
       <pd-header class="z-10" (open)="drawer.show()"></pd-header>
-      <pd-drawer class="w-fit" #drawer>
+      <pd-drawer class="w-fit  select-none" #drawer>
         <div
-          (click)="onClick($event, list() === 'categories' ? 'tags' : 'categories')"
           drawer-title
           class="flex items-center justify-between w-full"
           [class.flex-row]="list() === 'categories'"
           [class.flex-row-reverse]="list() === 'tags'">
-          <span class="font-semibold text-pink-950">{{ activo() }}</span>
-          <span>{{ inactivo() }}</span>
+          <span class="font-semibold text-pink-950" (click)="$event.stopImmediatePropagation()">{{ activo() }}</span>
+          <span (click)="onClick($event, list() === 'categories' ? 'tags' : 'categories')">{{ inactivo() }}</span>
         </div>
 
         @if(list()==="categories") {
