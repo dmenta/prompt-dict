@@ -27,7 +27,7 @@ import { RouterLink } from "@angular/router";
 
       <!-- <div class="tags flex flex-wrap gap-1 mt-4 lowercase">
         @for(tag of promptOk?.tags??[]; track tag) {
-          <span class="tag bg-neutral-300">{{ tag }}</span>
+          <span class="tag bg-xxx-300">{{ tag }}</span>
         }
       </div> -->
       <pd-copy-actions

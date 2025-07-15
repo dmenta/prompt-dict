@@ -9,11 +9,11 @@ import { Component, OnDestroy, Renderer2, signal } from "@angular/core";
       [class.open]="isOpen()"
       (click)="onClick()">
       <h5
-        class=" bg-drawer-header absolute  top-0  left-0 w-64 h-14 z-20  flex items-center
-      justify-start pl-6 pr-8">
+        class="bg-drawer-header absolute  top-0  
+      left-0 right-0 h-14 z-20  flex items-center pl-4 pr-5">
         <ng-content select="[drawer-title]"></ng-content>
       </h5>
-      <div class=" w-64 absolute top-12 bottom-0 overflow-x-hidden overflow-y-auto">
+      <div class="w-full absolute top-14 bottom-0 right-0 overflow-x-hidden overflow-y-auto">
         <div class="px-2  pt-4 h-full">
           <ng-content> </ng-content>
         </div>
