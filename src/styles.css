@@ -25,6 +25,50 @@
   --color-fondo-d: oklch(0.975 0.064 120);
 
   --color-maiz-suave: oklch(0.975 0.184 70);
+
+  --color-action: var(--color-azul-500);
+  --color-action-contrast: var(--color-white);
+  --color-primary: var(--color-orange-400);
+  --color-primary-contrast: var(--color-white);
+  --color-primary-soft: var(--color-orange-800);
+  --color-search: var(--color-neutral-50);
+  --color-search-contrast: var(--color-blck);
+  --color-placeholder: var(--color-neutral-400);
+  --color-drawer: var(--color-neutral-50);
+  --color-header: var(--color-neutral-200);
+  --color-header-contrast: var(--color-black);
+  --color-button-hover: var(--color-neutral-100);
+  --color-button-contrast: var(--color-black);
+  --color-prompt: var(--color-black);
+  --color-card: var(--color-neutral-50);
+  --color-card-hover: var(--color-white);
+  --color-not-found: var(--color-neutral-500);
+  --color-list-name: var(--color-orange-700);
+  --color-item-hover: var(--color-neutral-200);
+  --color-item-hover-contrast: var(--color-black);
+}
+
+.dark {
+  --color-action: var(--color-pink-600);
+  --color-action-contrast: var(--color-white);
+  --color-primary: var(--color-lime-700);
+  --color-primary-contrast: var(--color-neutral-100);
+  --color-primary-soft: var(--color-lime-400);
+  --color-search: var(--color-black);
+  --color-search-contrast: var(--color-white);
+  --color-placeholder: var(--color-neutral-400);
+  --color-drawer: var(--color-neutral-800);
+  --color-header: var(--color-neutral-900);
+  --color-header-contrast: var(--color-white);
+  --color-button-hover: var(--color-neutral-700);
+  --color-button-contrast: var(--color-white);
+  --color-prompt: var(--color-white);
+  --color-card: var(--color-neutral-800);
+  --color-card-hover: var(--color-neutral-900);
+  --color-not-found: var(--color-neutral-500);
+  --color-list-name: var(--color-lime-600);
+  --color-item-hover: var(--color-neutral-700);
+  --color-item-hover-contrast: var(--color-white);
 }
 
 @layer components {

@@ -1,8 +1,7 @@
 import { Injectable, signal } from "@angular/core";
 import promptsNormalizados from "../../../data/normalizados";
-import { CategoryInfo } from "../../features/categories/category-info";
 import { Prompt } from "../../features/prompts/prompt";
-import { Tag } from "../../features/tags/tag";
+import { NavigationItem } from "../../features/navigation/navigation-item";
 
 @Injectable({
   providedIn: "root",
@@ -10,43 +9,38 @@ import { Tag } from "../../features/tags/tag";
 export class PersistService {
   private promptsList = promptsNormalizados;
   public prompts = signal(this.promptsList);
-  public categories = signal<CategoryInfo[]>([]);
-  public tags = signal<Tag[]>([]);
+  public categories = signal<NavigationItem[]>([]);
+  public tags = signal<NavigationItem[]>([]);
 
   constructor() {
-    const categories = this.prompts().reduce((acc: { [key: string]: CategoryInfo }, prompt: Prompt) => {
-      const categoryName = prompt.categoria;
-      const slug = this.slugifyCategoryName(categoryName)!;
-      if (!acc[slug]) {
-        acc[slug] = {
-          name: categoryName,
-          slug: slug,
-          numberOfPrompts: 0,
-          authors: [] as string[],
-          tags: [] as string[],
-        };
-      }
+    this.initializeCategories();
+    this.initializeTags();
+  }
 
-      acc[slug].numberOfPrompts++;
-      if (prompt.autor && !acc[slug].authors.includes(prompt.autor)) {
-        acc[slug].authors.push(prompt.autor);
-      }
-      if (prompt.tags.length > 0) {
-        prompt.tags.forEach((tag) => {
-          if (!acc[slug].tags.includes(tag)) {
-            acc[slug].tags.push(tag);
-          }
-        });
-      }
+  private initializeCategories() {
+    const categoriesSet = new Set<string>();
+    this.prompts().forEach((prompt) => {
+      categoriesSet.add(prompt.categoria);
+    });
+    this.categories.set(
+      Array.from(categoriesSet)
+        .map((categoria) => {
+          const promptsForCategory = this.prompts().filter((prompt) => prompt.categoria.localeCompare(categoria));
+          return {
+            text: categoria,
+            slug: this.slugify(categoria),
+            cantidad: promptsForCategory.length,
+            prompts: promptsForCategory,
+          };
+        })
+        .sort((a, b) => a.text.localeCompare(b.text))
+    );
+  }
 
-      return acc;
-    }, {} as { [key: string]: CategoryInfo });
-
-    this.categories.set(Object.values(categories).sort((a, b) => a.name.localeCompare(b.name)));
-
+  private initializeTags() {
     const tagsSet = new Set<string>();
-    this.categories().forEach((category) => {
-      category.tags.forEach((tag) => {
+    this.prompts().forEach((prompt) => {
+      prompt.tags.forEach((tag) => {
         tagsSet.add(tag);
       });
     });
@@ -57,10 +51,7 @@ export class PersistService {
           const promptsForTag = this.prompts().filter((prompt) => prompt.tags.includes(tag));
           return {
             text: tag,
-            slug: tag
-              .toLowerCase()
-              .replace(/\s+/g, "-")
-              .replace(/[^\w-]/g, ""),
+            slug: this.slugify(tag),
             cantidad: promptsForTag.length,
             prompts: promptsForTag,
           };
@@ -69,26 +60,23 @@ export class PersistService {
     );
   }
 
-  byCategory(slug: string): { info: CategoryInfo; prompts: Prompt[] } {
+  byCategory(slug: string): { name: string; prompts: Prompt[] } {
     const category = this.categories().find((cat) => cat.slug === slug);
 
     if (!category) {
-      return { info: { name: "", slug: "", numberOfPrompts: 0, authors: [], tags: [] }, prompts: [] };
+      return { name: "", prompts: [] };
     }
-    return { info: category, prompts: this.prompts().filter((prompt) => prompt.categoria === category.name) };
+    return { name: category.text, prompts: category.prompts || [] };
   }
 
-  byTag(tag: string): { info: string | null; prompts: Prompt[] } {
-    const prompts = this.prompts().filter((prompt) => prompt.tags.some((t) => t.toLowerCase() === tag.toLowerCase()));
+  byTag(slug: string): { name: string; prompts: Prompt[] } {
+    const tag = this.tags().find((tag) => tag.slug === slug);
 
-    if (prompts.length === 0) {
-      return { info: null, prompts: [] };
+    if (!tag) {
+      return { name: "", prompts: [] };
     }
 
-    return {
-      info: tag,
-      prompts: prompts,
-    };
+    return { name: tag.text, prompts: tag.prompts || [] };
   }
 
   search(searchTerm: string): { info: string | null; prompts: Prompt[] } {
@@ -109,7 +97,7 @@ export class PersistService {
     return this.prompts().find((prompt) => prompt.id === id) || null;
   }
 
-  private slugifyCategoryName(name: string): string {
+  private slugify(name: string): string {
     return name
       .toLowerCase()
       .replace(/\s+/g, "-")

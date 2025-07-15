@@ -1,15 +1,14 @@
 import { Component, computed, inject, signal } from "@angular/core";
 import { Drawer } from "./core/components/drawer/drawer";
 import { Header } from "./core/components/header/header";
-import { CategoriesList } from "./features/categories/categories-list/categories-list";
 import { StatusNotification } from "./core/components/notification/notification.component";
 import { RouterOutlet } from "@angular/router";
-import { TagsList } from "./features/tags/tags-list/tags-list";
+import { NavList } from "./features/navigation/nav-list/nav-list";
 import { DarkModeService } from "./core/services/dark-mode.service";
 
 @Component({
   selector: "pd-root",
-  imports: [CategoriesList, TagsList, Drawer, Header, StatusNotification, RouterOutlet],
+  imports: [NavList, Drawer, Header, StatusNotification, RouterOutlet],
   template: `
     <div class="p-0 m-0 overflow-hidden w-screen h-screen select-none ">
       <pd-header class="z-10" (open)="drawer.show()"></pd-header>
@@ -17,19 +16,17 @@ import { DarkModeService } from "./core/services/dark-mode.service";
         <div
           drawer-title
           class="flex items-center justify-between w-full"
-          [class.flex-row]="list() === 'categories'"
-          [class.flex-row-reverse]="list() === 'tags'">
-          <span class="font-semibold text-black dark:text-white" (click)="$event.stopImmediatePropagation()">{{
-            activo()
-          }}</span>
-          <span (click)="onClick($event, list() === 'categories' ? 'tags' : 'categories')">{{ inactivo() }}</span>
+          [class.flex-row]="list() === 'category'"
+          [class.flex-row-reverse]="list() === 'tag'">
+          <span class="font-semibold text-list-name" (click)="$event.stopImmediatePropagation()">{{ activo() }}</span>
+          <span
+            class="opacity-85 font-regular hover:opacity-100"
+            (click)="onClick($event, list() === 'category' ? 'tag' : 'category')"
+            >{{ inactivo() }}</span
+          >
         </div>
 
-        @if(list()==="categories") {
-        <pd-categories-list></pd-categories-list>
-        } @else {
-        <pd-tags-list></pd-tags-list>
-        }
+        <pd-nav-list [list]="list()"></pd-nav-list>
       </pd-drawer>
       <div class="h-[calc(100svh_-_3rem)] overflow-hidden flex flex-row">
         <router-outlet></router-outlet>
@@ -40,18 +37,18 @@ import { DarkModeService } from "./core/services/dark-mode.service";
 })
 export class App {
   mode = inject(DarkModeService);
-  list = signal<"categories" | "tags">("categories");
+  list = signal<"category" | "tag">("category");
 
-  onClick(event: MouseEvent, what: "categories" | "tags") {
+  onClick(event: MouseEvent, what: "category" | "tag") {
     event.stopPropagation();
     this.list.set(what);
   }
 
   inactivo = computed(() => {
-    return this.list() === "categories" ? "Etiquetas" : "Categorías";
+    return this.list() === "category" ? "Etiquetas" : "Categorías";
   });
 
   activo = computed(() => {
-    return this.list() === "categories" ? "Categorías" : "Etiquetas";
+    return this.list() === "category" ? "Categorías" : "Etiquetas";
   });
 }

@@ -11,7 +11,7 @@ import { PersistService } from "../../services/persist.service";
       <input
         [formControl]="searchControl"
         type="text"
-        class="w-full bg-white dark:bg-gray-950 ring-0 outline-0 dark:text-white text-black dark:placeholder:text-gray-400 placeholder:text-gray-400 placeholder:text-center rounded-full px-6  p-1.5"
+        class="w-full bg-search ring-0 outline-0 text-search-contrast placeholder:text-placeholder placeholder:text-center rounded-full px-6  p-1.5"
         placeholder="Buscar prompts..."
         aria-label="Buscar prompts"
         aria-autocomplete="list"

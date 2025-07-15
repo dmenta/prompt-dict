@@ -8,7 +8,10 @@ import { ActivatedRoute, Params } from "@angular/router";
 @Component({
   selector: "pd-prompts",
   imports: [PromptsList],
-  template: `<pd-prompts-list [prompts]="prompts()"></pd-prompts-list>`,
+  template: `<pd-prompts-list class="p-4" [prompts]="prompts()"></pd-prompts-list>`,
+  host: {
+    class: " w-full",
+  },
 })
 export class Prompts {
   persistService = inject(PersistService);
@@ -28,9 +31,9 @@ export class Prompts {
         const prompts = tagPrompts[0].prompts || [];
         this.prompts.set(prompts);
       } else if (params["category"]) {
-        const { info, prompts } = this.persistService.byCategory(params["category"]);
-        if (info) {
-          this.title.setTitle(`Categoría | ${info.name}`);
+        const { name, prompts } = this.persistService.byCategory(params["category"]);
+        if (name.length > 0) {
+          this.title.setTitle(`Categoría | ${name}`);
           this.prompts.set(prompts);
         } else {
           this.title.setTitle("Categoría no encontrada");

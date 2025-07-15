@@ -9,15 +9,15 @@ import { NotificationService } from "../../services/notification.service";
       [class.-bottom-8]="!notificationService.showNotification()"
       [class.bottom-18]="notificationService.showNotification()"
       [class.scale-100]="notificationService.showNotification()">
-      <div class="rounded-lg w-64 flex bg-gray-50 dark:bg-gray-800 items-center gap-4 pl-2 py-3">
+      <div class="rounded-lg w-64 flex bg-neutral-50 dark:bg-neutral-800 items-center gap-4 pl-2 py-3">
         @if(notificationService.notificationMessage().type === 'warn') {
         <span
-          class="dark:bg-orange-500 bg-orange-400 font-museo-moderno font-semibold text-white p-0.5 px-1.5 text-smaller-3 rounded-lg"
+          class="dark:bg-amber-500 bg-amber-400 font-museo-moderno font-semibold text-white p-0.5 px-1.5 text-smaller-3 rounded-lg"
           >WARN</span
         >
         } @else {
         <span
-          class="dark:bg-green-700 bg-green-600 font-museo-moderno font-semibold text-white p-0.5 px-1.5 text-smaller-2 rounded-lg"
+          class="dark:bg-blue-800 bg-blue-700 font-museo-moderno font-semibold text-white p-0.5 px-1.5 text-smaller-2 rounded-lg"
           >OK</span
         >
         }
