@@ -16,7 +16,7 @@ import { ModeToggle } from "../mode-toggle/mode-toggle";
       [routerLink]="['./']"
       [queryParams]="previousRouteService.previousParams()"
       [class.hidden]="!hideBack()"
-      class="h-10 w-10 flex items-center justify-center rounded-md hover:bg-button-hover transition-colors">
+      class="h-10 min-w-10 flex items-center justify-center rounded-md hover:bg-button-hover transition-colors">
       <svg height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
         <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
       </svg>

@@ -25,7 +25,7 @@ export class PersistService {
     this.categories.set(
       Array.from(categoriesSet)
         .map((categoria) => {
-          const promptsForCategory = this.prompts().filter((prompt) => prompt.categoria.localeCompare(categoria));
+          const promptsForCategory = this.prompts().filter((prompt) => prompt.categoria.localeCompare(categoria) === 0);
           return {
             text: categoria,
             slug: this.slugify(categoria),
