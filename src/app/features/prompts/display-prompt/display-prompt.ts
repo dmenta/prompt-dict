@@ -11,7 +11,7 @@ import { RouterLink } from "@angular/router";
     @if(prompt(); as promptOk) {
     <a [routerLink]="['/prompt', promptOk.id]">
       <div
-        class="text-primary-soft  px-4 text-xl font-semibold uppercase opacity-85 group-hover:opacity-100"
+        class="text-primary-dark  px-4 text-xl font-semibold uppercase opacity-85 group-hover:opacity-100"
         style="text-wrap: balance">
         {{ promptOk.titulo }}
       </div>

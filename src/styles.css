@@ -7,7 +7,7 @@
 @theme {
   --font-lato: "Lato";
   --font-merri: "Merriweather Sans";
-  --font-pprika: "Paprika";
+
   --color-azul-50: oklch(0.855 0.08 212);
   --color-azul-100: oklch(0.771 0.08 212);
   --color-azul-200: oklch(0.687 0.08 212);
@@ -19,64 +19,73 @@
   --color-azul-800: oklch(0.184 0.08 212);
   --color-azul-900: oklch(0.1 0.08 212);
 
-  --color-fondo-a: oklch(0.975 0.064 73);
-  --color-fondo-b: oklch(0.975 0.064 89);
-  --color-fondo-c: oklch(0.975 0.064 104);
-  --color-fondo-d: oklch(0.975 0.064 120);
-
-  --color-maiz-suave: oklch(0.975 0.184 70);
-
   --color-app-back: var(--color-white);
   --color-app-fore: var(--color-neutral-800);
 
-  --color-action: var(--color-azul-500);
-  --color-action-contrast: var(--color-white);
-  --color-primary: var(--color-orange-400);
-  --color-primary-contrast: var(--color-white);
-  --color-primary-soft: var(--color-orange-800);
+  --color-action: oklch(0.444 0.055 204);
+  --color-primary: oklch(0.695 0.181 46);
+  --color-primary-light: oklch(0.743 0.181 46);
+  --color-primary-dark: oklch(0.486 0.181 46);
+
+  --color-contrast: var(--color-white);
+  --color-inverse: var(--color-black);
+
+  --color-list-name: var(--color-primary-dark);
+  --color-header: var(--color-primary-light);
+  --color-button-hover: var(--color-primary);
+
+  --color-action-contrast: var(--color-contrast);
+  --color-primary-contrast: var(--color-contrast);
+  --color-header-contrast: var(--color-contrast);
+  --color-button-contrast: var(--color-contrast);
+  --color-card-hover: var(--color-contrast);
+
+  --color-search-contrast: var(--color-inverse);
+  --color-item-hover-contrast: var(--color-inverse);
+  --color-prompt: var(--color-inverse);
+
   --color-search: var(--color-neutral-50);
-  --color-search-contrast: var(--color-blck);
   --color-placeholder: var(--color-neutral-400);
   --color-drawer: var(--color-neutral-50);
   --color-drawer-header: var(--color-neutral-50);
-  --color-header: var(--color-neutral-200);
-  --color-header-contrast: var(--color-black);
-  --color-button-hover: var(--color-neutral-100);
-  --color-button-contrast: var(--color-black);
-  --color-prompt: var(--color-black);
   --color-card: var(--color-neutral-50);
-  --color-card-hover: var(--color-white);
   --color-not-found: var(--color-neutral-500);
-  --color-list-name: var(--color-orange-700);
   --color-item-hover: var(--color-neutral-200);
-  --color-item-hover-contrast: var(--color-black);
 }
 
 .dark {
   --color-app-back: var(--color-neutral-800);
   --color-app-fore: var(--color-neutral-50);
 
-  --color-action: var(--color-pink-600);
-  --color-action-contrast: var(--color-white);
-  --color-primary: var(--color-lime-700);
-  --color-primary-contrast: var(--color-neutral-100);
-  --color-primary-soft: var(--color-lime-400);
-  --color-search: var(--color-black);
-  --color-search-contrast: var(--color-white);
+  --color-action: oklch(0.504 0.055 204);
+  --color-primary: oklch(0.743 0.181 46);
+  --color-primary-light: oklch(0.683 0.181 46);
+  --color-primary-dark: oklch(0.803 0.181 46);
+
+  --color-contrast: var(--color-white);
+  --color-inverse: var(--color-white);
+
+  --color-list-name: var(--color-primary-dark);
+  --color-header: var(--color-primary-light);
+  --color-button-hover: var(--color-primary);
+
+  --color-action-contrast: var(--color-contrast);
+  --color-primary-contrast: var(--color-contrast);
+  --color-header-contrast: var(--color-contrast);
+  --color-button-contrast: var(--color-contrast);
+  --color-card-hover: var(--color-neutral-900);
+
+  --color-search-contrast: var(--color-inverse);
+  --color-item-hover-contrast: var(--color-inverse);
+  --color-prompt: var(--color-contrast);
+
+  --color-search: var(--color-white);
   --color-placeholder: var(--color-neutral-400);
   --color-drawer: var(--color-neutral-800);
   --color-drawer-header: var(--color-neutral-800);
-  --color-header: var(--color-neutral-900);
-  --color-header-contrast: var(--color-white);
-  --color-button-hover: var(--color-neutral-700);
-  --color-button-contrast: var(--color-white);
-  --color-prompt: var(--color-white);
   --color-card: var(--color-neutral-800);
-  --color-card-hover: var(--color-neutral-900);
   --color-not-found: var(--color-neutral-500);
-  --color-list-name: var(--color-lime-600);
   --color-item-hover: var(--color-neutral-700);
-  --color-item-hover-contrast: var(--color-white);
 }
 
 @layer components {
