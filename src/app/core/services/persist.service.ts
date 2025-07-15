@@ -80,7 +80,11 @@ export class PersistService {
   }
 
   search(searchTerm: string): { info: string | null; prompts: Prompt[] } {
-    const prompts = this.prompts().filter((prompt) => prompt.prompt.toLowerCase().indexOf(searchTerm) > -1);
+    const prompts = this.prompts().filter(
+      (prompt) =>
+        prompt.prompt.toLowerCase().indexOf(searchTerm) > -1 ||
+        prompt.tags.some((tag) => tag.toLowerCase().indexOf(searchTerm) > -1)
+    );
 
     console.log("Search results for:", searchTerm, "Found prompts:", prompts.length);
     if (prompts.length === 0) {

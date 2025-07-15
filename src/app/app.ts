@@ -20,7 +20,7 @@ import { DarkModeService } from "./core/services/dark-mode.service";
           [class.flex-row-reverse]="list() === 'tag'">
           <span class="font-semibold text-list-name" (click)="$event.stopImmediatePropagation()">{{ activo() }}</span>
           <span
-            class="opacity-85 font-regular hover:opacity-100"
+            class="opacity-85 font-light hover:opacity-100"
             (click)="onClick($event, list() === 'category' ? 'tag' : 'category')"
             >{{ inactivo() }}</span
           >
@@ -28,7 +28,7 @@ import { DarkModeService } from "./core/services/dark-mode.service";
 
         <pd-nav-list [list]="list()"></pd-nav-list>
       </pd-drawer>
-      <div class="h-[calc(100svh_-_3rem)] overflow-hidden flex flex-row">
+      <div class="h-[calc(100svh_-_3.5rem)] overflow-hidden flex flex-row">
         <router-outlet></router-outlet>
       </div>
     </div>

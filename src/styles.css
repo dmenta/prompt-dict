@@ -1,11 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital@0;1&family=Merriweather+Sans:ital@0;1&family=Paprika&display=swap&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzáéíóúÁÉÍÓÚ0123456789:.,-");
-
+@import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzáéíóúÁÉÍÓÚ0123456789:.,-");
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-lato: "Lato";
   --font-merri: "Merriweather Sans";
 
   --color-azul-50: oklch(0.855 0.08 212);
@@ -48,7 +46,7 @@
   --color-placeholder: var(--color-neutral-400);
   --color-drawer: var(--color-neutral-50);
   --color-drawer-header: var(--color-neutral-50);
-  --color-card: var(--color-neutral-50);
+  --color-card: var(--color-neutral-1000);
   --color-not-found: var(--color-neutral-500);
   --color-item-hover: var(--color-neutral-200);
 }
@@ -57,7 +55,7 @@
   --color-app-back: var(--color-neutral-800);
   --color-app-fore: var(--color-neutral-50);
 
-  --color-action: oklch(0.504 0.055 204);
+  --color-action: oklch(0.404 0.055 204);
   --color-primary: oklch(0.743 0.181 46);
   --color-primary-light: oklch(0.683 0.181 46);
   --color-primary-dark: oklch(0.803 0.181 46);
@@ -75,7 +73,7 @@
   --color-button-contrast: var(--color-contrast);
   --color-card-hover: var(--color-neutral-900);
 
-  --color-search-contrast: var(--color-inverse);
+  --color-search-contrast: var(--color-black);
   --color-item-hover-contrast: var(--color-inverse);
   --color-prompt: var(--color-contrast);
 
@@ -92,7 +90,7 @@
   .drawer {
     overflow: hidden;
     display: block;
-    width: 16rem;
+    width: 18rem;
 
     @apply transition-all  duration-300 ease-in-out;
   }
@@ -104,7 +102,7 @@
   }
 
   .drawer:not(.open) {
-    left: -16rem;
+    left: -18rem;
     opacity: 1;
   }
 }

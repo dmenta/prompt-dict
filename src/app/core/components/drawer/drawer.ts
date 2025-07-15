@@ -14,7 +14,7 @@ import { Component, OnDestroy, Renderer2, signal } from "@angular/core";
         <ng-content select="[drawer-title]"></ng-content>
       </h5>
       <div class="w-full absolute top-14 bottom-0 right-0 overflow-x-hidden overflow-y-auto">
-        <div class="px-2  pt-4 h-full">
+        <div class="pt-4 h-full">
           <ng-content> </ng-content>
         </div>
       </div>

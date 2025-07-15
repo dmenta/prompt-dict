@@ -5,7 +5,7 @@ import { PersistService } from "../../../core/services/persist.service";
 @Component({
   selector: "pd-nav-list",
   imports: [NavItem],
-  template: `<div class="space-y-4 w-full h-full">
+  template: `<div class="space-y-1 w-full h-full">
     @for(item of items(); track item.slug) {
     <pd-nav-item [slug]="item.slug" [text]="item.text" [paramName]="list()" [cantidad]="item.cantidad"></pd-nav-item>
     }

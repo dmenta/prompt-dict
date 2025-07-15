@@ -17,11 +17,11 @@ import { RouterLink } from "@angular/router";
       </div>
     </a>
     <div
-      class="relative prompt w-full opacity-90 group-hover:opacity-100 text-prompt
+      class="relative prompt w-full opacity-85 group-hover:opacity-100 text-prompt
       transition-opacity duration-150 px-4 ">
       <!-- <div class="prompt-id">ID: {{ promptOk.id }}</div> -->
       <!-- <div class="category">Category: {{ promptOk.categoria }}</div> -->
-      <div class="prompt-text font-merri py-6 text-lg/8 italic">{{ promptOk.prompt }}</div>
+      <div class="prompt-text font-merri font-[370] py-6 text-lg/8 italic">{{ promptOk.prompt }}</div>
       <div>{{ promptOk.descripcion }}</div>
       <!-- <div class="author">Author: {{ promptOk.autor }}</div> -->
 
@@ -46,7 +46,7 @@ import { RouterLink } from "@angular/router";
   `,
   host: {
     class:
-      "select-none relative inline-block group px-2  py-4  shadow-md/40 shadow-black/40 dark:shadow-black/70  bg-card hover:bg-card-hover transition-colors duration-150",
+      "select-none relative inline-block group px-2  py-4  shadow-md/50 shadow-black/60 dark:shadow-black/50  bg-card hover:bg-card-hover  dark:hover:bg-card-hover/30 transition-colors duration-150",
   },
 })
 export class DisplayPrompt {
