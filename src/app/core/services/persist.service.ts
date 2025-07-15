@@ -9,7 +9,6 @@ import { Tag } from "../../features/tags/tag";
 })
 export class PersistService {
   private promptsList = promptsNormalizados;
-
   public prompts = signal(this.promptsList);
   public categories = signal<CategoryInfo[]>([]);
   public tags = signal<Tag[]>([]);
@@ -90,6 +89,10 @@ export class PersistService {
       info: tag,
       prompts: prompts,
     };
+  }
+
+  prompt(id: number) {
+    return this.prompts().find((prompt) => prompt.id === id) || null;
   }
 
   private slugifyCategoryName(name: string): string {

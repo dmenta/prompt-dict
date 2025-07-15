@@ -1,19 +1,46 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, signal } from "@angular/core";
 import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
 import { PersistService } from "../../core/services/persist.service";
 import { Title } from "@angular/platform-browser";
+import { Prompt } from "../../features/prompts/prompt";
+import { ActivatedRoute, Params } from "@angular/router";
 
 @Component({
   selector: "pd-prompts",
   imports: [PromptsList],
-  template: `<pd-prompts-list [prompts]="todos()"></pd-prompts-list>`,
+  template: `<pd-prompts-list [prompts]="prompts()"></pd-prompts-list>`,
 })
 export class Prompts {
   persistService = inject(PersistService);
+  private activatedRoute = inject(ActivatedRoute);
 
-  todos = this.persistService.prompts;
+  prompts = signal<Prompt[]>([] as Prompt[]);
 
   constructor(private title: Title) {
-    this.title.setTitle("Todos los prompts");
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      if (params["search"]) {
+        const searchTerm = params["search"].toLowerCase();
+        this.prompts.set(
+          this.persistService.prompts().filter((prompt) => prompt.prompt.toLowerCase().includes(searchTerm))
+        );
+      } else if (params["tag"]) {
+        const tagPrompts = this.persistService.tags().filter((tag) => tag.slug === params["tag"]);
+        this.title.setTitle(`Etiqueta | ${tagPrompts[0].text}`);
+        const prompts = tagPrompts[0].prompts || [];
+        this.prompts.set(prompts);
+      } else if (params["category"]) {
+        const { info, prompts } = this.persistService.promptsOfCategory(params["category"]);
+        if (info) {
+          this.title.setTitle(`Categoría | ${info.name}`);
+          this.prompts.set(prompts);
+        } else {
+          this.title.setTitle("Categoría no encontrada");
+          this.prompts.set([]);
+        }
+      } else {
+        this.prompts.set(this.persistService.prompts());
+        this.title.setTitle("Todos los prompts");
+      }
+    });
   }
 }

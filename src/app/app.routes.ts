@@ -2,23 +2,20 @@ import { Routes } from "@angular/router";
 
 export const routes: Routes = [
   {
-    path: "",
+    path: "prompts",
     loadComponent: () => import("./pages/prompts/prompts").then((m) => m.Prompts),
   },
 
   {
-    path: "prompts",
-    redirectTo: "",
+    path: "prompt/:id",
+    loadComponent: () => import("./pages/prompt-detail/prompt-detail").then((m) => m.PromptDetail),
     pathMatch: "full",
   },
-  //prompts por categories usando el slug
+
   {
-    path: "categories/:slug",
-    loadComponent: () => import("./pages/prompts-category/prompts-category").then((m) => m.PromptsByCategory),
-  },
-  {
-    path: "tags/:slug",
-    loadComponent: () => import("./pages/prompts-tag/prompts-tag").then((m) => m.PromptsByTag),
+    path: "",
+    redirectTo: "prompts",
+    pathMatch: "full",
   },
 
   { path: "**", redirectTo: "" }, // Redirect to home for any unknown routes

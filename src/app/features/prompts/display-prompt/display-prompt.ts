@@ -1,16 +1,19 @@
 import { Component, input, signal } from "@angular/core";
 import { Prompt } from "../prompt";
 import { CopyActions } from "../../../core/components/action-button/copy-actions/copy-actions";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "pd-display-prompt",
-  imports: [CopyActions],
+  imports: [CopyActions, RouterLink],
 
   template: `
     @if(prompt(); as promptOk) {
-    <div class="text-azul-500  px-4 text-xl font-semibold uppercase" style="text-wrap: balance">
-      {{ promptOk.titulo }}
-    </div>
+    <a [routerLink]="['/prompt', promptOk.id]">
+      <div class="text-azul-500  px-4 text-xl font-semibold uppercase" style="text-wrap: balance">
+        {{ promptOk.titulo }}
+      </div>
+    </a>
     <div
       class="relative prompt w-full group-hover:opacity-100 text-black 
       transition-opacity duration-150 px-4 ">

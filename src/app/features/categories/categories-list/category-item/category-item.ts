@@ -5,7 +5,11 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
 @Component({
   selector: "pd-category-item",
   imports: [RouterLink, RouterLinkActive],
-  template: ` <a [routerLink]="['./categories', info().slug]" routerLinkActive #rla="routerLinkActive"
+  template: ` <a
+    [routerLink]="['./prompts']"
+    [queryParams]="{ category: info().slug }"
+    routerLinkActive
+    #rla="routerLinkActive"
     ><button
       [disabled]="rla.isActive"
       class="inline-flex items-center whitespace-nowrap rounded-md  font-medium ring-offset-background
