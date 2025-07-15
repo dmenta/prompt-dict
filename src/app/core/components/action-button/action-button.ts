@@ -7,9 +7,9 @@ import { fromEvent, Subscription } from "rxjs";
   template: `<button
     #pdbutton
     (click)="onClick($event)"
-    class="action-button shadow-md/80 rounded-full shadow-black/60  text-white bg-azul-500 
+    class="action-button shadow-md/80 rounded-full shadow-black/60  text-white dark:text-blue-900 dark:bg-white bg-azul-500 
     active:scale-95 transition-transform duration-100
-     w-10 h-10 flex items-center justify-center">
+     w-10 h-10 flex items-center  justify-center">
     <ng-content></ng-content>
   </button> `,
   host: {

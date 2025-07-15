@@ -22,7 +22,7 @@ export class PromptDetail {
     this.activatedRoute.params.subscribe((params: Params) => {
       const id = Number(params["id"]);
       if (Number.isInteger(id) && Number.isFinite(id)) {
-        const prompt = this.persistService.prompt(id);
+        const prompt = this.persistService.byId(id);
         this.prompt.set(prompt);
 
         this.title.setTitle(`Prompt | Información detallada`);

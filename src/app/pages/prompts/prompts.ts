@@ -19,17 +19,16 @@ export class Prompts {
   constructor(private title: Title) {
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       if (params["search"]) {
-        const searchTerm = params["search"].toLowerCase();
-        this.prompts.set(
-          this.persistService.prompts().filter((prompt) => prompt.prompt.toLowerCase().includes(searchTerm))
-        );
+        const searchTerm = <string>params["search"].trim().toLowerCase();
+        this.title.setTitle(`Búsqueda | Resultado para '${searchTerm}'`);
+        this.prompts.set(this.persistService.search(searchTerm).prompts || []);
       } else if (params["tag"]) {
         const tagPrompts = this.persistService.tags().filter((tag) => tag.slug === params["tag"]);
         this.title.setTitle(`Etiqueta | ${tagPrompts[0].text}`);
         const prompts = tagPrompts[0].prompts || [];
         this.prompts.set(prompts);
       } else if (params["category"]) {
-        const { info, prompts } = this.persistService.promptsOfCategory(params["category"]);
+        const { info, prompts } = this.persistService.byCategory(params["category"]);
         if (info) {
           this.title.setTitle(`Categoría | ${info.name}`);
           this.prompts.set(prompts);

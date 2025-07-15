@@ -69,7 +69,7 @@ export class PersistService {
     );
   }
 
-  promptsOfCategory(slug: string): { info: CategoryInfo; prompts: Prompt[] } {
+  byCategory(slug: string): { info: CategoryInfo; prompts: Prompt[] } {
     const category = this.categories().find((cat) => cat.slug === slug);
 
     if (!category) {
@@ -78,7 +78,7 @@ export class PersistService {
     return { info: category, prompts: this.prompts().filter((prompt) => prompt.categoria === category.name) };
   }
 
-  promptsOfTag(tag: string): { info: string | null; prompts: Prompt[] } {
+  byTag(tag: string): { info: string | null; prompts: Prompt[] } {
     const prompts = this.prompts().filter((prompt) => prompt.tags.some((t) => t.toLowerCase() === tag.toLowerCase()));
 
     if (prompts.length === 0) {
@@ -91,7 +91,21 @@ export class PersistService {
     };
   }
 
-  prompt(id: number) {
+  search(searchTerm: string): { info: string | null; prompts: Prompt[] } {
+    const prompts = this.prompts().filter((prompt) => prompt.prompt.toLowerCase().indexOf(searchTerm) > -1);
+
+    console.log("Search results for:", searchTerm, "Found prompts:", prompts.length);
+    if (prompts.length === 0) {
+      return { info: searchTerm, prompts: [] };
+    }
+
+    return {
+      info: searchTerm,
+      prompts: prompts,
+    };
+  }
+
+  byId(id: number) {
     return this.prompts().find((prompt) => prompt.id === id) || null;
   }
 

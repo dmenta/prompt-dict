@@ -10,12 +10,14 @@ import { RouterLink } from "@angular/router";
   template: `
     @if(prompt(); as promptOk) {
     <a [routerLink]="['/prompt', promptOk.id]">
-      <div class="text-azul-500  px-4 text-xl font-semibold uppercase" style="text-wrap: balance">
+      <div
+        class="dark:text-blue-300 text-azul-500  px-4 text-xl font-semibold uppercase opacity-85 group-hover:opacity-100"
+        style="text-wrap: balance">
         {{ promptOk.titulo }}
       </div>
     </a>
     <div
-      class="relative prompt w-full group-hover:opacity-100 text-black 
+      class="relative prompt w-full opacity-90 group-hover:opacity-100 dark:text-white text-black 
       transition-opacity duration-150 px-4 ">
       <!-- <div class="prompt-id">ID: {{ promptOk.id }}</div> -->
       <!-- <div class="category">Category: {{ promptOk.categoria }}</div> -->
@@ -44,7 +46,7 @@ import { RouterLink } from "@angular/router";
   `,
   host: {
     class:
-      "select-none relative inline-block group px-2 py-4  shadow-md/40 shadow-black/60 hover:bg-gray-200 transition-colors duration-150",
+      "select-none relative inline-block group px-2 dark:bg-gray-800 bg-gray-50 py-4  shadow-md/40 shadow-black/40 dark:shadow-black/70 dark:hover:bg-gray-900 hover:bg-white transition-colors duration-150",
   },
 })
 export class DisplayPrompt {

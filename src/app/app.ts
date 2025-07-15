@@ -1,10 +1,11 @@
-import { Component, computed, signal } from "@angular/core";
+import { Component, computed, inject, signal } from "@angular/core";
 import { Drawer } from "./core/components/drawer/drawer";
 import { Header } from "./core/components/header/header";
 import { CategoriesList } from "./features/categories/categories-list/categories-list";
 import { StatusNotification } from "./core/components/notification/notification.component";
 import { RouterOutlet } from "@angular/router";
 import { TagsList } from "./features/tags/tags-list/tags-list";
+import { DarkModeService } from "./core/services/dark-mode.service";
 
 @Component({
   selector: "pd-root",
@@ -18,7 +19,9 @@ import { TagsList } from "./features/tags/tags-list/tags-list";
           class="flex items-center justify-between w-full"
           [class.flex-row]="list() === 'categories'"
           [class.flex-row-reverse]="list() === 'tags'">
-          <span class="font-semibold text-pink-950" (click)="$event.stopImmediatePropagation()">{{ activo() }}</span>
+          <span class="font-semibold text-black dark:text-white" (click)="$event.stopImmediatePropagation()">{{
+            activo()
+          }}</span>
           <span (click)="onClick($event, list() === 'categories' ? 'tags' : 'categories')">{{ inactivo() }}</span>
         </div>
 
@@ -36,6 +39,7 @@ import { TagsList } from "./features/tags/tags-list/tags-list";
   `,
 })
 export class App {
+  mode = inject(DarkModeService);
   list = signal<"categories" | "tags">("categories");
 
   onClick(event: MouseEvent, what: "categories" | "tags") {
