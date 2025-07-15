@@ -5,7 +5,7 @@ import { Component, OnDestroy, Renderer2, signal } from "@angular/core";
   imports: [],
   template: `
     <div
-      class="drawer  shadow-lg/60 dark:shadow-lg/70   absolute top-0   z-10 dark:shadow-black shadow-black/80  bg-drawer h-screen overflow-hidden"
+      class="drawer  shadow-lg/60 dark:shadow-lg/70   fixed top-0   z-10 dark:shadow-black shadow-black/80  bg-drawer h-screen overflow-hidden"
       [class.open]="isOpen()"
       (click)="onClick()">
       <h5

@@ -8,9 +8,9 @@ import { ActivatedRoute, Params } from "@angular/router";
 @Component({
   selector: "pd-prompts",
   imports: [PromptsList],
-  template: `<pd-prompts-list class="p-4" [prompts]="prompts()"></pd-prompts-list>`,
+  template: `<pd-prompts-list class="p-4 " [prompts]="prompts()"></pd-prompts-list>`,
   host: {
-    class: " w-full",
+    class: " w-full ",
   },
 })
 export class Prompts {

@@ -35,14 +35,11 @@ import { RouterLink } from "@angular/router";
       hover:opacity-100 transition-opacity"
         tabindex="2"
         [promptText]="promptOk.prompt"
-        [promptUrl]="promptOk.id ? this.baseUrl() + '/prompts/' + promptOk.id : null"></pd-copy-actions>
+        [promptUrl]="promptOk.id ? this.baseUrl() + '/prompt/' + promptOk.id : null"></pd-copy-actions>
     </div>
     } @else{
     <div class="no-prompt">No prompt available</div>
     }
-    <div
-      tabindex="2"
-      class="absolute bg-transparent top-0 right-0 bottom-0 left-0 z-2 focus:hidden  group-focus:block hidden"></div>
   `,
   host: {
     class:

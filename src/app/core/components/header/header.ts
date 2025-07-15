@@ -10,8 +10,8 @@ import { ModeToggle } from "../mode-toggle/mode-toggle";
   selector: "pd-header",
   imports: [RouterLink, Searcher, ModeToggle],
   template: ` <div
-    class="sticky top-0  right-0 left-0  h-14  flex items-center
-           justify-start px-2 gap-2   bg-header text-header-contrast">
+    class="h-14 flex items-center
+           justify-start px-2 gap-2  z-10  bg-header text-header-contrast">
     <a
       [routerLink]="['./']"
       [queryParams]="previousRouteService.previousParams()"

@@ -10,8 +10,8 @@ import { DarkModeService } from "./core/services/dark-mode.service";
   selector: "pd-root",
   imports: [NavList, Drawer, Header, StatusNotification, RouterOutlet],
   template: `
-    <div class="p-0 m-0 overflow-hidden w-screen h-screen select-none ">
-      <pd-header class="z-10" (open)="drawer.show()"></pd-header>
+    <div class="p-0 m-0  w-full h-full select-none">
+      <pd-header class="sticky left-0 top-0  z-10" (open)="drawer.show()"></pd-header>
       <pd-drawer class="w-fit  select-none" #drawer>
         <div
           drawer-title
@@ -28,7 +28,7 @@ import { DarkModeService } from "./core/services/dark-mode.service";
 
         <pd-nav-list [list]="list()"></pd-nav-list>
       </pd-drawer>
-      <div class="h-[calc(100svh_-_3.5rem)] overflow-hidden flex flex-row">
+      <div class="flex flex-row w-full">
         <router-outlet></router-outlet>
       </div>
     </div>
