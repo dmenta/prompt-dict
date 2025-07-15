@@ -10,8 +10,8 @@ import { ModeToggle } from "../mode-toggle/mode-toggle";
   selector: "pd-header",
   imports: [RouterLink, Searcher, ModeToggle],
   template: ` <div
-    class="h-14 flex items-center
-           justify-start px-2 gap-2  z-10  bg-header text-header-contrast">
+    class="h-14 flex  items-center overflow-hidden
+           justify-between px-3 gap-2  z-10  bg-header text-header-contrast">
     <a
       [routerLink]="['./']"
       [queryParams]="previousRouteService.previousParams()"
@@ -29,11 +29,11 @@ import { ModeToggle } from "../mode-toggle/mode-toggle";
         <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
       </svg>
     </button>
-    <div [class.hidden]="!hideBack()" class="w-full">
-      <h1 class="truncate lowercase first-letter:uppercase text-xl" [title]="titulo()">
+    <div [class.hidden]="!hideBack()" class="overflow-hidden w-full flex flex-col">
+      <h1 class="w-full inline-block truncate lowercase first-letter:uppercase text-xl" [title]="titulo()">
         {{ titulo() }}
       </h1>
-      <div [class.hidden]="subtitulo() === ''" class="truncate lowercase first-letter:uppercase text-xs mb-1">
+      <div [class.hidden]="subtitulo() === ''" class="truncate lowercase first-letter:uppercase text-xs">
         {{ subtitulo() }}
       </div>
     </div>
@@ -55,10 +55,11 @@ export class Header {
 
       const pageTitle = this.title.getTitle();
       const partes = pageTitle.split("|");
-      this.titulo.set(partes[0]);
       if (partes.length > 1) {
-        this.subtitulo.set(partes[1].trim());
+        this.titulo.set(partes[1].trim());
+        this.subtitulo.set(partes[0].trim());
       } else {
+        this.titulo.set(partes[0].trim());
         this.subtitulo.set("");
       }
     });

@@ -56,9 +56,9 @@
   --color-app-fore: var(--color-neutral-50);
 
   --color-action: oklch(0.695 0.181 46);
-  --color-primary: var(--color-azul-300);
-  --color-primary-light: var(--color-azul-400);
-  --color-primary-dark: var(--color-azul-200);
+  --color-primary: oklch(0.654 0.055 204);
+  --color-primary-light: oklch(0.594 0.055 204);
+  --color-primary-dark: oklch(0.794 0.055 204);
 
   --color-contrast: var(--color-white);
   --color-inverse: var(--color-white);
@@ -73,11 +73,11 @@
   --color-button-contrast: var(--color-contrast);
   --color-card-hover: var(--color-neutral-900);
 
-  --color-search-contrast: var(--color-inverse);
+  --color-search-contrast: var(--color-black);
   --color-item-hover-contrast: var(--color-inverse);
   --color-prompt: var(--color-contrast);
 
-  --color-search: var(--color-neutral-800);
+  --color-search: var(--color-neutral-50);
   --color-placeholder: var(--color-neutral-400);
   --color-drawer: var(--color-neutral-800);
   --color-drawer-header: var(--color-neutral-800);

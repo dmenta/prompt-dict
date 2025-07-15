@@ -31,7 +31,7 @@ export class PromptDetail {
         const prompt = this.persistService.byId(id);
         this.prompt.set(prompt);
 
-        this.title.setTitle(`Prompt | Información detallada`);
+        this.title.setTitle(`Prompt | ${this.prompt()?.titulo || "No encontrado"}`);
       }
     });
   }
