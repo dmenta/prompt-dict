@@ -13,5 +13,5 @@ import { LabelItem } from "./label-item";
 })
 export class LabelValueItem {
     label = input<string>("");
-    value = input<string | number | boolean | Date | undefined | string[]>(undefined);
+    value = input<string | number | boolean | Date | undefined | string[] | null>(undefined);
 }

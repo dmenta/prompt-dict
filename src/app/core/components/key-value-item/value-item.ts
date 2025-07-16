@@ -7,7 +7,9 @@ import { Component, computed, input } from "@angular/core";
     host: { class: "text-md text-inverse" },
 })
 export class ValueItem {
-    value = input<string | number | boolean | Date | undefined | string[]>(undefined, { alias: "pd-value-item" });
+    value = input<string | number | boolean | Date | undefined | string[] | null>(undefined, {
+        alias: "pd-value-item",
+    });
 
     private rtfes = new Intl.RelativeTimeFormat("es", { numeric: "auto" });
     valueText = computed(() => {

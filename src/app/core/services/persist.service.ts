@@ -81,24 +81,59 @@ export class PersistService {
         return { name: tag.text, prompts: tag.prompts || [] };
     }
 
-    search(searchTerm: string): { info: string | null; prompts: Prompt[] } {
-        const prompts = this.prompts().filter(
-            (prompt) =>
-                prompt.prompt.toLowerCase().indexOf(searchTerm) > -1 ||
-                prompt.tags.some((tag) => tag.toLowerCase().indexOf(searchTerm) > -1)
-        );
+    search(searchTerm: string): ResultadoBusqueda {
+        searchTerm = searchTerm.trim().toLowerCase();
+        const categorias = this.categories().filter((cat) => cat.text.toLowerCase().includes(searchTerm));
+        const etiquetas = this.tags().filter((tag) => tag.text.toLowerCase().includes(searchTerm));
 
-        console.log("Search results for:", searchTerm, "Found prompts:", prompts.length);
-        if (prompts.length === 0) {
-            return { info: searchTerm, prompts: [] };
+        const allPrompts = this.prompts();
+        const prompts = [] as { item: Prompt; foundIn: foundInKey; position: number }[];
+        let i = 0;
+        for (i = 0; i < allPrompts.length; i++) {
+            const item = allPrompts[i];
+            if (prompts.length >= 10) break;
+            let index = item.titulo.toLowerCase().indexOf(searchTerm);
+            if (index >= 0) {
+                prompts.push({ item, foundIn: "titulo", position: index });
+                continue;
+            }
+            index = item.prompt.toLowerCase().indexOf(searchTerm);
+            if (index >= 0) {
+                prompts.push({ item, foundIn: "prompt", position: index });
+                continue;
+            }
+            index = item.descripcion.toLowerCase().indexOf(searchTerm);
+            if (index >= 0) {
+                prompts.push({ item, foundIn: "descripcion", position: index });
+                continue;
+            }
+            index = item.autor.toLowerCase().indexOf(searchTerm);
+            if (index >= 0) {
+                prompts.push({ item, foundIn: "autor", position: index });
+                continue;
+            }
+            if (item.categoria.toLowerCase() === searchTerm) {
+                prompts.push({ item, foundIn: "categoria", position: 0 });
+                continue;
+            }
+            if (item.tags.some((tag) => tag.toLowerCase() === searchTerm)) {
+                prompts.push({ item, foundIn: "tags", position: 0 });
+                continue;
+            }
+        }
+
+        if (prompts.length === 0 && etiquetas.length === 0) {
+            return { search: searchTerm, categorias: [], etiquetas: [], found: [] };
+        } else {
         }
 
         return {
-            info: searchTerm,
-            prompts: prompts,
+            search: searchTerm,
+            categorias: categorias.map((cat) => cat.text),
+            etiquetas: etiquetas.map((tag) => tag.text),
+            found: prompts.sort((a, b) => a.position - b.position),
         };
     }
-
     byId(id: number) {
         return this.prompts().find((prompt) => prompt.id === id) || null;
     }
@@ -110,3 +145,12 @@ export class PersistService {
             .replace(/[^\w-]/g, "");
     }
 }
+
+export type ResultadoBusqueda = {
+    search: string;
+    categorias: string[];
+    etiquetas: string[];
+    found: { item: Prompt; foundIn: foundInKey; position: number }[];
+};
+
+export type foundInKey = "titulo" | "prompt" | "descripcion" | "autor" | "categoria" | "tags";

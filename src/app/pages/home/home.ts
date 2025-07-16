@@ -3,7 +3,6 @@ import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
 import { PersistService } from "../../core/services/persist.service";
 import { Title } from "@angular/platform-browser";
 import { Prompt } from "../../features/prompts/prompt";
-import { ActivatedRoute, Params } from "@angular/router";
 import { MainHeader } from "../../core/components/header/main-header";
 import { Drawer } from "../../core/components/drawer/drawer";
 import { NavList } from "../../features/navigation/nav-list/nav-list";
@@ -40,8 +39,6 @@ import { NavList } from "../../features/navigation/nav-list/nav-list";
 })
 export class Home {
     private persistService = inject(PersistService);
-    private activatedRoute = inject(ActivatedRoute);
-
     list = signal<"category" | "tag">("category");
     prompts = signal<Prompt[]>([] as Prompt[]);
 
