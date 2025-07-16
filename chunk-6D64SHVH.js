@@ -1,0 +1,1 @@
+import{Aa as n,Va as a,Wa as i,hb as s}from"./chunk-DP5DL4RR.js";var c=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=n({type:t,selectors:[["pd-searching"]],decls:2,vars:0,template:function(e,r){e&1&&(a(0,"p"),s(1," searching works! "),i())},encapsulation:2})};export{c as Searching};
