@@ -1,0 +1,1 @@
+import{a as c}from"./chunk-XYSAVG3P.js";import{l as r,o as e}from"./chunk-G3VICSN5.js";var a=class i{notificationService=e(c);copy(o,t){navigator.clipboard.writeText(o),this.notificationService.success(t??"Copied to clipboard!")}static \u0275fac=function(t){return new(t||i)};static \u0275prov=r({token:i,factory:i.\u0275fac,providedIn:"root"})};export{a};
