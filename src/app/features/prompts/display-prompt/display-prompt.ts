@@ -26,7 +26,7 @@ import { RouterLink } from "@angular/router";
       hover:opacity-100 transition-all group-focus:pointer-events-auto group-hover:pointer-events-auto"
                 tabindex="2"
                 [promptText]="promptOk.prompt"
-                [promptUrl]="promptOk.id ? this.baseUrl() + '/prompt/' + promptOk.id : null"></pd-copy-actions>
+                [promptUrl]="promptOk.id ? this.baseUrl() + 'prompt/' + promptOk.id : null"></pd-copy-actions>
         </div>
         } @else{
         <div class="no-prompt">No prompt available</div>
@@ -40,5 +40,5 @@ export class DisplayPrompt {
     visible = signal(false);
 
     prompt = input<Prompt | null>(null);
-    baseUrl = input<string>(window.location.origin);
+    baseUrl = input<string>(window.location.origin + window.location.pathname);
 }

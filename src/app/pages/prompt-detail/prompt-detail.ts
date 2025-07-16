@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from "@angular/core";
+import { Component, inject, signal } from "@angular/core";
 import { Prompt } from "../../features/prompts/prompt";
 import { PersistService } from "../../core/services/persist.service";
 import { ActivatedRoute, Params } from "@angular/router";
@@ -6,48 +6,18 @@ import { Title } from "@angular/platform-browser";
 import { DetailHeader } from "../../core/components/header/detail-header";
 import { CopyService } from "../../core/services/copy.service";
 import { PromptNotFound } from "../../features/prompts/prompt-not-found/prompt-not-found";
+import { LabelValueItem } from "../../core/components/key-value-item/label-value-item";
 
 @Component({
     selector: "pd-prompt-detail",
-    imports: [DetailHeader, PromptNotFound],
+    imports: [DetailHeader, PromptNotFound, LabelValueItem],
     template: `<header pd-detail-header [titulo]="titulo()" (copyPrompt)="onCopyPrompt()"></header>
         <div class="px-6 py-6 w-full">
             @if(prompt(); as promptOk) {
             <ul class="divide-y-[0.5px] space-y-2">
-                <li class="flex flex-col  pt-1 pb-3 items-start justify-center">
-                    <div class="text-sm text-inverse opacity-80">Título</div>
-                    <div class="text-md text-inverse">{{ promptOk.titulo }}</div>
-                </li>
-                <li class="flex flex-col  pt-1 pb-3 items-start justify-center">
-                    <div class="text-sm text-inverse opacity-80 ">Texto</div>
-                    <div class="text-md text-inverse">{{ promptOk.prompt }}</div>
-                </li>
-                <li class="flex flex-col  pt-1 pb-3 items-start justify-center">
-                    <div class="text-sm text-inverse opacity-80">Descripción</div>
-                    <div class="text-md text-inverse">{{ promptOk.descripcion }}</div>
-                </li>
-                <li class="flex flex-col  pt-1 pb-3 items-start justify-center">
-                    <div class="text-sm text-inverse opacity-80">Autor</div>
-                    <div class="text-md text-inverse">{{ promptOk.autor }}</div>
-                </li>
-                <li class="flex flex-col  pt-1 pb-3 items-start justify-center">
-                    <div class="text-sm text-inverse opacity-80">Categoría</div>
-                    <div class="text-md text-inverse">{{ promptOk.categoria }}</div>
-                </li>
-                <li class="flex flex-col  pt-1 pb-3 items-start justify-center">
-                    <div class="text-sm text-inverse opacity-80">Creado</div>
-                    <div class="text-md text-inverse">
-                        {{ promptOk.fechaCreacion.toLocaleDateString() }}
-                    </div>
-                </li>
-                <li class="flex flex-col  pt-1 pb-3 items-start justify-center">
-                    <div class="text-sm text-inverse opacity-80">Etiquetas</div>
-                    <div class="text-md text-inverse">{{ promptOk.tags.join(", ") }}</div>
-                </li>
-                <li class="flex flex-col  pt-1 pb-3 items-start justify-center">
-                    <div class="text-sm text-inverse opacity-80">ID</div>
-                    <div class="text-md text-inverse">{{ promptOk.id }}</div>
-                </li>
+                @for( property of displayProperties; track property.key) {
+                <li pd-key-value-item [label]="property.label" [value]="promptOk[property.key]"></li>
+                }
             </ul>
             } @else {
             <pd-prompt-not-found></pd-prompt-not-found>}
@@ -60,8 +30,18 @@ export class PromptDetail {
     persistService = inject(PersistService);
     activatedRoute = inject(ActivatedRoute);
     copyService = inject(CopyService);
-
     prompt = signal<Prompt | null>(null);
+
+    displayProperties: { label: string; key: keyof Prompt }[] = [
+        { label: "Título", key: "titulo" },
+        { label: "Texto", key: "prompt" },
+        { label: "Descripción", key: "descripcion" },
+        { label: "Autor", key: "autor" },
+        { label: "Categoría", key: "categoria" },
+        { label: "Creado", key: "fechaCreacion" },
+        { label: "Etiquetas", key: "tags" },
+        { label: "ID", key: "id" },
+    ];
     titulo = signal<string>("");
 
     onCopyPrompt() {
