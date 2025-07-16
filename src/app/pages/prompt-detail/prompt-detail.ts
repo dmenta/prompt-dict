@@ -7,11 +7,16 @@ import { DetailHeader } from "../../core/components/header/detail-header";
 import { CopyService } from "../../core/services/copy.service";
 import { PromptNotFound } from "../../features/prompts/prompt-not-found/prompt-not-found";
 import { LabelValueItem } from "../../core/components/key-value-item/label-value-item";
+import { NotificationService } from "../../core/services/notification.service";
 
 @Component({
     selector: "pd-prompt-detail",
     imports: [DetailHeader, PromptNotFound, LabelValueItem],
-    template: `<header pd-detail-header [titulo]="titulo()" (copyPrompt)="onCopyPrompt()"></header>
+    template: `<header
+            pd-detail-header
+            [titulo]="titulo()"
+            (copyPrompt)="onCopyPrompt($event)"
+            (share)="onShare($event)"></header>
         <div class="px-6 py-6 w-full">
             @if(prompt(); as promptOk) {
             <ul class="divide-y-[0.5px] space-y-2">
@@ -30,6 +35,9 @@ export class PromptDetail {
     persistService = inject(PersistService);
     activatedRoute = inject(ActivatedRoute);
     copyService = inject(CopyService);
+    notifier = inject(NotificationService);
+
+    url = signal<string>(window.location.origin + window.location.pathname);
     prompt = signal<Prompt | null>(null);
 
     displayProperties: { label: string; key: keyof Prompt }[] = [
@@ -44,10 +52,30 @@ export class PromptDetail {
     ];
     titulo = signal<string>("");
 
-    onCopyPrompt() {
+    onCopyPrompt(event: MouseEvent) {
+        event.stopPropagation();
+
         const promptText = this.prompt()?.prompt;
         if (promptText) {
             this.copyService.copy(promptText);
+        }
+    }
+
+    async onShare(event: MouseEvent) {
+        event.stopPropagation();
+
+        const prompt = this.prompt()!;
+        const url = this.url();
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: prompt.titulo,
+                    text: prompt.prompt,
+                    url: url,
+                });
+            } catch (error) {
+                console.warn("Error al compartir el prompt:", error);
+            }
         }
     }
 

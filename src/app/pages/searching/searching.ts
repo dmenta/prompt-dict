@@ -1,12 +1,11 @@
 import { Component, inject, signal } from "@angular/core";
 import { SearchHeader } from "../../core/components/header/search-header";
 import { PersistService } from "../../core/services/persist.service";
-import { LabelItem } from "../../core/components/key-value-item/label-item";
 import { NgClass } from "@angular/common";
 
 @Component({
     selector: "pd-searching",
-    imports: [SearchHeader, LabelItem, NgClass],
+    imports: [SearchHeader, NgClass],
     template: `<header pd-search-header (search)="onSearch($event)"></header>
         <div class="px-6 py-4">
             @if(etiquetas().length > 0) {

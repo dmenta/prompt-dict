@@ -68,6 +68,7 @@ export class PersistService {
         if (!category) {
             return null;
         }
+
         return { name: category.text, prompts: category.prompts || [] };
     }
 
@@ -79,6 +80,10 @@ export class PersistService {
         }
 
         return { name: tag.text, prompts: tag.prompts || [] };
+    }
+
+    byId(id: number) {
+        return this.prompts().find((prompt) => prompt.id === id) || null;
     }
 
     search(searchTerm: string): ResultadoBusqueda {
@@ -133,9 +138,6 @@ export class PersistService {
             etiquetas: etiquetas.map((tag) => tag.text),
             found: prompts.sort((a, b) => a.position - b.position),
         };
-    }
-    byId(id: number) {
-        return this.prompts().find((prompt) => prompt.id === id) || null;
     }
 
     private slugify(name: string): string {

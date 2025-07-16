@@ -13,7 +13,7 @@ export const promptsNormalizados: Prompt[] = [
         categoria: "Vínculos y Emociones",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fechaCreacion: new Date("2025-07-16"),
     },
     {
         id: 2,
@@ -26,7 +26,7 @@ export const promptsNormalizados: Prompt[] = [
         categoria: "Vínculos y Emociones",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fechaCreacion: new Date("2025-07-08"),
     },
     {
         id: 3,
@@ -39,7 +39,7 @@ export const promptsNormalizados: Prompt[] = [
         categoria: "Vínculos y Emociones",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fechaCreacion: new Date("2025-07-01"),
     },
     {
         id: 4,
@@ -52,7 +52,7 @@ export const promptsNormalizados: Prompt[] = [
         categoria: "Vínculos y Emociones",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fechaCreacion: new Date("2025-06-15"),
     },
     {
         id: 5,
@@ -66,7 +66,7 @@ export const promptsNormalizados: Prompt[] = [
         categoria: "Vínculos y Emociones",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fechaCreacion: new Date("2025-05-11"),
     },
     {
         id: 6,
