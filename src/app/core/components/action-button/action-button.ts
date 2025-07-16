@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit, output, ViewChild } from "@angular/core";
-import { fromEvent, Subscription } from "rxjs";
+import { Component, output } from "@angular/core";
 
 @Component({
   selector: "pd-action-button",
@@ -16,27 +15,10 @@ import { fromEvent, Subscription } from "rxjs";
     class: "inline-block",
   },
 })
-export class ActionButton implements OnInit, OnDestroy {
-  subscript: Subscription | null = null;
-  @ViewChild("pdbutton") pdbutton: HTMLButtonElement | null = null;
+export class ActionButton {
   clicked = output<MouseEvent | TouchEvent>();
-
-  ngOnInit() {
-    if (window.ontouchstart && this.pdbutton) {
-      this.subscript = fromEvent(this.pdbutton, "touchstart", { passive: true }).subscribe((event) => {
-        console.log("Touch event detected");
-        this.clicked.emit(event as TouchEvent);
-      });
-    }
-  }
 
   onClick(event: MouseEvent) {
     this.clicked.emit(event);
-  }
-
-  ngOnDestroy() {
-    if (this.subscript) {
-      this.subscript.unsubscribe();
-    }
   }
 }

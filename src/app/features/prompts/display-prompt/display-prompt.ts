@@ -4,51 +4,41 @@ import { CopyActions } from "../../../core/components/action-button/copy-actions
 import { RouterLink } from "@angular/router";
 
 @Component({
-  selector: "pd-display-prompt",
-  imports: [CopyActions, RouterLink],
+    selector: "pd-display-prompt, [pd-display-prompt]",
+    imports: [CopyActions, RouterLink],
 
-  template: `
-    @if(prompt(); as promptOk) {
-    <a [routerLink]="['/prompt', promptOk.id]">
-      <div
-        class="text-primary-dark  px-4 text-xl font-semibold uppercase opacity-85 group-hover:opacity-100"
-        style="text-wrap: balance">
-        {{ promptOk.titulo }}
-      </div>
-    </a>
-    <div
-      class="relative prompt w-full opacity-85 group-hover:opacity-100 text-prompt
+    template: `
+        @if(prompt(); as promptOk) {
+        <a [routerLink]="['/prompt', promptOk.id]">
+            <div
+                class="text-primary-dark  px-4 text-xl font-semibold uppercase opacity-85 group-hover:opacity-100"
+                style="text-wrap: balance">
+                {{ promptOk.titulo }}
+            </div>
+        </a>
+        <div
+            class="relative prompt w-full opacity-85 group-hover:opacity-100 text-prompt
       transition-opacity duration-150 px-4 ">
-      <!-- <div class="prompt-id">ID: {{ promptOk.id }}</div> -->
-      <!-- <div class="category">Category: {{ promptOk.categoria }}</div> -->
-      <div class="prompt-text font-merri font-[370] py-6 text-lg/8 italic">{{ promptOk.prompt }}</div>
-      <div>{{ promptOk.descripcion }}</div>
-      <!-- <div class="author">Author: {{ promptOk.autor }}</div> -->
-
-      <!-- <div class="tags flex flex-wrap gap-1 mt-4 lowercase">
-        @for(tag of promptOk?.tags??[]; track tag) {
-          <span class="tag bg-xxx-300">{{ tag }}</span>
+            <div class="prompt-text font-merri font-[370] py-6 text-lg/8 italic">{{ promptOk.prompt }}</div>
+            <div>{{ promptOk.descripcion }}</div>
+            <pd-copy-actions
+                class="absolute bottom-3 right-5 pointer-events-none  transition-discrete opacity-0 hidden z-3 group-active:block group-hover:block group-focus:block group-focus:opacity-100   group-hover:opacity-80
+      hover:opacity-100 transition-all group-focus:pointer-events-auto group-hover:pointer-events-auto"
+                tabindex="2"
+                [promptText]="promptOk.prompt"
+                [promptUrl]="promptOk.id ? this.baseUrl() + '/prompt/' + promptOk.id : null"></pd-copy-actions>
+        </div>
+        } @else{
+        <div class="no-prompt">No prompt available</div>
         }
-      </div> -->
-      <pd-copy-actions
-        class="absolute bottom-3 right-5  opacity-0 hidden z-3 group-active:block group-hover:block group-focus:block group-focus:opacity-100   group-hover:opacity-80
-      hover:opacity-100 transition-opacity"
-        tabindex="2"
-        [promptText]="promptOk.prompt"
-        [promptUrl]="promptOk.id ? this.baseUrl() + '/prompt/' + promptOk.id : null"></pd-copy-actions>
-    </div>
-    } @else{
-    <div class="no-prompt">No prompt available</div>
-    }
-  `,
-  host: {
-    class:
-      "select-none relative inline-block group px-2  py-4  shadow-md/50 shadow-black/60 dark:shadow-black/50  bg-card hover:bg-card-hover  dark:hover:bg-card-hover/30 transition-colors duration-150",
-  },
+    `,
+    host: {
+        class: "select-none relative inline-block group px-2  py-4  shadow-md/50 shadow-black/60 dark:shadow-black/50  bg-card hover:bg-card-hover  dark:hover:bg-card-hover/30 transition-colors duration-150",
+    },
 })
 export class DisplayPrompt {
-  visible = signal(false);
+    visible = signal(false);
 
-  prompt = input<Prompt | null>(null);
-  baseUrl = input<string>(window.location.origin);
+    prompt = input<Prompt | null>(null);
+    baseUrl = input<string>(window.location.origin);
 }

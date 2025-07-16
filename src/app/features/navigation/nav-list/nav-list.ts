@@ -3,25 +3,27 @@ import { NavItem } from "../nav-item/nav-item";
 import { PersistService } from "../../../core/services/persist.service";
 
 @Component({
-  selector: "pd-nav-list",
-  imports: [NavItem],
-  template: `<div class="space-y-1 w-full h-full">
-    @for(item of items(); track item.slug) {
-    <pd-nav-item [slug]="item.slug" [text]="item.text" [paramName]="list()" [cantidad]="item.cantidad"></pd-nav-item>
-    }
-  </div> `,
-  styles: ``,
+    selector: "nav[pd-nav-list], ul[pd-nav-list], ol[pd-nav-list]",
+    imports: [NavItem],
+    template: `
+        @for(item of items(); track item.slug) {
+        <li pd-nav-item [slug]="item.slug" [text]="item.text" [paramName]="list()" [cantidad]="item.cantidad"></li>
+        }
+    `,
+    host: {
+        class: "space-y-1 w-full h-full",
+    },
 })
 export class NavList {
-  persistService = inject(PersistService);
+    persistService = inject(PersistService);
 
-  list = input<"category" | "tag">("category");
+    list = input<"category" | "tag">("category");
 
-  items = computed(() => {
-    if (this.list() === "category") {
-      return this.persistService.categories();
-    } else {
-      return this.persistService.tags();
-    }
-  });
+    items = computed(() => {
+        if (this.list() === "category") {
+            return this.persistService.categories();
+        } else {
+            return this.persistService.tags();
+        }
+    });
 }
