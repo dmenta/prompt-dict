@@ -1,4 +1,4 @@
-import { Component, input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { ActivableChip } from "../activable-chip";
 
 @Component({
@@ -6,7 +6,10 @@ import { ActivableChip } from "../activable-chip";
     imports: [ActivableChip],
     template: ` <ul class="flex flex-row gap-3 overflow-x-auto pt-1 pb-6">
         @for (item of items(); track item.id) {
-        <li [pdActivableChip]="item.activa">
+        <li
+            [pdActivableChip]="item.activa"
+            (click)="onChipClick(item)"
+            class="cursor-pointer select-none">
             {{ item.name }}
         </li>
         }
@@ -15,4 +18,9 @@ import { ActivableChip } from "../activable-chip";
 })
 export class ChipsList {
     items = input<{ id: string; name: string; activa: boolean }[]>([]);
+    chipClicked = output<{ id: string; name: string; activa: boolean }>();
+
+    onChipClick(item: { id: string; name: string; activa: boolean }) {
+        this.chipClicked.emit(item);
+    }
 }

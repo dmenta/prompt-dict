@@ -2,7 +2,7 @@ import { Injectable, signal } from "@angular/core";
 import promptsNormalizados from "../../../data/normalizados";
 import { Prompt } from "../../features/prompts/prompt";
 import { NavigationItem } from "../../features/navigation/navigation-item";
-import { normalizeSearchText, createSearchMatcher, createTextHighlight } from "../utils/search.utils";
+import { normalizeSearchText, createSearchMatcher } from "../utils/search-improved.utils";
 
 @Injectable({
     providedIn: "root",
@@ -51,7 +51,9 @@ export class PersistService {
         this.tags.set(
             Array.from(tagsSet)
                 .map((tag) => {
-                    const promptsForTag = this.prompts().filter((prompt) => prompt.tags.includes(tag));
+                    const promptsForTag = this.prompts().filter((prompt) =>
+                        prompt.tags.includes(tag)
+                    );
                     return {
                         text: this.titleCase(tag),
                         slug: this.slugify(tag),
@@ -92,7 +94,7 @@ export class PersistService {
         return prompt;
     }
 
-    search(searchTerm: string): ResultadoBusqueda {
+    search(searchTerm: string, enableFuzzy: boolean = true): ResultadoBusqueda {
         const trimmedSearch = searchTerm.trim();
         if (!trimmedSearch) {
             return { search: "", categorias: [], etiquetas: [], found: [] };
@@ -100,7 +102,7 @@ export class PersistService {
 
         // Dividir en términos individuales para búsqueda más flexible
         const searchTerms = trimmedSearch.split(/\s+/).filter((term) => term.length > 0);
-        const matcher = createSearchMatcher(searchTerms);
+        const matcher = createSearchMatcher(searchTerms, enableFuzzy);
 
         // Buscar en categorías y etiquetas con normalización
         const categorias = this.categories().filter((cat) => matcher.matches(cat.text));
@@ -122,7 +124,12 @@ export class PersistService {
         matcher: ReturnType<typeof createSearchMatcher>,
         maxResults: number = 10
     ): { item: Prompt; foundIn: foundInKey; position: number; relevanceScore: number }[] {
-        const results: { item: Prompt; foundIn: foundInKey; position: number; relevanceScore: number }[] = [];
+        const results: {
+            item: Prompt;
+            foundIn: foundInKey;
+            position: number;
+            relevanceScore: number;
+        }[] = [];
 
         // Definir campos de búsqueda con pesos para relevancia
         const searchFields: { field: foundInKey; weight: number }[] = [

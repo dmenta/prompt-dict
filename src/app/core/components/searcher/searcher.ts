@@ -34,9 +34,11 @@ export class Searcher {
             this.searchInput.nativeElement.focus();
         }, 20);
 
-        this.searchControl.valueChanges.pipe(startWith(""), debounceTime(200)).subscribe((value) => {
-            const search = value?.trim()?.toLowerCase() ?? "";
-            this.search.emit(search);
-        });
+        this.searchControl.valueChanges
+            .pipe(startWith(""), debounceTime(300))
+            .subscribe((value) => {
+                const search = value?.trim() ?? "";
+                this.search.emit(search);
+            });
     }
 }

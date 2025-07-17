@@ -162,21 +162,34 @@ export function createTextHighlight(
 }
 
 /**
- * Algoritmo de búsqueda mejorado que soporta múltiples términos
+ * Algoritmo de búsqueda mejorado que soporta múltiples términos y fuzzy search
  */
-export function createSearchMatcher(searchTerms: string[]) {
+export function createSearchMatcher(searchTerms: string[], enableFuzzy: boolean = true) {
     const normalizedTerms = searchTerms.map((term) => normalizeSearchText(term));
 
     return {
         /**
          * Busca todos los términos en un texto y retorna la mejor coincidencia
          */
-        findBestMatch(text: string): { found: boolean; position: number; matchedTerm: string } {
+        findBestMatch(text: string): {
+            found: boolean;
+            position: number;
+            matchedTerm: string;
+            isFuzzy: boolean;
+            score: number;
+        } {
             const normalizedText = normalizeSearchText(text);
 
-            let bestMatch = { found: false, position: -1, matchedTerm: "" };
+            let bestMatch = {
+                found: false,
+                position: -1,
+                matchedTerm: "",
+                isFuzzy: false,
+                score: 0,
+            };
             let earliestPosition = text.length;
 
+            // Primero buscar coincidencias exactas
             for (const term of normalizedTerms) {
                 const position = normalizedText.indexOf(term);
                 if (position !== -1 && position < earliestPosition) {
@@ -185,7 +198,25 @@ export function createSearchMatcher(searchTerms: string[]) {
                         found: true,
                         position,
                         matchedTerm: term,
+                        isFuzzy: false,
+                        score: 1.0,
                     };
+                }
+            }
+
+            // Si no hay coincidencias exactas y fuzzy está habilitado, buscar fuzzy matches
+            if (!bestMatch.found && enableFuzzy) {
+                for (const term of normalizedTerms) {
+                    const fuzzyMatch = findFuzzyMatches(term, text);
+                    if (fuzzyMatch && fuzzyMatch.score > bestMatch.score) {
+                        bestMatch = {
+                            found: true,
+                            position: fuzzyMatch.position,
+                            matchedTerm: term,
+                            isFuzzy: true,
+                            score: fuzzyMatch.score,
+                        };
+                    }
                 }
             }
 
@@ -197,7 +228,20 @@ export function createSearchMatcher(searchTerms: string[]) {
          */
         matches(text: string): boolean {
             const normalizedText = normalizeSearchText(text);
-            return normalizedTerms.some((term) => normalizedText.includes(term));
+
+            // Primero buscar coincidencias exactas
+            const hasExactMatch = normalizedTerms.some((term) => normalizedText.includes(term));
+            if (hasExactMatch) return true;
+
+            // Si no hay coincidencias exactas y fuzzy está habilitado
+            if (enableFuzzy) {
+                return normalizedTerms.some((term) => {
+                    const fuzzyMatch = findFuzzyMatches(term, text);
+                    return fuzzyMatch && fuzzyMatch.score >= 0.7; // Threshold más alto para matches
+                });
+            }
+
+            return false;
         },
     };
 }
