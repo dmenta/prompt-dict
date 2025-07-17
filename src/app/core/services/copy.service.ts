@@ -2,13 +2,17 @@ import { inject, Injectable } from "@angular/core";
 import { NotificationService } from "./notification.service";
 
 @Injectable({
-  providedIn: "root",
+    providedIn: "root",
 })
 export class CopyService {
-  private notificationService = inject(NotificationService);
+    private notificationService = inject(NotificationService);
 
-  copy(value: string, message?: string) {
-    navigator.clipboard.writeText(value);
-    this.notificationService.success(message ?? "Copied to clipboard!");
-  }
+    copy(value: string, message?: string) {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(value);
+            this.notificationService.success(message ?? "Copiado!");
+        } else {
+            this.notificationService.warn(message ?? "No se puede copiar!");
+        }
+    }
 }

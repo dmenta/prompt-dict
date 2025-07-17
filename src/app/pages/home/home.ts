@@ -1,11 +1,12 @@
 import { Component, computed, inject, signal } from "@angular/core";
 import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
 import { PersistService } from "../../core/services/persist.service";
-import { Title } from "@angular/platform-browser";
 import { Prompt } from "../../features/prompts/prompt";
 import { MainHeader } from "../../core/components/header/main-header";
 import { Drawer } from "../../core/components/drawer/drawer";
 import { NavList } from "../../features/navigation/nav-list/nav-list";
+import { NavItemType, navItemTypeLabels } from "../../features/navigation/navigation-item";
+import { StorageService } from "../../core/services/storage.service";
 
 @Component({
     selector: "pd-home",
@@ -18,9 +19,7 @@ import { NavList } from "../../features/navigation/nav-list/nav-list";
                 class="flex items-center justify-between w-full"
                 [class.flex-row]="list() === 'category'"
                 [class.flex-row-reverse]="list() === 'tag'">
-                <span class="font-semibold text-list-name" (click)="$event.stopImmediatePropagation()">{{
-                    activo()
-                }}</span>
+                <span class="font-semibold text-list-name">{{ activo() }}</span>
                 <span
                     class="opacity-85 font-light hover:opacity-100"
                     (click)="onClick($event, list() === 'category' ? 'tag' : 'category')"
@@ -38,25 +37,26 @@ import { NavList } from "../../features/navigation/nav-list/nav-list";
     },
 })
 export class Home {
+    private store = inject(StorageService);
     private persistService = inject(PersistService);
-    list = signal<"category" | "tag">("category");
+    list = signal<NavItemType>(this.store.get<NavItemType>("navList") ?? "category");
     prompts = signal<Prompt[]>([] as Prompt[]);
 
-    onClick(event: MouseEvent, what: "category" | "tag") {
+    onClick(event: MouseEvent, list: NavItemType) {
         event.stopPropagation();
-        this.list.set(what);
+        this.list.set(list);
+        this.store.save("navList", list);
     }
 
     inactivo = computed(() => {
-        return this.list() === "category" ? "Etiquetas" : "Categorías";
+        return this.list() === "category" ? navItemTypeLabels["tag"] : navItemTypeLabels["category"];
     });
 
     activo = computed(() => {
-        return this.list() === "category" ? "Categorías" : "Etiquetas";
+        return navItemTypeLabels[this.list()];
     });
 
-    constructor(private title: Title) {
+    constructor() {
         this.prompts.set(this.persistService.prompts());
-        this.title.setTitle("Prompter");
     }
 }

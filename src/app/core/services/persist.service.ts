@@ -29,7 +29,7 @@ export class PersistService {
                         (prompt) => prompt.categoria.localeCompare(categoria) === 0
                     );
                     return {
-                        text: categoria,
+                        text: this.titleCase(categoria),
                         slug: this.slugify(categoria),
                         cantidad: promptsForCategory.length,
                         prompts: promptsForCategory,
@@ -52,7 +52,7 @@ export class PersistService {
                 .map((tag) => {
                     const promptsForTag = this.prompts().filter((prompt) => prompt.tags.includes(tag));
                     return {
-                        text: tag,
+                        text: this.titleCase(tag),
                         slug: this.slugify(tag),
                         cantidad: promptsForTag.length,
                         prompts: promptsForTag,
@@ -62,28 +62,33 @@ export class PersistService {
         );
     }
 
-    byCategory(slug: string): { name: string; prompts: Prompt[] } | null {
+    byCategory(slug: string): { name: string; prompts: Prompt[] } {
         const category = this.categories().find((cat) => cat.slug === slug);
 
         if (!category) {
-            return null;
+            throw new Error(`No se encontró la categoría '${slug}'.`);
         }
 
         return { name: category.text, prompts: category.prompts || [] };
     }
 
-    byTag(slug: string): { name: string; prompts: Prompt[] } | null {
+    byTag(slug: string): { name: string; prompts: Prompt[] } {
         const tag = this.tags().find((tag) => tag.slug === slug);
 
         if (!tag) {
-            return null;
+            throw new Error(`No se encontró la etiqueta '${slug}'.`);
         }
 
         return { name: tag.text, prompts: tag.prompts || [] };
     }
 
     byId(id: number) {
-        return this.prompts().find((prompt) => prompt.id === id) || null;
+        const prompt = this.prompts().find((prompt) => prompt.id === id);
+        if (!prompt) {
+            throw new Error(`No se encontró un prompt con  id '${id}'.`);
+        }
+
+        return prompt;
     }
 
     search(searchTerm: string): ResultadoBusqueda {
@@ -145,6 +150,10 @@ export class PersistService {
             .toLowerCase()
             .replace(/\s+/g, "-")
             .replace(/[^\w-]/g, "");
+    }
+
+    private titleCase(str: string): string {
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
 }
 

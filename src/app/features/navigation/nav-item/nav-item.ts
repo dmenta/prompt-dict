@@ -1,4 +1,4 @@
-import { Component, computed, input } from "@angular/core";
+import { Component, input } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { QuantityBagde } from "../../../core/components/quantity-bagde/quantity-bagde";
 
@@ -6,8 +6,7 @@ import { QuantityBagde } from "../../../core/components/quantity-bagde/quantity-
     selector: "[pd-nav-item]",
     imports: [RouterLink, RouterLinkActive, QuantityBagde],
     template: ` <a
-        [routerLink]="['./prompts']"
-        [queryParams]="queryParam()"
+        [routerLink]="[this.paramName(), this.slug()]"
         routerLinkActive
         #rla="routerLinkActive"
         class="select-none"
@@ -27,12 +26,6 @@ import { QuantityBagde } from "../../../core/components/quantity-bagde/quantity-
 export class NavItem {
     paramName = input<string | null>(null);
     slug = input<string | null>(null);
-
-    queryParam = computed(() => {
-        const name = this.paramName() ?? "tag";
-        return { [name]: this.slug() };
-    });
-
     text = input("");
     cantidad = input(0);
 }

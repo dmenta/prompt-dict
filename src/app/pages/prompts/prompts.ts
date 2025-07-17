@@ -1,12 +1,10 @@
-import { Component, inject, signal } from "@angular/core";
+import { Component, computed, inject } from "@angular/core";
 import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
-import { PersistService } from "../../core/services/persist.service";
-import { Title } from "@angular/platform-browser";
 import { Prompt } from "../../features/prompts/prompt";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { SectionHeader } from "../../core/components/header/section-header";
-import { distinctUntilChanged, filter, map } from "rxjs";
-import { StickyHeader } from "../../core/components/header/sticky-header";
+import { Observable } from "rxjs";
+import { toSignal } from "@angular/core/rxjs-interop";
 
 @Component({
     selector: "pd-prompts",
@@ -22,52 +20,13 @@ import { StickyHeader } from "../../core/components/header/sticky-header";
     },
 })
 export class Prompts {
-    persistService = inject(PersistService);
-    private activatedRoute = inject(ActivatedRoute);
+    private route = inject(ActivatedRoute);
+    private data = toSignal(this.route.data as Observable<{ type: string; item: { name: string; prompts: Prompt[] } }>);
 
-    titulo = signal<string>("Sin información");
-    subtitulo = signal<string>("Indique una etiqueta o categoría para mostrar");
+    prompts = computed(() => <Prompt[]>this.data()!.item.prompts);
+    titulo = computed(() => <string>this.data()!.item.name);
+    subtitulo = computed(() => this.resolvedSubtitulo(this.prompts().length, this.data()!.type));
 
-    prompts = signal<Prompt[]>([] as Prompt[]);
-
-    constructor(private title: Title) {
-        this.activatedRoute.queryParams
-            .pipe(
-                filter((params: Params) => params["tag"] || params["category"]),
-                map((params: Params) => ({
-                    tag: <string>(params["tag"]?.trim().toLowerCase() || ""),
-                    category: <string>(params["category"]?.trim().toLowerCase() || ""),
-                })),
-                filter(({ tag, category }) => tag.length > 0 || category.length > 0),
-                distinctUntilChanged((prev, curr) => prev.tag === curr.tag && prev.category === curr.category),
-                map(({ tag, category }) =>
-                    tag.length > 0
-                        ? { itemPrompts: this.persistService.byTag(tag), slug: tag, type: "etiqueta" }
-                        : { itemPrompts: this.persistService.byCategory(category), slug: category, type: "categoría" }
-                )
-            )
-            .subscribe(({ itemPrompts, slug, type }) => {
-                if (!itemPrompts) {
-                    this.titulo.set(slug);
-                    this.subtitulo.set(`${this.titleCase(type)} desconocida o no encontrada`);
-                } else {
-                    this.init(type, itemPrompts);
-                }
-                this.title.setTitle(`${this.titleCase(type)} | ${itemPrompts?.name ?? slug}`);
-            });
-    }
-
-    private init(type: string, itemPrompts: { name: string; prompts: Prompt[] }) {
-        const prompts = itemPrompts.prompts;
-        this.prompts.set(prompts);
-        this.titulo.set(itemPrompts.name);
-        const promptsCount = prompts.length;
-        this.subtitulo.set(this.resolvedSubtitulo(promptsCount, type));
-    }
-
-    private titleCase(str: string): string {
-        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    }
     private resolvedSubtitulo(numItems: number, type: string): string {
         type = type.toLowerCase();
         const mensajeCantidad =
