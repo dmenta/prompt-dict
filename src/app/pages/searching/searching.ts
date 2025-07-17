@@ -1,12 +1,12 @@
 import { Component, computed, inject, signal } from "@angular/core";
 import { SearchHeader } from "../../core/components/header/search-header";
 import { PersistService } from "../../core/services/persist.service";
-import { NgClass } from "@angular/common";
 import { ChipsList } from "../../core/components/chips-list/chips-list";
+import { HighlightedTextComponent } from "../../core/components/highlighted-text/highlighted-text";
 
 @Component({
     selector: "pd-searching",
-    imports: [SearchHeader, NgClass, ChipsList],
+    imports: [SearchHeader, ChipsList, HighlightedTextComponent],
     template: `<header pd-search-header (search)="onSearch($event)"></header>
         <div class="px-6 py-4 overflow-hidden">
             <h4 class="py-2">Categorías</h4>
@@ -18,33 +18,9 @@ import { ChipsList } from "../../core/components/chips-list/chips-list";
                 <ul class="divide-y-[0.5px] divide-gray-500 space-y-2">
                     @for ( prompt of prompts(); track prompt.id) {
                     <li class="flex flex-col  pt-1 pb-3 items-start justify-center">
-                        <div class=" whitespace-nowrap flex flex-row justify-start items-center">
-                            @for (part of prompt.titulo.parts; track $index; let i = $index) {
-                            <span
-                                class="text-lg  whitespace-pre"
-                                [ngClass]="{ 'dark:bg-[#FFFF0060] bg-[#FFFF00]': i === prompt.titulo.in }"
-                                >{{ part }}</span
-                            >
-                            }
-                        </div>
-                        <div class=" whitespace-nowrap flex flex-row justify-start items-center">
-                            @for (part of prompt.prompt.parts; track $index; let i = $index) {
-                            <span
-                                class="text-lg whitespace-pre"
-                                [ngClass]="{ 'dark:bg-[#FFFF0060] bg-[#FFFF00]': i === prompt.prompt.in }"
-                                >{{ part }}</span
-                            >
-                            }
-                        </div>
-                        <div class=" whitespace-nowrap flex flex-row justify-start items-center">
-                            @for (part of prompt.descripcion.parts; track $index; let i = $index) {
-                            <span
-                                class="text-lg whitespace-pre"
-                                [ngClass]="{ 'dark:bg-[#FFFF0060] bg-[#FFFF00]': i === prompt.descripcion.in }"
-                                >{{ part }}</span
-                            >
-                            }
-                        </div>
+                        <pd-highlighted-text [textData]="prompt.titulo"></pd-highlighted-text>
+                        <pd-highlighted-text [textData]="prompt.prompt"></pd-highlighted-text>
+                        <pd-highlighted-text [textData]="prompt.descripcion"></pd-highlighted-text>
                     </li>
                     }
                 </ul>
