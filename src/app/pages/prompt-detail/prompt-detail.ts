@@ -66,13 +66,15 @@ export class PromptDetail {
 
         const prompt = this.prompt()!;
         const url = this.url();
-        if (navigator.share) {
+        const data = {
+            title: "Prompter",
+            text: prompt.titulo,
+            url: url,
+        };
+
+        if (navigator.canShare(data)) {
             try {
-                await navigator.share({
-                    title: prompt.titulo,
-                    text: prompt.prompt,
-                    url: url,
-                });
+                await navigator.share(data);
             } catch (error) {
                 console.warn("Error al compartir el prompt:", error);
             }
