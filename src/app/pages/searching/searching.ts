@@ -3,6 +3,7 @@ import { SearchHeader } from "../../core/components/header/search-header";
 import { PersistService } from "../../core/services/persist.service";
 import { ChipsList } from "../../core/components/chips-list/chips-list";
 import { HighlightedTextComponent } from "../../core/components/highlighted-text/highlighted-text";
+import { createTextHighlight } from "../../core/utils/search.utils";
 
 @Component({
     selector: "pd-searching",
@@ -69,36 +70,39 @@ export class Searching {
         }
 
         const salida = resultado.found.map((found) => {
-            const item = {
+            const item: ItemEncontrado = {
                 id: found.item.id,
-                titulo: { parts: [] as string[], in: -1 },
-                prompt: { parts: [] as string[], in: -1 },
-                descripcion: { parts: [] as string[], in: -1 },
-                autor: { parts: [] as string[], in: -1 },
-                categoria: { parts: [] as string[], in: -1 },
-                tags: [] as string[],
+                titulo: { parts: [], in: -1 },
+                prompt: { parts: [], in: -1 },
+                descripcion: { parts: [], in: -1 },
+                autor: { parts: [], in: -1 },
+                categoria: { parts: [], in: -1 },
+                tags: [],
             };
 
+            // Solo procesar highlight si hay término de búsqueda
             if (searchTerm.length > 0) {
                 if (found.foundIn !== "tags") {
-                    item[found.foundIn] = this.relevantSection(
-                        found.item[found.foundIn],
-                        found.position,
-                        searchTerm.length
+                    // Usar la nueva utilidad de highlight
+                    const highlight = createTextHighlight(
+                        found.item[found.foundIn] as string,
+                        searchTerm,
+                        this.longitud
                     );
+                    item[found.foundIn] = {
+                        parts: highlight.parts,
+                        in: highlight.highlightIndex,
+                    };
                 } else {
-                    item.tags = found.item.tags.filter((tag) => resultado.etiquetas.includes(tag.toLowerCase()));
+                    // Para tags, filtrar las que coinciden
+                    item.tags = found.item.tags.filter((tag) =>
+                        resultado.etiquetas.some((etiqueta) => etiqueta.toLowerCase() === tag.toLowerCase())
+                    );
                 }
             }
-            if (item.titulo.parts.length === 0) {
-                item.titulo = { parts: [`${found.item.titulo.slice(0, this.longitud)}`], in: -1 };
-            }
-            if (item.prompt.parts.length === 0) {
-                item.prompt = { parts: [`${found.item.prompt.slice(0, this.longitud)}`], in: -1 };
-            }
-            if (item.descripcion.parts.length === 0) {
-                item.descripcion = { parts: [`${found.item.descripcion.slice(0, this.longitud)}...`], in: -1 };
-            }
+
+            // Rellenar campos vacíos con valores por defecto
+            this.fillEmptyFields(item, found.item);
             return item;
         });
 
@@ -107,41 +111,28 @@ export class Searching {
         this.prompts.set(salida);
     }
 
-    private relevantSection(text: string, position: number, searchLength: number): { parts: string[]; in: number } {
-        const start = position - this.mediaLongitud;
-        const end = position + searchLength + this.mediaLongitud;
-        const foundText = text.slice(position, position + searchLength);
-
-        if (position <= 0) {
-            return { parts: [foundText, text.slice(position + searchLength, this.longitud)], in: 0 };
-        }
-        if (position + searchLength >= text.length) {
-            return { parts: [text.slice(-this.longitud, -searchLength), foundText], in: 1 };
-        }
-
-        if (start < 0) {
-            return {
-                parts: [text.slice(0, position), foundText, text.slice(position + searchLength, this.longitud)],
-                in: 1,
+    private fillEmptyFields(item: ItemEncontrado, originalItem: any): void {
+        if (item.titulo.parts.length === 0) {
+            item.titulo = {
+                parts: [originalItem.titulo.slice(0, this.longitud)],
+                in: -1,
             };
         }
-        if (end > text.length) {
-            return {
-                parts: [
-                    text.slice(Math.max(0, text.length - this.longitud), position),
-                    foundText,
-                    text.slice(position + searchLength),
-                ],
-                in: 1,
+        if (item.prompt.parts.length === 0) {
+            item.prompt = {
+                parts: [originalItem.prompt.slice(0, this.longitud)],
+                in: -1,
             };
         }
-
-        return {
-            parts: [text.slice(start, position), foundText, text.slice(position + searchLength, end)],
-            in: 1,
-        };
+        if (item.descripcion.parts.length === 0) {
+            item.descripcion = {
+                parts: [`${originalItem.descripcion.slice(0, this.longitud)}...`],
+                in: -1,
+            };
+        }
     }
 }
+
 type ItemEncontrado = {
     id: number;
     titulo: { parts: string[]; in: number };

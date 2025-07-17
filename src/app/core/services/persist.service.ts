@@ -2,6 +2,7 @@ import { Injectable, signal } from "@angular/core";
 import promptsNormalizados from "../../../data/normalizados";
 import { Prompt } from "../../features/prompts/prompt";
 import { NavigationItem } from "../../features/navigation/navigation-item";
+import { normalizeSearchText, createSearchMatcher, createTextHighlight } from "../utils/search.utils";
 
 @Injectable({
     providedIn: "root",
@@ -92,57 +93,103 @@ export class PersistService {
     }
 
     search(searchTerm: string): ResultadoBusqueda {
-        searchTerm = searchTerm.trim().toLowerCase();
-        const categorias = this.categories().filter((cat) => cat.text.toLowerCase().includes(searchTerm));
-        const etiquetas = this.tags().filter((tag) => tag.text.toLowerCase().includes(searchTerm));
-
-        const allPrompts = this.prompts();
-        const prompts = [] as { item: Prompt; foundIn: foundInKey; position: number }[];
-        let i = 0;
-        for (i = 0; i < allPrompts.length; i++) {
-            const item = allPrompts[i];
-            if (prompts.length >= 10) break;
-            let index = item.titulo.toLowerCase().indexOf(searchTerm);
-            if (index >= 0) {
-                prompts.push({ item, foundIn: "titulo", position: index });
-                continue;
-            }
-            index = item.prompt.toLowerCase().indexOf(searchTerm);
-            if (index >= 0) {
-                prompts.push({ item, foundIn: "prompt", position: index });
-                continue;
-            }
-            index = item.descripcion.toLowerCase().indexOf(searchTerm);
-            if (index >= 0) {
-                prompts.push({ item, foundIn: "descripcion", position: index });
-                continue;
-            }
-            index = item.autor.toLowerCase().indexOf(searchTerm);
-            if (index >= 0) {
-                prompts.push({ item, foundIn: "autor", position: index });
-                continue;
-            }
-            if (item.categoria.toLowerCase() === searchTerm) {
-                prompts.push({ item, foundIn: "categoria", position: 0 });
-                continue;
-            }
-            if (item.tags.some((tag) => tag.toLowerCase() === searchTerm)) {
-                prompts.push({ item, foundIn: "tags", position: 0 });
-                continue;
-            }
+        const trimmedSearch = searchTerm.trim();
+        if (!trimmedSearch) {
+            return { search: "", categorias: [], etiquetas: [], found: [] };
         }
 
-        if (prompts.length === 0 && etiquetas.length === 0) {
-            return { search: searchTerm, categorias: [], etiquetas: [], found: [] };
-        } else {
-        }
+        // Dividir en términos individuales para búsqueda más flexible
+        const searchTerms = trimmedSearch.split(/\s+/).filter((term) => term.length > 0);
+        const matcher = createSearchMatcher(searchTerms);
+
+        // Buscar en categorías y etiquetas con normalización
+        const categorias = this.categories().filter((cat) => matcher.matches(cat.text));
+        const etiquetas = this.tags().filter((tag) => matcher.matches(tag.text));
+
+        // Buscar en prompts con priorización por relevancia
+        const found = this.searchInPrompts(searchTerms, matcher, 10);
 
         return {
-            search: searchTerm,
+            search: trimmedSearch,
             categorias: categorias.map((cat) => cat.text),
             etiquetas: etiquetas.map((tag) => tag.text),
-            found: prompts.sort((a, b) => a.position - b.position),
+            found: found,
         };
+    }
+
+    private searchInPrompts(
+        searchTerms: string[],
+        matcher: ReturnType<typeof createSearchMatcher>,
+        maxResults: number = 10
+    ): { item: Prompt; foundIn: foundInKey; position: number; relevanceScore: number }[] {
+        const results: { item: Prompt; foundIn: foundInKey; position: number; relevanceScore: number }[] = [];
+
+        // Definir campos de búsqueda con pesos para relevancia
+        const searchFields: { field: foundInKey; weight: number }[] = [
+            { field: "titulo", weight: 10 }, // Mayor peso para título
+            { field: "prompt", weight: 8 }, // Alto peso para prompt
+            { field: "descripcion", weight: 5 }, // Peso medio para descripción
+            { field: "autor", weight: 3 }, // Menor peso para autor
+            { field: "categoria", weight: 6 }, // Peso alto para categoría
+            { field: "tags", weight: 7 }, // Alto peso para tags
+        ];
+
+        for (const prompt of this.prompts()) {
+            if (results.length >= maxResults) break;
+
+            let bestMatch: { field: foundInKey; position: number; score: number } | null = null;
+
+            // Buscar en cada campo
+            for (const { field, weight } of searchFields) {
+                if (field === "tags") {
+                    // Búsqueda especial en tags
+                    const hasMatchingTag = prompt.tags.some((tag) => matcher.matches(tag));
+                    if (hasMatchingTag) {
+                        const score = weight * 2; // Bonus por coincidencia exacta en tag
+                        if (!bestMatch || score > bestMatch.score) {
+                            bestMatch = { field, position: 0, score };
+                        }
+                    }
+                } else if (field === "categoria") {
+                    // Búsqueda especial en categoría
+                    if (matcher.matches(prompt.categoria)) {
+                        const score = weight * 1.5; // Bonus por coincidencia en categoría
+                        if (!bestMatch || score > bestMatch.score) {
+                            bestMatch = { field, position: 0, score };
+                        }
+                    }
+                } else {
+                    // Búsqueda en campos de texto
+                    const fieldText = prompt[field] as string;
+                    const match = matcher.findBestMatch(fieldText);
+                    if (match.found) {
+                        // Calcular score basado en posición y peso
+                        const positionBonus = Math.max(0, 100 - match.position); // Bonus por posición temprana
+                        const score = weight + positionBonus * 0.1;
+
+                        if (!bestMatch || score > bestMatch.score) {
+                            bestMatch = { field, position: match.position, score };
+                        }
+                    }
+                }
+            }
+
+            // Si encontramos una coincidencia, agregarla a los resultados
+            if (bestMatch) {
+                results.push({
+                    item: prompt,
+                    foundIn: bestMatch.field,
+                    position: bestMatch.position,
+                    relevanceScore: bestMatch.score,
+                });
+            }
+        }
+
+        // Ordenar por relevancia (score) y luego por posición
+        return results.sort((a, b) => {
+            const scoreDiff = b.relevanceScore - a.relevanceScore;
+            return scoreDiff !== 0 ? scoreDiff : a.position - b.position;
+        });
     }
 
     private slugify(name: string): string {
@@ -161,7 +208,7 @@ export type ResultadoBusqueda = {
     search: string;
     categorias: string[];
     etiquetas: string[];
-    found: { item: Prompt; foundIn: foundInKey; position: number }[];
+    found: { item: Prompt; foundIn: foundInKey; position: number; relevanceScore: number }[];
 };
 
 export type foundInKey = "titulo" | "prompt" | "descripcion" | "autor" | "categoria" | "tags";

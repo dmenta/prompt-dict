@@ -2,15 +2,15 @@ import { Component, computed, inject } from "@angular/core";
 import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
 import { Prompt } from "../../features/prompts/prompt";
 import { ActivatedRoute } from "@angular/router";
-import { SectionHeader } from "../../core/components/header/section-header";
 import { Observable } from "rxjs";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { SectionHeaderImproved } from "../../core/components/header/section-header-improved";
 
 @Component({
     selector: "pd-prompts",
-    imports: [PromptsList, SectionHeader],
+    imports: [PromptsList, SectionHeaderImproved],
     template: `
-        <header pd-section-header [titulo]="titulo()" [subtitulo]="subtitulo()"></header>
+        <header pd-section-header-improved [titulo]="titulo()" [subtitulo]="subtitulo()"></header>
         <div class="flex flex-row w-full">
             <ul pd-prompts-list class="p-4 " [prompts]="prompts()"></ul>
         </div>

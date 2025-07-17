@@ -1,4 +1,4 @@
-import { Directive, input, computed, effect, ElementRef, inject } from "@angular/core";
+import { Directive, input, effect, ElementRef, inject, Renderer2 } from "@angular/core";
 
 export type IconType = "menu" | "back" | "search" | "copy" | "share" | "dark-mode" | "light-mode" | "close";
 
@@ -17,36 +17,51 @@ const ICON_PATHS: Record<IconType, string> = {
 
 @Directive({
     selector: "[pdIcon]",
-    host: {
-        "[innerHTML]": "svgContent()",
-    },
 })
 export class IconDirective {
     private elementRef = inject(ElementRef);
+    private renderer = inject(Renderer2);
 
     icon = input.required<IconType>({ alias: "pdIcon" });
     size = input<number>(24);
     fill = input<string>("currentColor");
 
-    svgContent = computed(() => {
-        const iconPath = ICON_PATHS[this.icon()];
-        if (!iconPath) {
-            console.warn(`Icon "${this.icon()}" not found`);
-            return "";
-        }
-
-        return `
-            <svg height="${this.size()}px" viewBox="0 -960 960 960" width="${this.size()}px" fill="${this.fill()}">
-                <path d="${iconPath}" />
-            </svg>
-        `;
-    });
-
     constructor() {
+        // Set up basic styles for the host element
         effect(() => {
-            // Ensure the host element has proper display properties for SVG
             this.elementRef.nativeElement.style.display = "inline-block";
             this.elementRef.nativeElement.style.lineHeight = "0";
         });
+
+        // React to icon changes and create SVG
+        effect(() => {
+            this.createSvgIcon();
+        });
+    }
+
+    private createSvgIcon(): void {
+        const iconPath = ICON_PATHS[this.icon()];
+        if (!iconPath) {
+            console.warn(`Icon "${this.icon()}" not found`);
+            return;
+        }
+
+        // Clear any existing content
+        this.elementRef.nativeElement.innerHTML = "";
+
+        // Create SVG element
+        const svg = this.renderer.createElement("svg", "http://www.w3.org/2000/svg");
+        this.renderer.setAttribute(svg, "height", `${this.size()}px`);
+        this.renderer.setAttribute(svg, "width", `${this.size()}px`);
+        this.renderer.setAttribute(svg, "viewBox", "0 -960 960 960");
+        this.renderer.setAttribute(svg, "fill", this.fill());
+
+        // Create path element
+        const path = this.renderer.createElement("path", "http://www.w3.org/2000/svg");
+        this.renderer.setAttribute(path, "d", iconPath);
+
+        // Append path to SVG and SVG to host element
+        this.renderer.appendChild(svg, path);
+        this.renderer.appendChild(this.elementRef.nativeElement, svg);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, input, output } from "@angular/core";
+import { Component, input } from "@angular/core";
 import { Router } from "@angular/router";
 import { IconDirective, CapitalizeDirective, TruncateDirective, HeaderLayoutDirective } from "../../directives";
 
