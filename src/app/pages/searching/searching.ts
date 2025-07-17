@@ -1,38 +1,25 @@
-import { Component, inject, signal } from "@angular/core";
+import { Component, computed, inject, signal } from "@angular/core";
 import { SearchHeader } from "../../core/components/header/search-header";
 import { PersistService } from "../../core/services/persist.service";
 import { NgClass } from "@angular/common";
+import { ChipsList } from "../../core/components/chips-list/chips-list";
 
 @Component({
     selector: "pd-searching",
-    imports: [SearchHeader, NgClass],
+    imports: [SearchHeader, NgClass, ChipsList],
     template: `<header pd-search-header (search)="onSearch($event)"></header>
-        <div class="px-6 py-4">
-            @if(etiquetas().length > 0) {
-            <h4 class="py-2 font-medium">Etiquetas</h4>
-            <ul class="flex flex-row gap-3 overflow-x-auto pt-1 pb-6">
-                @for (tag of etiquetas(); track tag) {
-                <li class="text-sm  px-3 py-1  whitespace-nowrap rounded-lg border-primary-dark border-[1px] ">
-                    {{ tag }}
-                </li>
-                }
-            </ul>
-            } @if(categorias().length > 0) {
-            <h4 class="py-2 font-medium">Categorías</h4>
-            <ul class="flex flex-row gap-3 overflow-x-auto pt-1 pb-6">
-                @for (tag of categorias(); track tag) {
-                <li class="text-sm  px-3 py-1  whitespace-nowrap rounded-lg border-primary-dark border-[1px] ">
-                    {{ tag }}
-                </li>
-                }
-            </ul>
-            }
-            <div class=" py-6 w-full">
+        <div class="px-6 py-4 overflow-hidden">
+            <h4 class="py-2">Categorías</h4>
+            <pd-chips-list [items]="categoriasActuales()"></pd-chips-list>
+            <h4 class="py-2">Etiquetas</h4>
+            <pd-chips-list [items]="etiquetasActuales()"></pd-chips-list>
+
+            <div class="py-6 w-full">
                 <ul class="divide-y-[0.5px] divide-gray-500 space-y-2">
                     @for ( prompt of prompts(); track prompt.id) {
                     <li class="flex flex-col  pt-1 pb-3 items-start justify-center">
                         <div class=" whitespace-nowrap flex flex-row justify-start items-center">
-                            @for (part of prompt.titulo.parts; track part; let i = $index) {
+                            @for (part of prompt.titulo.parts; track $index; let i = $index) {
                             <span
                                 class="text-lg  whitespace-pre"
                                 [ngClass]="{ 'dark:bg-[#FFFF0060] bg-[#FFFF00]': i === prompt.titulo.in }"
@@ -41,7 +28,7 @@ import { NgClass } from "@angular/common";
                             }
                         </div>
                         <div class=" whitespace-nowrap flex flex-row justify-start items-center">
-                            @for (part of prompt.prompt.parts; track part; let i = $index) {
+                            @for (part of prompt.prompt.parts; track $index; let i = $index) {
                             <span
                                 class="text-lg whitespace-pre"
                                 [ngClass]="{ 'dark:bg-[#FFFF0060] bg-[#FFFF00]': i === prompt.prompt.in }"
@@ -50,7 +37,7 @@ import { NgClass } from "@angular/common";
                             }
                         </div>
                         <div class=" whitespace-nowrap flex flex-row justify-start items-center">
-                            @for (part of prompt.descripcion.parts; track part; let i = $index) {
+                            @for (part of prompt.descripcion.parts; track $index; let i = $index) {
                             <span
                                 class="text-lg whitespace-pre"
                                 [ngClass]="{ 'dark:bg-[#FFFF0060] bg-[#FFFF00]': i === prompt.descripcion.in }"
@@ -67,12 +54,35 @@ import { NgClass } from "@angular/common";
 export class Searching {
     private longitud = 40;
     private mediaLongitud = this.longitud / 2;
-    persistService = inject(PersistService);
+    private persistService = inject(PersistService);
+    private todasLasEtiquetas = this.persistService.tags();
+    private todasLasCategorias = this.persistService.categories();
+    private etiquetas = signal<string[]>([]);
+    private categorias = signal<string[]>([]);
 
     prompts = signal<ItemEncontrado[]>([]);
+    etiquetasActuales = computed(() =>
+        this.todasLasEtiquetas
+            .map((tag) => ({
+                id: tag.slug,
+                name: tag.text,
+                activa:
+                    this.etiquetas().length !== this.todasLasEtiquetas.length && this.etiquetas().includes(tag.text),
+            }))
+            .sort((a, b) => (a.activa === true ? 0 : 1) - (b.activa === true ? 0 : 1) || a.name.localeCompare(b.name))
+    );
 
-    etiquetas = signal<string[]>([]);
-    categorias = signal<string[]>([]);
+    categoriasActuales = computed(() =>
+        this.todasLasCategorias
+            .map((cat) => ({
+                id: cat.slug,
+                name: cat.text,
+                activa:
+                    this.categorias().length !== this.todasLasCategorias.length && this.categorias().includes(cat.text),
+            }))
+            .sort((a, b) => (a.activa === true ? 0 : 1) - (b.activa === true ? 0 : 1) || a.name.localeCompare(b.name))
+    );
+
     onSearch(searchTerm: string) {
         const resultado = this.persistService.search(searchTerm!);
         if (resultado.found.length === 0) {
@@ -103,6 +113,9 @@ export class Searching {
                 } else {
                     item.tags = found.item.tags.filter((tag) => resultado.etiquetas.includes(tag.toLowerCase()));
                 }
+            }
+            if (item.titulo.parts.length === 0) {
+                item.titulo = { parts: [`${found.item.titulo.slice(0, this.longitud)}`], in: -1 };
             }
             if (item.prompt.parts.length === 0) {
                 item.prompt = { parts: [`${found.item.prompt.slice(0, this.longitud)}`], in: -1 };

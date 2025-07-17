@@ -109,4 +109,12 @@
         left: -18rem;
         opacity: 1;
     }
+
+    .search-chip {
+        @apply text-sm  px-3 py-1  whitespace-nowrap rounded-lg border-primary-dark border-[1px];
+    }
+
+    .search-chip.activa {
+        @apply border-action border-2;
+    }
 }
