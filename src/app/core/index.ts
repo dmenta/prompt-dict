@@ -19,4 +19,3 @@ export * from "./services/notification.service";
 export * from "./services/persist.service";
 export * from "./services/storage.service";
 export * from "./utils/resolvers";
-export * from "./utils/search-improved.utils";
