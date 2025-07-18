@@ -2,3 +2,4 @@
 export * from "./components";
 export * from "./services";
 export * from "./utils/resolvers";
+export * from "./utils/search-utils";

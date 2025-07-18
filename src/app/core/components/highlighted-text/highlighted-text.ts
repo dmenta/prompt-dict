@@ -7,9 +7,7 @@ import { HighlightTextDirective, TextPart } from "./highlight-text.directive";
     template: `
         <div class="whitespace-nowrap flex flex-row justify-start items-center">
             @for (part of textData().parts; track $index; let i = $index) {
-            <span [pdHighlightText]="textData()" [partIndex]="i">
-                {{ part }}
-            </span>
+            <span [pdHighlightText]="textData()" [partIndex]="i">{{ part }}</span>
             }
         </div>
     `,

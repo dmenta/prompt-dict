@@ -8,10 +8,8 @@ export interface TextPart {
 @Directive({
     selector: "[pdHighlightText]",
     host: {
-        "[class.text-lg]": "true",
-        "[class.whitespace-pre]": "true",
-        "[class.dark:bg-[#FFFF0060]]": "isHighlighted()",
-        "[class.bg-[#FFFF00]]": "isHighlighted()",
+        class: "whitespace-pre",
+        "[class.bg-resaltador]": "isHighlighted()",
     },
 })
 export class HighlightTextDirective {
