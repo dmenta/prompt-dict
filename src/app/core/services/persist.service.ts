@@ -8,11 +8,20 @@ import { NavigationItem } from "../../features/navigation/navigation-item";
 })
 export class PersistService {
     private promptsList = allPrompts;
-    public prompts = signal(this.promptsList);
+    public prompts = signal([] as Prompt[]);
     public categories = signal<NavigationItem[]>([]);
     public tags = signal<NavigationItem[]>([]);
 
     constructor() {
+        this.prompts.set(
+            this.promptsList.map((prompt) => {
+                return {
+                    ...prompt,
+                    slug: this.slugify(prompt.titulo),
+                } as Prompt;
+            })
+        );
+
         this.initializeCategories();
         this.initializeTags();
     }
@@ -84,10 +93,10 @@ export class PersistService {
         return { name: tag.text, prompts: tag.prompts || [] };
     }
 
-    byId(id: number) {
-        const prompt = this.prompts().find((prompt) => prompt.id === id);
+    byId(slug: string): Prompt {
+        const prompt = this.prompts().find((prompt) => prompt.slug === slug);
         if (!prompt) {
-            throw new Error(`No se encontró un prompt con  id '${id}'.`);
+            throw new Error(`No se encontró un prompt '${slug}'.`);
         }
 
         return prompt;

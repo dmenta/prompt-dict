@@ -7,7 +7,7 @@ export const promptResolve: ResolveFn<Prompt> = (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
 ) => {
-    return inject(PersistService).byId(Number(route.paramMap.get("id")));
+    return inject(PersistService).byId(<string>route.paramMap.get("id"));
 };
 
 export const categoryResolve: ResolveFn<{ name: string; prompts: Prompt[] }> = (
@@ -28,7 +28,7 @@ export const promptTitleResolve: ResolveFn<string> = (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
 ) => {
-    return `Prompt | ${inject(PersistService).byId(Number(route.paramMap.get("id"))).titulo}`;
+    return `Prompt | ${inject(PersistService).byId(<string>route.paramMap.get("id")).titulo}`;
 };
 
 export const categoryTitleResolve: ResolveFn<string> = (

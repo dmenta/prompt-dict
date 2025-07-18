@@ -9,7 +9,7 @@ import { RouterLink } from "@angular/router";
 
     template: `
         @if(prompt(); as promptOk) {
-        <a [routerLink]="['/prompt', promptOk.id]">
+        <a [routerLink]="['/prompt', promptOk.slug]">
             <div
                 class="text-primary-dark  px-4 text-xl font-semibold uppercase opacity-85 group-hover:opacity-100"
                 style="text-wrap: balance">
