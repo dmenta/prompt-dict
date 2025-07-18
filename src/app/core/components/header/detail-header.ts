@@ -23,7 +23,7 @@ import { HeaderBackButton } from "./buttons/header-back-button";
         CapitalizeDirective,
     ],
     template: ` <div pdHeaderContent>
-        <div pdHeaderRow class="-mb-4">
+        <div pdHeaderRow class="-mb-2">
             <button pdHeaderBackButton (back)="onBack($event)"></button>
             <div class="w-full"></div>
             <div class="flex items-center ">
