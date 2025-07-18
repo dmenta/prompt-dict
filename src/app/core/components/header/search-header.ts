@@ -1,8 +1,12 @@
 import { Component, inject, output } from "@angular/core";
 import { Router } from "@angular/router";
 import { Searcher } from "../searcher/searcher";
-import { HeaderContentDirective, HeaderLayoutDirective, HeaderRowDirective } from "../..";
 import { HeaderBackButton } from "./buttons/header-back-button";
+import {
+    HeaderContentDirective,
+    HeaderLayoutDirective,
+    HeaderRowDirective,
+} from "./header-layout.directive";
 
 @Component({
     selector: "pd-search-header , [pd-search-header]",

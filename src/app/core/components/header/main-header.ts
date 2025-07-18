@@ -1,13 +1,13 @@
 import { Component, output } from "@angular/core";
 import { ModeToggle } from "../mode-toggle/mode-toggle";
 import { PlaceholderSearcher } from "../searcher/placeholder-searcher";
-import {
-    IconDirective,
-    HeaderLayoutDirective,
-    HeaderContentDirective,
-    HeaderRowDirective,
-} from "../..";
 import { HeaderButton } from "./buttons/header-button";
+import { IconDirective } from "../../directives";
+import {
+    HeaderContentDirective,
+    HeaderLayoutDirective,
+    HeaderRowDirective,
+} from "./header-layout.directive";
 
 @Component({
     selector: "pd-main-header, [pd-main-header]",

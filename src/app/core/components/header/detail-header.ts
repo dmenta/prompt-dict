@@ -1,14 +1,13 @@
 import { Component, input, output } from "@angular/core";
 import { Params, Router } from "@angular/router";
 import { HeaderButton } from "./buttons/header-button";
-import {
-    HeaderContentDirective,
-    DoubleHeaderLayoutDirective,
-    HeaderRowDirective,
-    IconDirective,
-    TruncateDirective,
-} from "../..";
+import { IconDirective, TruncateDirective } from "../../directives";
 import { HeaderBackButton } from "./buttons/header-back-button";
+import {
+    DoubleHeaderLayoutDirective,
+    HeaderContentDirective,
+    HeaderRowDirective,
+} from "./header-layout.directive";
 
 @Component({
     selector: "pd-detail-header, [pd-detail-header]",
@@ -42,18 +41,10 @@ import { HeaderBackButton } from "./buttons/header-back-button";
             </div>
         </div>
         <div class="overflow-hidden w-full px-3">
-            <h1
-                pdCapitalize
-                pdTruncate
-                class="text-header-contrast text-[1.75rem]/9"
-                [title]="titulo()">
+            <h1 pdTruncate class="text-header-contrast text-[1.75rem]/9" [title]="titulo()">
                 {{ titulo() }}
             </h1>
-            <div
-                pdCapitalize
-                pdTruncate
-                class="text-header-low-contrast text-sm"
-                [title]="subtitulo()">
+            <div pdTruncate class="text-header-low-contrast text-sm" [title]="subtitulo()">
                 {{ subtitulo() }}
             </div>
         </div>

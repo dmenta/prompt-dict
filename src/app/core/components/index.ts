@@ -1,6 +1,6 @@
 // Barrel export for all directives
-export * from "./action-button/copy-actions/copy-actions";
 export * from "./chips-list/chips-list";
+export * from "./copy-actions";
 export * from "./drawer/drawer";
 export * from "./header/detail-header";
 export * from "./header/header-layout.directive";

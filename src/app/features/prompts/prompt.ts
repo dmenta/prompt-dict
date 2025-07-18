@@ -22,4 +22,5 @@ export interface Prompt {
     rating?: 1 | 2 | 3 | 4 | 5;
     visibilidad?: string;
     licencia?: string;
+    slug?: string;
 }

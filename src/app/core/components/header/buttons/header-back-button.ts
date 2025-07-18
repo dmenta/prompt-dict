@@ -1,5 +1,5 @@
 import { Component, output } from "@angular/core";
-import { IconDirective } from "../../..";
+import { IconDirective } from "../../../directives";
 import { HeaderButton } from "./header-button";
 
 @Component({
