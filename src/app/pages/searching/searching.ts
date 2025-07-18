@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from "@angular/core";
-import { APP_BASE_HREF, DecimalPipe } from "@angular/common";
+import { APP_BASE_HREF } from "@angular/common";
 import {
     ChipsList,
     createTextHighlight,
@@ -14,7 +14,6 @@ import { RouterLink } from "@angular/router";
     imports: [SearchHeader, ChipsList, HighlightedTextComponent, RouterLink],
     template: `<header pd-search-header (search)="onSearch($event)"></header>
         <div class="px-6 py-4 overflow-hidden">
-            <!-- Toggle para fuzzy search -->
             <div class="mb-4 flex items-center gap-3">
                 <label class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
                     <input
@@ -37,22 +36,7 @@ import { RouterLink } from "@angular/router";
                 <ul class="divide-y-[0.5px] divide-gray-500 space-y-2 overflow-hidden">
                     @for ( prompt of prompts(); track prompt.id) {
                     <li class="flex flex-col pt-1 pb-3 items-start justify-center relative">
-                        <!-- Indicador de tipo de match -->
-                        <!-- <div class="absolute top-1 right-1 flex gap-1">
-                            @if (prompt.matchType === 'fuzzy') {
-                            <span
-                                class="text-xs px-1.5 py-0.5 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-full font-medium">
-                                ~{{ prompt.matchScore * 100 | number : "1.0-0" }}%
-                            </span>
-                            } @else {
-                            <span
-                                class="text-xs px-1.5 py-0.5 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full font-medium">
-                                Exacto
-                            </span>
-                            }
-                        </div> -->
-
-                        <a [routerLink]="['/prompt', prompt.originalItem.slug]">
+                        <a [routerLink]="['/', promptUrl, prompt.originalItem.slug]">
                             <pd-highlighted-text
                                 [textData]="prompt.titulo"
                                 class="text-primary-dark  uppercase font-semibold opacity-85 text-sm group-hover:opacity-100 truncate w-full"></pd-highlighted-text>
@@ -69,25 +53,19 @@ import { RouterLink } from "@angular/router";
 })
 export class Searching {
     private longitud = 50;
+    promptUrl = "prompt";
 
     private persistService = inject(PersistService);
     private todasLasEtiquetas = this.persistService.tags();
     private todasLasCategorias = this.persistService.categories();
-
-    host = window.location.origin;
-    basePath = inject(APP_BASE_HREF);
-    baseUrl = signal(this.host + this.basePath);
-    // Estados de filtros y configuración
 
     private etiquetas = signal<string[]>([]);
     private categorias = signal<string[]>([]);
     private currentSearchTerm = signal<string>("");
     public fuzzySearchEnabled = signal<boolean>(true);
 
-    // Estado de resultados - estos incluyen información sobre el tipo de match
     private allSearchResults = signal<ItemEncontradoExtendido[]>([]);
 
-    // Prompts filtrados por categorías y etiquetas seleccionadas
     prompts = computed(() => {
         const results = this.allSearchResults();
         const selectedCategories = this.categorias();

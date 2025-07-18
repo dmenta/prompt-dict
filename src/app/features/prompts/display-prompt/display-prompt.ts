@@ -10,7 +10,7 @@ import { APP_BASE_HREF } from "@angular/common";
 
     template: `
         @if(prompt(); as promptOk) {
-        <a [routerLink]="['/prompt', promptOk.slug]">
+        <a [routerLink]="['/', promptUrl, promptOk.slug]">
             <div
                 class="text-primary-dark  px-4 text-xl font-semibold uppercase opacity-85 group-hover:opacity-100"
                 style="text-wrap: balance">
@@ -29,9 +29,7 @@ import { APP_BASE_HREF } from "@angular/common";
       hover:opacity-100 transition-all group-focus:pointer-events-auto group-hover:pointer-events-auto"
                 tabindex="2"
                 [promptText]="promptOk.prompt"
-                [promptUrl]="
-                    promptOk.id ? this.baseUrl() + 'prompt/' + promptOk.slug : null
-                "></pd-copy-actions>
+                [promptUrl]="this.baseUrl() + promptOk.slug"></pd-copy-actions>
         </div>
         } @else{
         <div class="no-prompt">No prompt available</div>
@@ -42,10 +40,10 @@ import { APP_BASE_HREF } from "@angular/common";
     },
 })
 export class DisplayPrompt {
+    promptUrl = "prompt";
+    basePath = inject(APP_BASE_HREF);
+    baseUrl = signal(window.location.origin + this.basePath + this.promptUrl + "/");
+
     visible = signal(false);
     prompt = input<Prompt | null>(null);
-    host = window.location.origin;
-    basePath = inject(APP_BASE_HREF);
-
-    baseUrl = signal(this.host + this.basePath);
 }

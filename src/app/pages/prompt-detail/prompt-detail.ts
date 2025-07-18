@@ -28,7 +28,7 @@ import { CopyService, DetailHeader, LabelValueItem } from "../../core";
     },
 })
 export class PromptDetail {
-    private url = signal<string>(window.location.origin + window.location.pathname);
+    private url = signal<string>(window.location.href);
     private route = inject(ActivatedRoute);
     private data = toSignal(this.route.data as Observable<{ prompt: Prompt }>);
     private copyService = inject(CopyService);
