@@ -1,4 +1,4 @@
-import { Directive, input, HostBinding, computed, signal } from "@angular/core";
+import { Directive, HostBinding, computed, signal } from "@angular/core";
 
 /**
  * Directiva que combina múltiples comportamientos comunes para headers
