@@ -1,6 +1,6 @@
 import { Component, inject } from "@angular/core";
-import { DarkModeService } from "../../services/dark-mode.service";
-import { IconDirective } from "../../directives/icon.directive";
+import { DarkModeService } from "../../services";
+import { IconDirective } from "../../directives";
 import { HeaderButton } from "../header/buttons/header-button";
 
 @Component({

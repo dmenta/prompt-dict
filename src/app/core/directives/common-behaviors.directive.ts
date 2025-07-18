@@ -12,17 +12,6 @@ import { Directive } from "@angular/core";
 export class ClickableDirective {}
 
 /**
- * Directiva para texto con capitalización especial (primera letra mayúscula)
- */
-@Directive({
-    selector: "[pdCapitalize]",
-    host: {
-        class: "lowercase first-letter:uppercase",
-    },
-})
-export class CapitalizeDirective {}
-
-/**
  * Directiva para elementos truncables
  */
 @Directive({

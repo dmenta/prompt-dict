@@ -2,7 +2,6 @@ import { Component, input, output } from "@angular/core";
 import { Params, Router } from "@angular/router";
 import { HeaderButton } from "./buttons/header-button";
 import {
-    CapitalizeDirective,
     HeaderContentDirective,
     DoubleHeaderLayoutDirective,
     HeaderRowDirective,
@@ -20,7 +19,6 @@ import { HeaderBackButton } from "./buttons/header-back-button";
         HeaderContentDirective,
         HeaderRowDirective,
         TruncateDirective,
-        CapitalizeDirective,
     ],
     template: ` <div pdHeaderContent>
         <div pdHeaderRow class="-mb-2">

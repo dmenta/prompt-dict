@@ -1,5 +1,5 @@
 import { Injectable, signal } from "@angular/core";
-import promptsNormalizados from "../../../data/normalizados";
+import allPrompts from "../../../data/normalizados";
 import { Prompt } from "../../features/prompts/prompt";
 import { NavigationItem } from "../../features/navigation/navigation-item";
 
@@ -7,7 +7,7 @@ import { NavigationItem } from "../../features/navigation/navigation-item";
     providedIn: "root",
 })
 export class PersistService {
-    private promptsList = promptsNormalizados;
+    private promptsList = allPrompts;
     public prompts = signal(this.promptsList);
     public categories = signal<NavigationItem[]>([]);
     public tags = signal<NavigationItem[]>([]);
@@ -50,7 +50,9 @@ export class PersistService {
         this.tags.set(
             Array.from(tagsSet)
                 .map((tag) => {
-                    const promptsForTag = this.prompts().filter((prompt) => prompt.tags.includes(tag));
+                    const promptsForTag = this.prompts().filter((prompt) =>
+                        prompt.tags.includes(tag)
+                    );
                     return {
                         text: this.titleCase(tag),
                         slug: this.slugify(tag),
@@ -93,7 +95,9 @@ export class PersistService {
 
     search(searchTerm: string): ResultadoBusqueda {
         searchTerm = searchTerm.trim().toLowerCase();
-        const categorias = this.categories().filter((cat) => cat.text.toLowerCase().includes(searchTerm));
+        const categorias = this.categories().filter((cat) =>
+            cat.text.toLowerCase().includes(searchTerm)
+        );
         const etiquetas = this.tags().filter((tag) => tag.text.toLowerCase().includes(searchTerm));
 
         const allPrompts = this.prompts();

@@ -1,5 +1,5 @@
 import { Component, inject } from "@angular/core";
-import { NotificationService } from "../../services/notification.service";
+import { NotificationService } from "../../services";
 
 @Component({
     selector: "pd-notification",
@@ -9,14 +9,25 @@ import { NotificationService } from "../../services/notification.service";
             [class.-bottom-8]="!notificationService.showNotification()"
             [class.bottom-18]="notificationService.showNotification()"
             [class.scale-100]="notificationService.showNotification()">
-            <div class="rounded-lg w-full flex bg-neutral-50 dark:bg-neutral-800 items-center gap-4 p-3">
-                <span class="w-full pl-1">{{ notificationService.notificationMessage().message }}</span>
+            <div
+                class="rounded-lg w-full flex bg-neutral-50 dark:bg-neutral-800 items-center gap-4 p-3">
+                <span class="w-full pl-1">{{
+                    notificationService.notificationMessage().message
+                }}</span>
                 @if(notificationService.notificationMessage().type === 'warn') {
-                <span class="dark:text-amber-400 font-semibold text-amber-600 p-0.5 px-1.5 rounded-lg">WARN</span>
+                <span
+                    class="dark:text-amber-400 font-semibold text-amber-600 p-0.5 px-1.5 rounded-lg"
+                    >WARN</span
+                >
                 } @else if(notificationService.notificationMessage().type === '404') {
-                <span class="dark:text-red-400 font-semibold text-red-500 p-0.5 px-1.5 rounded-lg">404</span>
+                <span class="dark:text-red-400 font-semibold text-red-500 p-0.5 px-1.5 rounded-lg"
+                    >404</span
+                >
                 } @else {
-                <span class=" dark:text-green-300 font-semibold text-green-800 p-0.5 px-1.5 rounded-lg">OK</span>
+                <span
+                    class=" dark:text-green-300 font-semibold text-green-800 p-0.5 px-1.5 rounded-lg"
+                    >OK</span
+                >
                 }
             </div>
         </div>

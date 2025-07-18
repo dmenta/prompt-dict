@@ -1,6 +1,6 @@
 import { inject } from "@angular/core";
 import type { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from "@angular/router";
-import { PersistService } from "../services/persist.service";
+import { PersistService } from "../services";
 import { Prompt } from "../../features/prompts/prompt";
 
 export const promptResolve: ResolveFn<Prompt> = (
