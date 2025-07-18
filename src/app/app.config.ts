@@ -8,6 +8,7 @@ import { provideRouter, Router, withNavigationErrorHandler } from "@angular/rout
 
 import { routes } from "./app.routes";
 import { NotificationService } from "./core";
+import { APP_BASE_HREF, PlatformLocation } from "@angular/common";
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -26,5 +27,14 @@ export const appConfig: ApplicationConfig = {
                 router.navigate(["/"]);
             })
         ),
+        {
+            provide: APP_BASE_HREF,
+            useFactory: getBaseHref,
+        },
     ],
 };
+
+export function getBaseHref(): string {
+    const platformLocation = inject(PlatformLocation);
+    return platformLocation.getBaseHrefFromDOM();
+}

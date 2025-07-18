@@ -1,7 +1,8 @@
-import { Component, input, signal } from "@angular/core";
+import { Component, inject, input, signal } from "@angular/core";
 import { Prompt } from "../prompt";
 import { CopyActions } from "../../../core";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
+import { APP_BASE_HREF } from "@angular/common";
 
 @Component({
     selector: "pd-display-prompt, [pd-display-prompt]",
@@ -29,7 +30,7 @@ import { RouterLink } from "@angular/router";
                 tabindex="2"
                 [promptText]="promptOk.prompt"
                 [promptUrl]="
-                    promptOk.id ? this.baseUrl() + 'prompt/' + promptOk.id : null
+                    promptOk.id ? this.baseUrl() + 'prompt/' + promptOk.slug : null
                 "></pd-copy-actions>
         </div>
         } @else{
@@ -42,7 +43,9 @@ import { RouterLink } from "@angular/router";
 })
 export class DisplayPrompt {
     visible = signal(false);
-
     prompt = input<Prompt | null>(null);
-    baseUrl = input<string>(window.location.origin + window.location.pathname);
+    host = window.location.origin;
+    basePath = inject(APP_BASE_HREF);
+
+    baseUrl = signal(this.host + this.basePath);
 }
