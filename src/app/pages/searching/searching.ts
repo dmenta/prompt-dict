@@ -93,27 +93,29 @@ export class Searching {
         const selectedCategories = this.categorias();
         const selectedTags = this.etiquetas();
 
-        if (selectedCategories.length === 0 && selectedTags.length === 0) {
-            return results; // No filtros aplicados, retornar todos los resultados
-        }
+        return results;
 
-        return results.filter((prompt) => {
-            // Para categorías: verificar en el item original
-            const originalCategory = prompt.originalItem.categoria;
-            const matchesCategory =
-                selectedCategories.length === 0 ||
-                selectedCategories.some((selectedCat) => originalCategory.includes(selectedCat));
+        // if (selectedCategories.length === 0 && selectedTags.length === 0) {
+        //     return results; // No filtros aplicados, retornar todos los resultados
+        // }
 
-            // Para tags: verificar en el item original
-            const originalTags = prompt.originalItem.tags || [];
-            const matchesTags =
-                selectedTags.length === 0 ||
-                selectedTags.some((selectedTag) =>
-                    originalTags.some((tag: string) => tag.includes(selectedTag))
-                );
+        // return results.filter((prompt) => {
+        //     // Para categorías: verificar en el item original
+        //     const originalCategory = prompt.originalItem.categoria;
+        //     const matchesCategory =
+        //         selectedCategories.length === 0 ||
+        //         selectedCategories.some((selectedCat) => originalCategory.includes(selectedCat));
 
-            return matchesCategory || matchesTags;
-        });
+        //     // Para tags: verificar en el item original
+        //     const originalTags = prompt.originalItem.tags || [];
+        //     const matchesTags =
+        //         selectedTags.length === 0 ||
+        //         selectedTags.some((selectedTag) =>
+        //             originalTags.some((tag: string) => tag.includes(selectedTag))
+        //         );
+
+        //     return matchesCategory || matchesTags;
+        // });
     });
     etiquetasActuales = computed(() =>
         this.todasLasEtiquetas
