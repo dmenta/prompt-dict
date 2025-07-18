@@ -19,7 +19,8 @@ import { debounceTime, startWith } from "rxjs";
                 aria-autocomplete="list"
                 aria-haspopup="listbox"
                 aria-controls="search-options"
-                aria-activedescendant="search-option-active" />
+                aria-activedescendant="search-option-active"
+                (keydown.enter)="onSearch()" />
         </div>
     `,
     styles: ``,
@@ -28,6 +29,10 @@ export class Searcher {
     @ViewChild("searchInput") searchInput!: ElementRef<HTMLInputElement>;
     searchControl = new FormControl("");
     search = output<string>();
+    onSearch() {
+        this.search.emit(this.searchControl.value?.trim() ?? "");
+        this.searchInput.nativeElement.blur();
+    }
 
     ngAfterViewInit() {
         setTimeout(() => {

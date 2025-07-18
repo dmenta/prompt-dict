@@ -12,7 +12,7 @@ import { APP_BASE_HREF } from "@angular/common";
         @if(prompt(); as promptOk) {
         <a [routerLink]="['/', promptUrl, promptOk.slug]">
             <div
-                class="text-primary-dark  px-4 text-xl font-semibold uppercase opacity-85 group-hover:opacity-100"
+                class="text-primary-dark  px-4 text-lg/6 font-semibold uppercase opacity-85 group-hover:opacity-100"
                 style="text-wrap: balance">
                 {{ promptOk.titulo }}
             </div>
@@ -20,10 +20,10 @@ import { APP_BASE_HREF } from "@angular/common";
         <div
             class="relative prompt w-full opacity-85 group-hover:opacity-100 text-prompt
       transition-opacity duration-150 px-4 ">
-            <div class="prompt-text font-merri font-[370] py-6 text-lg/8 italic">
+            <div class="prompt-text font-merri font-[370] py-3 leading-7 italic">
                 {{ promptOk.prompt }}
             </div>
-            <div>{{ promptOk.descripcion }}</div>
+            <div class="text-sm">{{ promptOk.descripcion }}</div>
             <pd-copy-actions
                 class="absolute bottom-3 right-5 pointer-events-none  transition-discrete opacity-0 hidden z-3 group-active:block group-hover:block group-focus:block group-focus:opacity-100   group-hover:opacity-80
       hover:opacity-100 transition-all group-focus:pointer-events-auto group-hover:pointer-events-auto"

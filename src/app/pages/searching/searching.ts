@@ -44,7 +44,9 @@ import { RouterLink } from "@angular/router";
                         <pd-highlighted-text
                             [textData]="prompt.prompt"
                             class="font-merri italic"></pd-highlighted-text>
-                        <pd-highlighted-text [textData]="prompt.descripcion"></pd-highlighted-text>
+                        <pd-highlighted-text
+                            [textData]="prompt.descripcion"
+                            class="text-sm"></pd-highlighted-text>
                     </li>
                     }
                 </ul>
