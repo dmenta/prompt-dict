@@ -1,6 +1,6 @@
 import { Component, computed, inject, input } from "@angular/core";
 import { NavItem } from "../nav-item/nav-item";
-import { PersistService } from "../../../core/services/persist.service";
+import { PersistService } from "../../../core";
 import { NavItemType } from "../navigation-item";
 
 @Component({
@@ -8,7 +8,12 @@ import { NavItemType } from "../navigation-item";
     imports: [NavItem],
     template: `
         @for(item of items(); track item.slug) {
-        <li pd-nav-item [slug]="item.slug" [text]="item.text" [paramName]="list()" [cantidad]="item.cantidad"></li>
+        <li
+            pd-nav-item
+            [slug]="item.slug"
+            [text]="item.text"
+            [paramName]="list()"
+            [cantidad]="item.cantidad"></li>
         }
     `,
     host: {

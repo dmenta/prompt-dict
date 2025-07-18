@@ -1,12 +1,9 @@
 import { Component, computed, inject, signal } from "@angular/core";
 import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
-import { PersistService } from "../../core/services/persist.service";
 import { Prompt } from "../../features/prompts/prompt";
-import { MainHeader } from "../../core/components/header/main-header";
-import { Drawer } from "../../core/components/drawer/drawer";
 import { NavList } from "../../features/navigation/nav-list/nav-list";
 import { NavItemType, navItemTypeLabels } from "../../features/navigation/navigation-item";
-import { StorageService } from "../../core/services/storage.service";
+import { Drawer, MainHeader, PersistService, StorageService } from "../../core";
 
 @Component({
     selector: "pd-home",
@@ -49,7 +46,9 @@ export class Home {
     }
 
     inactivo = computed(() => {
-        return this.list() === "category" ? navItemTypeLabels["tag"] : navItemTypeLabels["category"];
+        return this.list() === "category"
+            ? navItemTypeLabels["tag"]
+            : navItemTypeLabels["category"];
     });
 
     activo = computed(() => {

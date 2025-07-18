@@ -7,7 +7,7 @@ import {
 import { provideRouter, Router, withNavigationErrorHandler } from "@angular/router";
 
 import { routes } from "./app.routes";
-import { NotificationService } from "./core/services/notification.service";
+import { NotificationService } from "./core";
 
 export const appConfig: ApplicationConfig = {
     providers: [

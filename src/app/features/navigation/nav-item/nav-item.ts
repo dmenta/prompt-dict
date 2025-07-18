@@ -1,6 +1,6 @@
 import { Component, input } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
-import { QuantityBagde } from "../../../core/components/quantity-bagde/quantity-bagde";
+import { QuantityBagde } from "../../../core";
 
 @Component({
     selector: "[pd-nav-item]",

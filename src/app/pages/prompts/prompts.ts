@@ -2,9 +2,9 @@ import { Component, computed, inject } from "@angular/core";
 import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
 import { Prompt } from "../../features/prompts/prompt";
 import { ActivatedRoute } from "@angular/router";
-import { SectionHeader } from "../../core/components/header/section-header";
 import { Observable } from "rxjs";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { SectionHeader } from "../../core";
 
 @Component({
     selector: "pd-prompts",
@@ -21,7 +21,9 @@ import { toSignal } from "@angular/core/rxjs-interop";
 })
 export class Prompts {
     private route = inject(ActivatedRoute);
-    private data = toSignal(this.route.data as Observable<{ type: string; item: { name: string; prompts: Prompt[] } }>);
+    private data = toSignal(
+        this.route.data as Observable<{ type: string; item: { name: string; prompts: Prompt[] } }>
+    );
 
     prompts = computed(() => <Prompt[]>this.data()!.item.prompts);
     titulo = computed(() => <string>this.data()!.item.name);

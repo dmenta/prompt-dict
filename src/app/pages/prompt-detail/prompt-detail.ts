@@ -1,12 +1,10 @@
 import { Component, computed, inject, signal } from "@angular/core";
 import { Prompt } from "../../features/prompts/prompt";
 import { ActivatedRoute } from "@angular/router";
-import { DetailHeader } from "../../core/components/header/detail-header";
-import { CopyService } from "../../core/services/copy.service";
 import { PromptNotFound } from "../../features/prompts/prompt-not-found/prompt-not-found";
-import { LabelValueItem } from "../../core/components/key-value-item/label-value-item";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Observable } from "rxjs";
+import { CopyService, DetailHeader, LabelValueItem } from "../../core";
 
 @Component({
     selector: "pd-prompt-detail",
@@ -20,7 +18,10 @@ import { Observable } from "rxjs";
             @if(prompt(); as promptOk) {
             <ul class="divide-y-[0.5px] space-y-2">
                 @for( property of displayProperties; track property.key) {
-                <li pd-key-value-item [label]="property.label" [value]="promptOk[property.key]"></li>
+                <li
+                    pd-key-value-item
+                    [label]="property.label"
+                    [value]="promptOk[property.key]"></li>
                 }
             </ul>
             } @else {

@@ -6,7 +6,7 @@ import {
     promptTitleResolve,
     tagResolve,
     tagTitleResolve,
-} from "./core/services/resolvers";
+} from "./core";
 import { navItemTypeLabels } from "./features/navigation/navigation-item";
 
 export const routes: Routes = [
@@ -35,7 +35,8 @@ export const routes: Routes = [
     },
     {
         path: "prompt/:id",
-        loadComponent: () => import("./pages/prompt-detail/prompt-detail").then((m) => m.PromptDetail),
+        loadComponent: () =>
+            import("./pages/prompt-detail/prompt-detail").then((m) => m.PromptDetail),
         title: promptTitleResolve,
         resolve: {
             prompt: promptResolve,

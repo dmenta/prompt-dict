@@ -1,6 +1,6 @@
 import { Component, input, signal } from "@angular/core";
 import { Prompt } from "../prompt";
-import { CopyActions } from "../../../core/components/action-button/copy-actions/copy-actions";
+import { CopyActions } from "../../../core";
 import { RouterLink } from "@angular/router";
 
 @Component({
@@ -19,14 +19,18 @@ import { RouterLink } from "@angular/router";
         <div
             class="relative prompt w-full opacity-85 group-hover:opacity-100 text-prompt
       transition-opacity duration-150 px-4 ">
-            <div class="prompt-text font-merri font-[370] py-6 text-lg/8 italic">{{ promptOk.prompt }}</div>
+            <div class="prompt-text font-merri font-[370] py-6 text-lg/8 italic">
+                {{ promptOk.prompt }}
+            </div>
             <div>{{ promptOk.descripcion }}</div>
             <pd-copy-actions
                 class="absolute bottom-3 right-5 pointer-events-none  transition-discrete opacity-0 hidden z-3 group-active:block group-hover:block group-focus:block group-focus:opacity-100   group-hover:opacity-80
       hover:opacity-100 transition-all group-focus:pointer-events-auto group-hover:pointer-events-auto"
                 tabindex="2"
                 [promptText]="promptOk.prompt"
-                [promptUrl]="promptOk.id ? this.baseUrl() + 'prompt/' + promptOk.id : null"></pd-copy-actions>
+                [promptUrl]="
+                    promptOk.id ? this.baseUrl() + 'prompt/' + promptOk.id : null
+                "></pd-copy-actions>
         </div>
         } @else{
         <div class="no-prompt">No prompt available</div>

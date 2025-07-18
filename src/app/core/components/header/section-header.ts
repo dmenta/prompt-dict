@@ -1,37 +1,59 @@
-import { Component, input } from "@angular/core";
+import { Component, inject, input } from "@angular/core";
 import { Router } from "@angular/router";
-import { Header } from "./header";
-import { StickyHeader } from "./sticky-header";
+import {
+    CapitalizeDirective,
+    TruncateDirective,
+    HeaderLayoutDirective,
+    HeaderContentDirective,
+    HeaderRowDirective,
+} from "../..";
+import { HeaderBackButton } from "./buttons/header-back-button";
 
 @Component({
-    selector: "pd-section-header , [pd-section-header]",
-    imports: [Header],
-    template: `<pd-header (mainButtonClicked)="onMainButtonClick($event)">
-        <svg nav-button height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
-            <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
-        </svg>
-        <ng-content>
-            <h1
-                class="text-header-contrast w-full inline-block truncate lowercase first-letter:uppercase text-xl"
-                [title]="titulo()">
-                {{ titulo() }}
-            </h1>
-            <div
-                class="text-header-low-contrast truncate lowercase first-letter:uppercase text-sm"
-                [title]="subtitulo()">
-                {{ subtitulo() }}
+    selector: "pd-section-header, [pd-section-header]",
+    imports: [
+        CapitalizeDirective,
+        TruncateDirective,
+        HeaderContentDirective,
+        HeaderRowDirective,
+        HeaderBackButton,
+    ],
+    template: `
+        <div pdHeaderContent>
+            <div pdHeaderRow>
+                <button pdHeaderBackButton (back)="onBack($event)"></button>
+
+                <div class="overflow-hidden w-full flex flex-col">
+                    <h1
+                        pdCapitalize
+                        pdTruncate
+                        class="text-header-contrast text-xl"
+                        [title]="titulo()">
+                        {{ titulo() }}
+                    </h1>
+                    <div
+                        pdCapitalize
+                        pdTruncate
+                        class="text-header-low-contrast text-sm"
+                        [title]="subtitulo()">
+                        {{ subtitulo() }}
+                    </div>
+                </div>
             </div>
-        </ng-content>
-    </pd-header>`,
-    hostDirectives: [StickyHeader],
+        </div>
+    `,
+    hostDirectives: [
+        {
+            directive: HeaderLayoutDirective,
+        },
+    ],
 })
 export class SectionHeader {
+    router = inject(Router);
     titulo = input<string>("");
     subtitulo = input<string>("");
 
-    constructor(private router: Router) {}
-
-    onMainButtonClick(event: MouseEvent) {
+    onBack(event: MouseEvent) {
         event.stopPropagation();
         this.router.navigate(["/"]);
     }
