@@ -1,8 +1,8 @@
 import { Component, computed, inject, signal } from "@angular/core";
-import { SearchHeader } from "../../core/components/header/search-header";
-import { PersistService } from "../../core/services/persist.service";
+import { SearchHeader } from "../../core";
+import { PersistService } from "../../core";
 import { NgClass } from "@angular/common";
-import { ChipsList } from "../../core/components/chips-list/chips-list";
+import { ChipsList } from "../../core";
 
 @Component({
     selector: "pd-searching",
@@ -22,7 +22,9 @@ import { ChipsList } from "../../core/components/chips-list/chips-list";
                             @for (part of prompt.titulo.parts; track $index; let i = $index) {
                             <span
                                 class="text-lg  whitespace-pre"
-                                [ngClass]="{ 'dark:bg-[#FFFF0060] bg-[#FFFF00]': i === prompt.titulo.in }"
+                                [ngClass]="{
+                                    'dark:bg-[#FFFF0060] bg-[#FFFF00]': i === prompt.titulo.in
+                                }"
                                 >{{ part }}</span
                             >
                             }
@@ -31,7 +33,9 @@ import { ChipsList } from "../../core/components/chips-list/chips-list";
                             @for (part of prompt.prompt.parts; track $index; let i = $index) {
                             <span
                                 class="text-lg whitespace-pre"
-                                [ngClass]="{ 'dark:bg-[#FFFF0060] bg-[#FFFF00]': i === prompt.prompt.in }"
+                                [ngClass]="{
+                                    'dark:bg-[#FFFF0060] bg-[#FFFF00]': i === prompt.prompt.in
+                                }"
                                 >{{ part }}</span
                             >
                             }
@@ -40,7 +44,9 @@ import { ChipsList } from "../../core/components/chips-list/chips-list";
                             @for (part of prompt.descripcion.parts; track $index; let i = $index) {
                             <span
                                 class="text-lg whitespace-pre"
-                                [ngClass]="{ 'dark:bg-[#FFFF0060] bg-[#FFFF00]': i === prompt.descripcion.in }"
+                                [ngClass]="{
+                                    'dark:bg-[#FFFF0060] bg-[#FFFF00]': i === prompt.descripcion.in
+                                }"
                                 >{{ part }}</span
                             >
                             }
@@ -67,9 +73,14 @@ export class Searching {
                 id: tag.slug,
                 name: tag.text,
                 activa:
-                    this.etiquetas().length !== this.todasLasEtiquetas.length && this.etiquetas().includes(tag.text),
+                    this.etiquetas().length !== this.todasLasEtiquetas.length &&
+                    this.etiquetas().includes(tag.text),
             }))
-            .sort((a, b) => (a.activa === true ? 0 : 1) - (b.activa === true ? 0 : 1) || a.name.localeCompare(b.name))
+            .sort(
+                (a, b) =>
+                    (a.activa === true ? 0 : 1) - (b.activa === true ? 0 : 1) ||
+                    a.name.localeCompare(b.name)
+            )
     );
 
     categoriasActuales = computed(() =>
@@ -78,9 +89,14 @@ export class Searching {
                 id: cat.slug,
                 name: cat.text,
                 activa:
-                    this.categorias().length !== this.todasLasCategorias.length && this.categorias().includes(cat.text),
+                    this.categorias().length !== this.todasLasCategorias.length &&
+                    this.categorias().includes(cat.text),
             }))
-            .sort((a, b) => (a.activa === true ? 0 : 1) - (b.activa === true ? 0 : 1) || a.name.localeCompare(b.name))
+            .sort(
+                (a, b) =>
+                    (a.activa === true ? 0 : 1) - (b.activa === true ? 0 : 1) ||
+                    a.name.localeCompare(b.name)
+            )
     );
 
     onSearch(searchTerm: string) {
@@ -111,7 +127,9 @@ export class Searching {
                         searchTerm.length
                     );
                 } else {
-                    item.tags = found.item.tags.filter((tag) => resultado.etiquetas.includes(tag.toLowerCase()));
+                    item.tags = found.item.tags.filter((tag) =>
+                        resultado.etiquetas.includes(tag.toLowerCase())
+                    );
                 }
             }
             if (item.titulo.parts.length === 0) {
@@ -121,7 +139,10 @@ export class Searching {
                 item.prompt = { parts: [`${found.item.prompt.slice(0, this.longitud)}`], in: -1 };
             }
             if (item.descripcion.parts.length === 0) {
-                item.descripcion = { parts: [`${found.item.descripcion.slice(0, this.longitud)}...`], in: -1 };
+                item.descripcion = {
+                    parts: [`${found.item.descripcion.slice(0, this.longitud)}...`],
+                    in: -1,
+                };
             }
             return item;
         });
@@ -131,13 +152,20 @@ export class Searching {
         this.prompts.set(salida);
     }
 
-    private relevantSection(text: string, position: number, searchLength: number): { parts: string[]; in: number } {
+    private relevantSection(
+        text: string,
+        position: number,
+        searchLength: number
+    ): { parts: string[]; in: number } {
         const start = position - this.mediaLongitud;
         const end = position + searchLength + this.mediaLongitud;
         const foundText = text.slice(position, position + searchLength);
 
         if (position <= 0) {
-            return { parts: [foundText, text.slice(position + searchLength, this.longitud)], in: 0 };
+            return {
+                parts: [foundText, text.slice(position + searchLength, this.longitud)],
+                in: 0,
+            };
         }
         if (position + searchLength >= text.length) {
             return { parts: [text.slice(-this.longitud, -searchLength), foundText], in: 1 };
@@ -145,7 +173,11 @@ export class Searching {
 
         if (start < 0) {
             return {
-                parts: [text.slice(0, position), foundText, text.slice(position + searchLength, this.longitud)],
+                parts: [
+                    text.slice(0, position),
+                    foundText,
+                    text.slice(position + searchLength, this.longitud),
+                ],
                 in: 1,
             };
         }
@@ -161,7 +193,11 @@ export class Searching {
         }
 
         return {
-            parts: [text.slice(start, position), foundText, text.slice(position + searchLength, end)],
+            parts: [
+                text.slice(start, position),
+                foundText,
+                text.slice(position + searchLength, end),
+            ],
             in: 1,
         };
     }
