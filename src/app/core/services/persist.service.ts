@@ -2,7 +2,7 @@ import { Injectable, signal } from "@angular/core";
 import allPrompts from "../../../data/normalizados";
 import { Prompt } from "../../features/prompts/prompt";
 import { NavigationItem } from "../../features/navigation/navigation-item";
-import { normalizeSearchText, createSearchMatcher } from "../utils/search-utils";
+import { createSearchMatcher } from "../utils/search-utils";
 
 @Injectable({
     providedIn: "root",
@@ -106,24 +106,18 @@ export class PersistService {
     search(searchTerm: string, enableFuzzy: boolean = true): ResultadoBusqueda {
         const trimmedSearch = searchTerm.trim();
         if (!trimmedSearch) {
-            return { search: "", categorias: [], etiquetas: [], found: [] };
+            return { search: "", found: [] };
         }
 
         // Dividir en términos individuales para búsqueda más flexible
         const searchTerms = trimmedSearch.split(/\s+/).filter((term) => term.length > 0);
         const matcher = createSearchMatcher(searchTerms, enableFuzzy);
 
-        // Buscar en categorías y etiquetas con normalización
-        const categorias = this.categories().filter((cat) => matcher.matches(cat.text));
-        const etiquetas = this.tags().filter((tag) => matcher.matches(tag.text));
-
         // Buscar en prompts con priorización por relevancia
         const found = this.searchInPrompts(searchTerms, matcher, 10);
 
         return {
             search: trimmedSearch,
-            categorias: categorias.map((cat) => cat.text),
-            etiquetas: etiquetas.map((tag) => tag.text),
             found: found,
         };
     }
@@ -222,8 +216,6 @@ export class PersistService {
 
 export type ResultadoBusqueda = {
     search: string;
-    categorias: string[];
-    etiquetas: string[];
     found: { item: Prompt; foundIn: foundInKey; position: number; relevanceScore: number }[];
 };
 
