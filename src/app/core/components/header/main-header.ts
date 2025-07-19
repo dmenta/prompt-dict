@@ -26,8 +26,13 @@ import {
                 title="Abrir menú"
                 aria-label="Abrir menú"
                 (click)="onMainButtonClick($event)"
-                class="md:invisible "
+                class="md:hidden "
                 pdIcon="menu"></button>
+            <div
+                class="text-2xl hidden md:inline-block font-mont-alt font-semibold"
+                style="letter-spacing: 0.07em;">
+                ARTIFICIALMENTE
+            </div>
             <pd-placeholder-searcher class="w-full max-w-[500px]"></pd-placeholder-searcher>
             <pd-mode-toggle></pd-mode-toggle>
         </div>
