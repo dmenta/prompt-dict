@@ -10,7 +10,7 @@ export const apoyoEscolar = [
         categoria: "apoyo escolar y crianza",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 81,
@@ -23,7 +23,7 @@ export const apoyoEscolar = [
         categoria: "apoyo escolar y crianza",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 82,
@@ -36,7 +36,7 @@ export const apoyoEscolar = [
         categoria: "apoyo escolar y crianza",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 83,
@@ -49,7 +49,7 @@ export const apoyoEscolar = [
         categoria: "apoyo escolar y crianza",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 84,
@@ -61,7 +61,7 @@ export const apoyoEscolar = [
         categoria: "apoyo escolar y crianza",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 85,
@@ -74,6 +74,6 @@ export const apoyoEscolar = [
         categoria: "apoyo escolar y crianza",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
 ];

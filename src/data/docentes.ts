@@ -11,7 +11,7 @@ export const docentes = [
         categoria: "docentes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 32,
@@ -25,7 +25,7 @@ export const docentes = [
         categoria: "docentes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 33,
@@ -39,7 +39,7 @@ export const docentes = [
         categoria: "docentes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 34,
@@ -53,7 +53,7 @@ export const docentes = [
         categoria: "docentes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 35,
@@ -67,7 +67,7 @@ export const docentes = [
         categoria: "docentes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 36,
@@ -81,7 +81,7 @@ export const docentes = [
         categoria: "docentes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 37,
@@ -95,7 +95,7 @@ export const docentes = [
         categoria: "docentes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 38,
@@ -109,7 +109,7 @@ export const docentes = [
         categoria: "docentes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 39,
@@ -123,7 +123,7 @@ export const docentes = [
         categoria: "docentes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 40,
@@ -137,6 +137,6 @@ export const docentes = [
         categoria: "docentes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
 ];

@@ -8,7 +8,7 @@ export interface Prompt {
     prompt: string;
     uso: "texto" | "código" | "imagen" | "video" | "audio" | "otro";
     idioma: string;
-    fechaCreacion: Date;
+    fecha_creacion: Date;
     slug: string;
     fechaEdicion?: Date;
     modelo?: string;

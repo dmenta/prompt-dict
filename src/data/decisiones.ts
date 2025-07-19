@@ -11,7 +11,7 @@ export const decisiones = [
         categoria: "decisiones de desarrollo",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 42,
@@ -25,7 +25,7 @@ export const decisiones = [
         categoria: "decisiones de desarrollo",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 43,
@@ -39,7 +39,7 @@ export const decisiones = [
         categoria: "decisiones de desarrollo",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 44,
@@ -53,7 +53,7 @@ export const decisiones = [
         categoria: "decisiones de desarrollo",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 45,
@@ -67,7 +67,7 @@ export const decisiones = [
         categoria: "decisiones de desarrollo",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 46,
@@ -81,6 +81,6 @@ export const decisiones = [
         categoria: "decisiones de desarrollo",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
 ];

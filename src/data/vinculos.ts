@@ -11,7 +11,7 @@ export const vinculos = [
         categoria: "vínculos y emociones",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 2,
@@ -24,7 +24,7 @@ export const vinculos = [
         categoria: "vínculos y emociones",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-08"),
+        fecha_creacion: new Date("2025-07-08"),
     },
     {
         id: 3,
@@ -38,7 +38,7 @@ export const vinculos = [
         categoria: "vínculos y emociones",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-01"),
+        fecha_creacion: new Date("2025-07-01"),
     },
     {
         id: 4,
@@ -52,7 +52,7 @@ export const vinculos = [
         categoria: "vínculos y emociones",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-06-15"),
+        fecha_creacion: new Date("2025-06-15"),
     },
     {
         id: 5,
@@ -66,7 +66,7 @@ export const vinculos = [
         categoria: "vínculos y emociones",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-05-11"),
+        fecha_creacion: new Date("2025-05-11"),
     },
     {
         id: 6,
@@ -80,7 +80,7 @@ export const vinculos = [
         categoria: "vínculos y emociones",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 7,
@@ -93,7 +93,7 @@ export const vinculos = [
         categoria: "vínculos y emociones",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 8,
@@ -107,6 +107,6 @@ export const vinculos = [
         categoria: "vínculos y emociones",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
 ];

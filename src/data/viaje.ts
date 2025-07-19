@@ -9,7 +9,7 @@ export const viajes = [
         categoria: "Planificación de Viajes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 91,
@@ -22,7 +22,7 @@ export const viajes = [
         categoria: "Planificación de Viajes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 92,
@@ -34,7 +34,7 @@ export const viajes = [
         categoria: "Planificación de Viajes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 93,
@@ -47,7 +47,7 @@ export const viajes = [
         categoria: "Planificación de Viajes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 94,
@@ -60,7 +60,7 @@ export const viajes = [
         categoria: "Planificación de Viajes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 95,
@@ -72,7 +72,7 @@ export const viajes = [
         categoria: "Planificación de Viajes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 96,
@@ -84,7 +84,7 @@ export const viajes = [
         categoria: "Planificación de Viajes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 97,
@@ -96,7 +96,7 @@ export const viajes = [
         categoria: "Planificación de Viajes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 98,
@@ -108,7 +108,7 @@ export const viajes = [
         categoria: "Planificación de Viajes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 99,
@@ -120,7 +120,7 @@ export const viajes = [
         categoria: "Planificación de Viajes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 100,
@@ -133,7 +133,7 @@ export const viajes = [
         categoria: "Planificación de Viajes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 101,
@@ -146,6 +146,6 @@ export const viajes = [
         categoria: "Planificación de Viajes",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
 ];

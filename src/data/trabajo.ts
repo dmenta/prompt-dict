@@ -11,7 +11,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 10,
@@ -25,7 +25,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 11,
@@ -39,7 +39,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 12,
@@ -53,7 +53,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         titulo: "Presentación de marketing",
@@ -67,7 +67,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 14,
@@ -81,7 +81,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 15,
@@ -95,7 +95,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 16,
@@ -108,7 +108,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 17,
@@ -121,7 +121,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 18,
@@ -134,7 +134,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 19,
@@ -147,7 +147,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 20,
@@ -161,7 +161,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 21,
@@ -174,7 +174,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         titulo: "Listas de cotejo",
@@ -188,7 +188,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 23,
@@ -202,7 +202,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 24,
@@ -215,7 +215,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 25,
@@ -229,7 +229,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 26,
@@ -243,7 +243,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 27,
@@ -261,7 +261,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 28,
@@ -275,7 +275,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 29,
@@ -289,7 +289,7 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
     {
         id: 30,
@@ -303,6 +303,6 @@ export const trabajo = [
         categoria: "trabajo y profesión",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2023-10-01"),
+        fecha_creacion: new Date("2023-10-01"),
     },
 ];

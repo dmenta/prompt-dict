@@ -40,7 +40,7 @@ export class PromptDetail {
         { label: "Descripción", key: "descripcion" },
         { label: "Autor", key: "autor" },
         { label: "Categoría", key: "categoria" },
-        { label: "Creado", key: "fechaCreacion" },
+        { label: "Creado", key: "fecha_creacion" },
         { label: "Etiquetas", key: "tags" },
         { label: "ID", key: "id" },
     ];

@@ -9,7 +9,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "imagen",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 51,
@@ -21,7 +21,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "imagen",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 52,
@@ -33,7 +33,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "imagen",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 53,
@@ -45,7 +45,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "imagen",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 54,
@@ -57,7 +57,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "imagen",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 55,
@@ -69,7 +69,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "imagen",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 56,
@@ -81,7 +81,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "imagen",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 57,
@@ -93,7 +93,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "imagen",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 58,
@@ -105,7 +105,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "imagen",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 59,
@@ -118,7 +118,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "imagen",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 60,
@@ -130,7 +130,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "imagen",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 61,
@@ -143,7 +143,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 62,
@@ -156,7 +156,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "imagen",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 63,
@@ -169,7 +169,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 64,
@@ -182,7 +182,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 65,
@@ -195,7 +195,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 66,
@@ -208,7 +208,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 67,
@@ -221,7 +221,7 @@ export const creatividad = [
         tags: ["personal branding", "estrategia"],
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 68,
@@ -233,7 +233,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 69,
@@ -245,7 +245,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 70,
@@ -257,7 +257,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 71,
@@ -270,7 +270,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 72,
@@ -283,7 +283,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 73,
@@ -295,7 +295,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 74,
@@ -308,7 +308,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "imagen",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 75,
@@ -321,7 +321,7 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 76,
@@ -333,6 +333,6 @@ export const creatividad = [
         categoria: "escritura, creatividad y contenido",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
 ];

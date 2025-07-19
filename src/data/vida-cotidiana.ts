@@ -9,7 +9,7 @@ export const vidaCotidiana = [
         categoria: "Vida Cotidiana",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 106,
@@ -22,7 +22,7 @@ export const vidaCotidiana = [
         categoria: "Vida Cotidiana",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 107,
@@ -34,7 +34,7 @@ export const vidaCotidiana = [
         categoria: "Vida Cotidiana",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 108,
@@ -46,7 +46,7 @@ export const vidaCotidiana = [
         categoria: "Vida Cotidiana",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 109,
@@ -59,7 +59,7 @@ export const vidaCotidiana = [
         categoria: "Vida Cotidiana",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
     {
         id: 110,
@@ -71,6 +71,6 @@ export const vidaCotidiana = [
         categoria: "Vida Cotidiana",
         uso: "texto",
         idioma: "es-AR",
-        fechaCreacion: new Date("2025-07-16"),
+        fecha_creacion: new Date("2025-07-16"),
     },
 ];
