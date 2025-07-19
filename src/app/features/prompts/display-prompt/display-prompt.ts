@@ -1,7 +1,7 @@
 import { Component, inject, input, signal } from "@angular/core";
 import { Prompt } from "../prompt";
 import { CopyActions } from "../../../core";
-import { Router, RouterLink } from "@angular/router";
+import { RouterLink } from "@angular/router";
 import { APP_BASE_HREF } from "@angular/common";
 import { PrompInfo } from "../promp-info/promp-info";
 

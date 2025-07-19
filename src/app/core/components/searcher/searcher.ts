@@ -1,6 +1,6 @@
-import { Component, ElementRef, inject, input, output, signal, ViewChild } from "@angular/core";
+import { Component, ElementRef, input, output, ViewChild } from "@angular/core";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
-import { debounceTime, startWith } from "rxjs";
+import { debounceTime } from "rxjs";
 import { HeaderButton } from "../header/buttons/header-button";
 import { IconDirective } from "../../directives";
 

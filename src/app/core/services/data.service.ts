@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, resource } from "@angular/core";
+import { computed, Injectable, resource } from "@angular/core";
 import { Prompt } from "../../features/prompts/prompt";
 import { NavigationItem } from "../../features/navigation/navigation-item";
 import { createSearchMatcher, normalizeSearchText } from "../utils/search-utils";

@@ -1,5 +1,3 @@
-// Barrel export for all directives
-export * from "./chips-list/chips-list";
 export * from "./copy-actions";
 export * from "./drawer/drawer";
 export * from "./header/detail-header";
