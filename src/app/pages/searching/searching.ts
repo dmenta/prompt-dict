@@ -43,6 +43,7 @@ export class Searching {
         .slice(0, 10)
         .map((item) => ({
             id: item.id,
+            old_id: item.old_id,
             titulo: { parts: [item.titulo.slice(0, this.longitud)], in: -1 },
             prompt: { parts: [item.prompt.slice(0, this.longitud)], in: -1 },
             descripcion: {
@@ -152,7 +153,8 @@ export class Searching {
 }
 
 type ItemEncontrado = {
-    id: number;
+    id: string;
+    old_id?: number;
     titulo: { parts: string[]; in: number };
     prompt: { parts: string[]; in: number };
     descripcion: { parts: string[]; in: number };

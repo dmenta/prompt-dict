@@ -18,6 +18,7 @@ import {
 } from "@angular/fire/firestore";
 import { FirestorePrompt, FirestoreCategory, FirestoreTag } from "./firestore.types";
 import { Prompt } from "../../features/prompts/prompt";
+import { map } from "rxjs";
 
 @Injectable({
     providedIn: "root",
@@ -74,13 +75,18 @@ export class FirestoreService {
     async getPromptById(id: string): Promise<Prompt | null> {
         try {
             this.error.set(null);
-            const docRef = doc(this.firestore, "prompts", id);
-            const docSnap = await getDoc(docRef);
+            const q = query(this.promptsCollection, where("slug", "==", id));
+            const querySnapshot = await getDocs(q);
 
-            if (docSnap.exists()) {
-                return this.mapDocumentToPrompt(docSnap.id, docSnap.data());
+            if (querySnapshot.empty) {
+                return null;
             }
-            return null;
+            const docSnap = querySnapshot.docs[0];
+
+            if (!docSnap.exists()) {
+                return null;
+            }
+            return this.mapDocumentToPrompt(docSnap.id, docSnap.data());
         } catch (error) {
             const errorMessage = `Error al obtener prompt ${id}: ${error}`;
             this.error.set(errorMessage);
@@ -209,6 +215,54 @@ export class FirestoreService {
         }
     }
 
+    /**
+     * Obtener un prompt por ID
+     */
+    async getCategoryBySlug(slug: string): Promise<FirestoreCategory | null> {
+        try {
+            this.error.set(null);
+            const q = query(this.categoriesCollection, where("slug", "==", slug));
+            const querySnapshot = await getDocs(q);
+
+            if (querySnapshot.empty) {
+                return null;
+            }
+            const docSnap = querySnapshot.docs[0];
+
+            if (!docSnap.exists()) {
+                return null;
+            }
+            return this.mapDocumentToCategory(docSnap.id, docSnap.data());
+        } catch (error) {
+            const errorMessage = `Error al obtener category ${slug}: ${error}`;
+            this.error.set(errorMessage);
+            console.error(errorMessage);
+            return null;
+        }
+    }
+
+    async getTagBySlug(slug: string): Promise<FirestoreTag | null> {
+        try {
+            this.error.set(null);
+            const q = query(this.tagsCollection, where("slug", "==", slug));
+            const querySnapshot = await getDocs(q);
+
+            if (querySnapshot.empty) {
+                return null;
+            }
+            const docSnap = querySnapshot.docs[0];
+
+            if (!docSnap.exists()) {
+                return null;
+            }
+            return this.mapDocumentToTag(docSnap.id, docSnap.data());
+        } catch (error) {
+            const errorMessage = `Error al obtener tag ${slug}: ${error}`;
+            this.error.set(errorMessage);
+            console.error(errorMessage);
+            return null;
+        }
+    }
     // ==================== SYNC METHODS ====================
 
     /**
@@ -219,26 +273,94 @@ export class FirestoreService {
             this.isLoading.set(true);
             this.error.set(null);
 
-            console.log(`Iniciando migración de ${localPrompts.length} prompts...`);
+            // console.log(`Iniciando migración de ${localPrompts.length} prompts...`);
 
-            const promises = localPrompts.map((prompt) => {
-                const firestorePrompt: Omit<FirestorePrompt, "id"> = {
-                    old_id: prompt.id,
-                    titulo: prompt.titulo,
-                    prompt: prompt.prompt,
-                    descripcion: prompt.descripcion,
-                    autor: prompt.autor,
-                    categoria: prompt.categoria,
-                    tags: prompt.tags,
-                    uso: prompt.uso,
-                    idioma: prompt.idioma,
-                    fecha_creacion: new Date(prompt.fecha_creacion),
-                    slug: prompt.slug,
+            // const promises = localPrompts.map((prompt) => {
+            //     const firestorePrompt: Omit<FirestorePrompt, "id"> = {
+            //         old_id: prompt.id,
+            //         titulo: prompt.titulo,
+            //         prompt: prompt.prompt,
+            //         descripcion: prompt.descripcion,
+            //         autor: prompt.autor,
+            //         categoria: prompt.categoria,
+            //         tags: prompt.tags,
+            //         uso: prompt.uso,
+            //         idioma: prompt.idioma,
+            //         fecha_creacion: new Date(prompt.fecha_creacion),
+            //         slug: prompt.slug,
+            //     };
+            //     return addDoc(this.promptsCollection, firestorePrompt);
+            // });
+
+            const categorias = [] as {
+                name: string;
+                slug: string;
+                fecha_creacion: Date;
+                prompt_count: number;
+            }[];
+            localPrompts.forEach((prompt) => {
+                const name = prompt.categoria.toLowerCase();
+                const previa = categorias.find((c) => c.name === name);
+                if (previa) {
+                    previa.prompt_count++;
+                    return;
+                }
+                const categoria = {
+                    name,
+                    slug: this.generateSlug(name),
+                    fecha_creacion: new Date(),
+                    prompt_count: 1, // Inicialmente 0, se actualizará después
                 };
-                return addDoc(this.promptsCollection, firestorePrompt);
+                categorias.push(categoria);
             });
 
-            await Promise.all(promises);
+            const catPromises = categorias.map((categorias) => {
+                const firestoreCategory: Omit<FirestoreCategory, "id"> = {
+                    name: categorias.name,
+                    slug: categorias.slug,
+                    fecha_creacion: categorias.fecha_creacion,
+                    prompt_count: categorias.prompt_count,
+                };
+                return addDoc(this.categoriesCollection, firestoreCategory);
+            });
+
+            await Promise.all(catPromises);
+
+            const tags = [] as {
+                name: string;
+                slug: string;
+                fecha_creacion: Date;
+                prompt_count: number;
+            }[];
+            localPrompts.forEach((prompt) => {
+                prompt.tags.forEach((or_tag) => {
+                    const name = or_tag.toLowerCase();
+                    const previa = tags.find((c) => c.name === name);
+                    if (previa) {
+                        previa.prompt_count++;
+                        return;
+                    }
+                    const tag = {
+                        name,
+                        slug: this.generateSlug(name),
+                        fecha_creacion: new Date(),
+                        prompt_count: 1, // Inicialmente 0, se actualizará después
+                    };
+                    tags.push(tag);
+                });
+            });
+
+            const tagPromises = tags.map((tag) => {
+                const firestoreTag: Omit<FirestoreTag, "id"> = {
+                    name: tag.name,
+                    slug: tag.slug,
+                    fecha_creacion: tag.fecha_creacion,
+                    prompt_count: tag.prompt_count,
+                };
+                return addDoc(this.tagsCollection, firestoreTag);
+            });
+
+            await Promise.all(tagPromises);
             console.log("Migración completada exitosamente");
             return true;
         } catch (error) {
@@ -269,6 +391,30 @@ export class FirestoreService {
                 this.error.set(`Error en sincronización: ${error}`);
             }
         );
+
+        onSnapshot(
+            query(this.categoriesCollection, orderBy("name", "asc")),
+            (snapshot) => {
+                const categories = this.mapQuerySnapshotToCategories(snapshot);
+                this.categories.set(categories);
+            },
+            (error) => {
+                console.error("Error en listener de categories:", error);
+                this.error.set(`Error en sincronización: ${error}`);
+            }
+        );
+
+        onSnapshot(
+            query(this.tagsCollection, orderBy("prompt_count", "desc")),
+            (snapshot) => {
+                const tags = this.mapQuerySnapshotToTags(snapshot);
+                this.tags.set(tags);
+            },
+            (error) => {
+                console.error("Error en listener de tags:", error);
+                this.error.set(`Error en sincronización: ${error}`);
+            }
+        );
     }
 
     /**
@@ -279,12 +425,25 @@ export class FirestoreService {
     }
 
     /**
+     * Mapear QuerySnapshot a array de Prompts
+     */
+    private mapQuerySnapshotToCategories(
+        querySnapshot: QuerySnapshot<DocumentData>
+    ): FirestoreCategory[] {
+        return querySnapshot.docs.map((doc) => this.mapDocumentToCategory(doc.id, doc.data()));
+    }
+
+    private mapQuerySnapshotToTags(querySnapshot: QuerySnapshot<DocumentData>): FirestoreTag[] {
+        return querySnapshot.docs.map((doc) => this.mapDocumentToTag(doc.id, doc.data()));
+    }
+
+    /**
      * Mapear documento a Prompt
      */
     private mapDocumentToPrompt(id: string, data: DocumentData): Prompt {
-        console.log("Mapping document to Prompt:", id, data);
         return {
-            id: parseInt(id) || Math.random(), // Temporal - en Firestore usarás string IDs
+            id: id,
+            old_id: data["old_id"] ? parseInt(data["old_id"]) : undefined,
             titulo: data["titulo"] || "",
             prompt: data["prompt"] || "",
             descripcion: data["descripcion"] || "",
@@ -308,6 +467,26 @@ export class FirestoreService {
             rating: data["rating"],
             visibilidad: data["visibilidad"],
             licencia: data["licencia"],
+        };
+    }
+
+    private mapDocumentToCategory(id: string, data: DocumentData): FirestoreCategory {
+        return {
+            id: id,
+            name: data["name"] || "",
+            slug: data["slug"] || this.generateSlug(data["name"] || ""),
+            prompt_count: Number(data["prompt_count"]) || 0,
+            fecha_creacion: (<Timestamp>data["fecha_creacion"])?.toDate() || new Date(),
+        };
+    }
+
+    private mapDocumentToTag(id: string, data: DocumentData): FirestoreTag {
+        return {
+            id: id,
+            name: data["name"] || "",
+            slug: data["slug"] || this.generateSlug(data["name"] || ""),
+            prompt_count: Number(data["prompt_count"]) || 0,
+            fecha_creacion: (<Timestamp>data["fecha_creacion"])?.toDate() || new Date(),
         };
     }
 

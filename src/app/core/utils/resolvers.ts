@@ -1,25 +1,30 @@
 import { inject } from "@angular/core";
 import type { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
-import { DataService } from "../services";
-import { map } from "rxjs";
+import { AppDataService } from "../services";
 
 const promptResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
-    inject(DataService).ready$.pipe(map((s) => s.byId(getId(route))));
+    inject(AppDataService).byId(getId(route));
 
 const categoryResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
-    inject(DataService).ready$.pipe(map((s) => s.byCategory(getId(route))));
+    inject(AppDataService).byCategory(getId(route));
 
 const tagResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
-    inject(DataService).ready$.pipe(map((s) => s.byTag(getId(route))));
+    inject(AppDataService).byTag(getId(route));
 
 const promptTitleResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
-    inject(DataService).ready$.pipe(map((s) => `Prompt | ${s.byId(getId(route)).titulo}`));
+    inject(AppDataService)
+        .byId(getId(route))
+        .then((p) => `Prompt | ${p.titulo}`);
 
 const categoryTitleResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
-    inject(DataService).ready$.pipe(map((s) => `Categoría | ${s.byCategory(getId(route)).name}`));
+    inject(AppDataService)
+        .byCategory(getId(route))
+        .then((p) => `Categoría | ${p.name}`);
 
 const tagTitleResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
-    inject(DataService).ready$.pipe(map((s) => `Etiqueta | ${s.byTag(getId(route)).name}`));
+    inject(AppDataService)
+        .byTag(getId(route))
+        .then((s) => `Etiqueta | ${s.name}`);
 
 function getId(route: ActivatedRouteSnapshot): string {
     const id = route.paramMap.get("id");

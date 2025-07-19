@@ -41,11 +41,11 @@ export const routes: Routes = [
         title: "Prompter | Búsqueda",
     },
 
-    {
-        path: "admin",
-        loadComponent: () => import("./pages/admin/admin").then((m) => m.AdminComponent),
-        title: "Prompter | Administración",
-    },
+    // {
+    //     path: "admin",
+    //     loadComponent: () => import("./pages/admin/admin").then((m) => m.AdminComponent),
+    //     title: "Prompter | Administración",
+    // },
 
     {
         path: "home",

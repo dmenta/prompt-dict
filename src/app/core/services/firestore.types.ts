@@ -31,14 +31,14 @@ export interface FirestoreCategory {
     id?: string;
     name: string;
     slug: string;
-    promptCount: number;
-    createdAt?: Date;
+    prompt_count: number;
+    fecha_creacion?: Date;
 }
 
 export interface FirestoreTag {
     id?: string;
     name: string;
     slug: string;
-    promptCount: number;
-    createdAt?: Date;
+    prompt_count: number;
+    fecha_creacion?: Date;
 }

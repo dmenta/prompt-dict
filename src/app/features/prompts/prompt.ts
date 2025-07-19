@@ -1,5 +1,6 @@
 export interface Prompt {
-    id: number;
+    id: string;
+    old_id?: number;
     titulo: string;
     descripcion: string;
     autor: string;

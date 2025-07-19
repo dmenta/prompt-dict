@@ -84,29 +84,34 @@ export class AppDataService {
             return this.dataService.byCategory(slug);
         } else {
             // Buscar la categoría en Firestore
-            const category = this.categories().find((cat) => cat.slug === slug);
-            if (!category) {
-                throw new Error(`No se encontró la categoría '${slug}'.`);
-            }
-            const prompts = await this.firestoreService.getPromptsByCategory(category.text);
-            return { name: category.text, prompts };
+            const category = this.firestoreService.getCategoryBySlug(slug);
+
+            return category.then(async (category) => {
+                if (!category) {
+                    throw new Error(`No se encontró la categoría '${slug}'.`);
+                }
+
+                const prompts = await this.firestoreService.getPromptsByCategory(category.name);
+                return { name: this.titleCase(category.name), prompts };
+            });
         }
     }
 
-    /**
-     * Obtener prompts por tag
-     */
     async byTag(slug: string): Promise<{ name: string; prompts: Prompt[] }> {
         if (this.dataSource() === "local") {
             return this.dataService.byTag(slug);
         } else {
-            // Buscar el tag en Firestore
-            const tag = this.tags().find((t) => t.slug === slug);
-            if (!tag) {
-                throw new Error(`No se encontró la etiqueta '${slug}'.`);
-            }
-            const prompts = await this.firestoreService.getPromptsByTag(tag.text);
-            return { name: tag.text, prompts };
+            // Buscar la categoría en Firestore
+            const tag = this.firestoreService.getTagBySlug(slug);
+
+            return tag.then(async (tag) => {
+                if (!tag) {
+                    throw new Error(`No se encontró la categoría '${slug}'.`);
+                }
+
+                const prompts = await this.firestoreService.getPromptsByTag(tag.name);
+                return { name: this.titleCase(tag.name), prompts };
+            });
         }
     }
 
@@ -175,14 +180,24 @@ export class AppDataService {
     }
 
     private mapFirestoreCategoriesToNavigationItems(): NavigationItem[] {
-        // Por ahora retornamos un array vacío
-        // Esto se implementaría cuando tengas categorías en Firestore
-        return [];
+        return this.firestoreService.categories().map((cat) => ({
+            text: cat.name,
+            slug: cat.slug,
+            cantidad: cat.prompt_count,
+            prompts: [],
+        }));
     }
 
     private mapFirestoreTagsToNavigationItems(): NavigationItem[] {
-        // Por ahora retornamos un array vacío
-        // Esto se implementaría cuando tengas tags en Firestore
-        return [];
+        return this.firestoreService.tags().map((tag) => ({
+            text: tag.name,
+            slug: tag.slug,
+            cantidad: tag.prompt_count,
+            prompts: [],
+        }));
+    }
+
+    private titleCase(str: string): string {
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
 }

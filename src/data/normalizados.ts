@@ -9,14 +9,14 @@ import { vidaCotidiana } from "./vida-cotidiana";
 import { vinculos } from "./vinculos";
 
 export const allPrompts: Prompt[] = [
-    ...vinculos,
-    ...trabajo,
-    ...docentes,
-    ...decisiones,
-    ...creatividad,
-    ...apoyoEscolar,
-    ...viajes,
-    ...vidaCotidiana,
+    // ...vinculos,
+    // ...trabajo,
+    // ...docentes,
+    // ...decisiones,
+    // ...creatividad,
+    // ...apoyoEscolar,
+    // ...viajes,
+    // ...vidaCotidiana,
 ] as Prompt[];
 
 export default allPrompts;
