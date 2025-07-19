@@ -26,7 +26,7 @@ import { Drawer, MainHeader, PersistService, StorageService } from "../../core";
             <nav pd-nav-list [list]="list()"></nav>
         </div>
         <div class="flex flex-row  md:ml-72">
-            <ul pd-prompts-list class="p-4" [prompts]="prompts()"></ul>
+            <ul pd-prompts-list class="px-4 md:px-8 py-4" [prompts]="prompts()"></ul>
         </div>
     `,
     host: {
