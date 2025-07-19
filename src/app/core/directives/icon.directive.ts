@@ -1,6 +1,6 @@
 import { Directive, input, ElementRef, inject, Renderer2, effect } from "@angular/core";
 
-export type IconType =
+type IconType =
     | "menu"
     | "back"
     | "search"

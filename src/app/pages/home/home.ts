@@ -1,9 +1,9 @@
 import { Component, computed, inject, signal } from "@angular/core";
 import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
-import { Prompt } from "../../features/prompts/prompt";
 import { NavList, NavListSort } from "../../features/navigation/nav-list/nav-list";
 import { NavItemType, navItemTypeLabels } from "../../features/navigation/navigation-item";
 import { Drawer, MainHeader, StorageService, AppDataService } from "../../core";
+import { FirestorePrompt } from "../../core/models";
 
 @Component({
     selector: "pd-home",
@@ -45,7 +45,7 @@ export class Home {
     );
     persistService = inject(AppDataService);
 
-    prompts = computed<Prompt[]>(() => this.persistService.prompts());
+    prompts = computed<FirestorePrompt[]>(() => this.persistService.prompts());
 
     list = signal<NavItemType>(this.store.get("navList") ?? "category");
     sort = computed<NavListSort>(() => this.listData()[this.list()] ?? "qty");

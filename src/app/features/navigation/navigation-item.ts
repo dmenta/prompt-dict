@@ -1,10 +1,10 @@
-import { Prompt } from "../prompts/prompt";
+import { FirestorePrompt } from "../../core/models";
 
 export type NavigationItem = {
     text: string;
     slug: string;
     cantidad: number;
-    prompts?: Prompt[];
+    prompts?: FirestorePrompt[];
 };
 
 export type NavItemType = "category" | "tag";

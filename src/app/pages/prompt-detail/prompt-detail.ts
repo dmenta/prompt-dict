@@ -1,9 +1,9 @@
 import { Component, computed, inject, signal } from "@angular/core";
-import { Prompt } from "../../features/prompts/prompt";
 import { ActivatedRoute } from "@angular/router";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Observable } from "rxjs";
 import { CopyService, DetailHeader, LabelValueItem } from "../../core";
+import { FirestorePrompt } from "../../core/models";
 
 @Component({
     selector: "pd-prompt-detail",
@@ -30,11 +30,11 @@ import { CopyService, DetailHeader, LabelValueItem } from "../../core";
 export class PromptDetail {
     private url = signal<string>(window.location.href);
     private route = inject(ActivatedRoute);
-    private data = toSignal(this.route.data as Observable<{ prompt: Prompt }>);
+    private data = toSignal(this.route.data as Observable<{ prompt: FirestorePrompt }>);
     private copyService = inject(CopyService);
-    prompt = computed(() => <Prompt>this.data()!.prompt);
+    prompt = computed(() => <FirestorePrompt>this.data()!.prompt);
 
-    displayProperties: { label: string; key: keyof Prompt }[] = [
+    displayProperties: { label: string; key: keyof FirestorePrompt }[] = [
         { label: "Título", key: "titulo" },
         { label: "Texto", key: "prompt" },
         { label: "Descripción", key: "descripcion" },

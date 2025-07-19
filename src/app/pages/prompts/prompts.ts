@@ -1,10 +1,10 @@
 import { Component, computed, inject } from "@angular/core";
 import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
-import { Prompt } from "../../features/prompts/prompt";
 import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ListPrompts, SectionHeader } from "../../core";
+import { FirestorePrompt } from "../../core/models";
 
 @Component({
     selector: "pd-prompts",
@@ -28,7 +28,7 @@ export class Prompts {
         }>
     );
 
-    prompts = computed(() => <Prompt[]>this.data()!.item.prompts);
+    prompts = computed(() => <FirestorePrompt[]>this.data()!.item.prompts);
     titulo = computed(() => <string>this.data()!.item.name);
     subtitulo = computed(() =>
         this.resolvedSubtitulo(this.prompts().length, this.data()!.type.lowercase)

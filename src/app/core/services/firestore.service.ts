@@ -15,8 +15,9 @@ import {
     onSnapshot,
     Timestamp,
 } from "@angular/fire/firestore";
-import { FirestorePrompt, FirestoreCategory, FirestoreTag } from "./firestore.types";
-import { Prompt } from "../../features/prompts/prompt";
+import { FirestorePrompt } from "../models/firestore.prompt";
+import { FirestoreTag } from "../models/firestore-tag";
+import { FirestoreCategory } from "../models/firestore-category";
 
 @Injectable({
     providedIn: "root",
@@ -30,7 +31,7 @@ export class FirestoreService {
     private tagsCollection = collection(this.firestore, "tags");
 
     // Signals para reactive data
-    public prompts = signal<Prompt[]>([]);
+    public prompts = signal<FirestorePrompt[]>([]);
     public categories = signal<FirestoreCategory[]>([]);
     public tags = signal<FirestoreTag[]>([]);
     public isLoading = signal(false);
@@ -45,7 +46,7 @@ export class FirestoreService {
     /**
      * Obtener todos los prompts
      */
-    async getPrompts(): Promise<Prompt[]> {
+    async getPrompts(): Promise<FirestorePrompt[]> {
         try {
             this.isLoading.set(true);
             this.error.set(null);
@@ -70,7 +71,7 @@ export class FirestoreService {
     /**
      * Obtener un prompt por ID
      */
-    async getPromptById(id: string): Promise<Prompt | null> {
+    async getPromptById(id: string): Promise<FirestorePrompt | null> {
         try {
             this.error.set(null);
             const q = query(this.promptsCollection, where("slug", "==", id));
@@ -154,7 +155,7 @@ export class FirestoreService {
     /**
      * Buscar prompts por texto
      */
-    async searchPrompts(searchTerm: string): Promise<Prompt[]> {
+    async searchPrompts(searchTerm: string): Promise<FirestorePrompt[]> {
         try {
             this.error.set(null);
             // Nota: Firestore no tiene búsqueda full-text nativa
@@ -182,7 +183,7 @@ export class FirestoreService {
     /**
      * Obtener prompts por categoría
      */
-    async getPromptsByCategory(category: string): Promise<Prompt[]> {
+    async getPromptsByCategory(category: string): Promise<FirestorePrompt[]> {
         try {
             this.error.set(null);
             const q = query(this.promptsCollection, where("categoria", "==", category));
@@ -199,7 +200,7 @@ export class FirestoreService {
     /**
      * Obtener prompts por tag
      */
-    async getPromptsByTag(tag: string): Promise<Prompt[]> {
+    async getPromptsByTag(tag: string): Promise<FirestorePrompt[]> {
         try {
             this.error.set(null);
             const q = query(this.promptsCollection, where("tags", "array-contains", tag));
@@ -266,7 +267,7 @@ export class FirestoreService {
     /**
      * Migrar datos locales a Firestore (usar solo una vez)
      */
-    async migrateLocalData(localPrompts: Prompt[]): Promise<boolean> {
+    async migrateLocalData(localPrompts: FirestorePrompt[]): Promise<boolean> {
         try {
             this.isLoading.set(true);
             this.error.set(null);
@@ -418,7 +419,9 @@ export class FirestoreService {
     /**
      * Mapear QuerySnapshot a array de Prompts
      */
-    private mapQuerySnapshotToPrompts(querySnapshot: QuerySnapshot<DocumentData>): Prompt[] {
+    private mapQuerySnapshotToPrompts(
+        querySnapshot: QuerySnapshot<DocumentData>
+    ): FirestorePrompt[] {
         return querySnapshot.docs.map((doc) => this.mapDocumentToPrompt(doc.id, doc.data()));
     }
 
@@ -438,7 +441,7 @@ export class FirestoreService {
     /**
      * Mapear documento a Prompt
      */
-    private mapDocumentToPrompt(id: string, data: DocumentData): Prompt {
+    private mapDocumentToPrompt(id: string, data: DocumentData): FirestorePrompt {
         return {
             id: id,
             old_id: data["old_id"] ? parseInt(data["old_id"]) : undefined,

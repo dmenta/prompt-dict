@@ -1,9 +1,7 @@
 import { Injectable, inject, computed } from "@angular/core";
 import { FirestoreService } from "./firestore.service";
-import { Prompt } from "../../features/prompts/prompt";
 import { NavigationItem } from "../../features/navigation/navigation-item";
-
-export type DataSource = "local" | "firestore";
+import { FirestorePrompt } from "../models";
 
 @Injectable({
     providedIn: "root",
@@ -11,7 +9,7 @@ export type DataSource = "local" | "firestore";
 export class AppDataService {
     private firestoreService = inject(FirestoreService);
 
-    public prompts = computed<Prompt[]>(() => this.firestoreService.prompts());
+    public prompts = computed<FirestorePrompt[]>(() => this.firestoreService.prompts());
 
     public categories = computed<NavigationItem[]>(() =>
         this.mapFirestoreCategoriesToNavigationItems()
@@ -33,7 +31,7 @@ export class AppDataService {
     /**
      * Obtener prompts por categoría
      */
-    async byCategory(slug: string): Promise<{ name: string; prompts: Prompt[] }> {
+    async byCategory(slug: string): Promise<{ name: string; prompts: FirestorePrompt[] }> {
         const category = this.firestoreService.getCategoryBySlug(slug);
 
         return category.then(async (category) => {
@@ -46,7 +44,7 @@ export class AppDataService {
         });
     }
 
-    async byTag(slug: string): Promise<{ name: string; prompts: Prompt[] }> {
+    async byTag(slug: string): Promise<{ name: string; prompts: FirestorePrompt[] }> {
         const tag = this.firestoreService.getTagBySlug(slug);
 
         return tag.then(async (tag) => {
@@ -62,7 +60,7 @@ export class AppDataService {
     /**
      * Obtener prompt por slug/ID
      */
-    async byId(slug: string): Promise<Prompt> {
+    async byId(slug: string): Promise<FirestorePrompt> {
         const prompt = await this.firestoreService.getPromptById(slug);
         if (!prompt) {
             throw new Error(`No se encontró un prompt '${slug}'.`);
@@ -123,11 +121,16 @@ export class AppDataService {
     }
 }
 
-export type ResultadoBusqueda = {
+type ResultadoBusqueda = {
     search: string;
-    found: { item: Prompt; foundIn: foundInKey; position: number; relevanceScore: number }[];
+    found: {
+        item: FirestorePrompt;
+        foundIn: foundInKey;
+        position: number;
+        relevanceScore: number;
+    }[];
 };
 
-export type foundInKey = "titulo" | "prompt" | "descripcion" | "autor" | "categoria" | "tags";
+type foundInKey = "titulo" | "prompt" | "descripcion" | "autor" | "categoria" | "tags";
 
-export type ListPrompts = { name: string; prompts: Prompt[] };
+export type ListPrompts = { name: string; prompts: FirestorePrompt[] };

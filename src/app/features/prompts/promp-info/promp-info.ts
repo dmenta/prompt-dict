@@ -1,6 +1,6 @@
 import { Component, input } from "@angular/core";
-import { Prompt } from "../prompt";
 import { RelativeDatePipe } from "../../../core";
+import { FirestorePrompt } from "../../../core/models";
 
 @Component({
     selector: "pd-promp-info",
@@ -10,6 +10,6 @@ import { RelativeDatePipe } from "../../../core";
         class: "md:flex justify-end items-center text-inverse-low hidden",
     },
 })
-export class PrompInfo {
-    prompt = input<{ autor: string; fecha_creacion: Date }>({} as Prompt);
+export class PromptInfo {
+    prompt = input<{ autor: string; fecha_creacion: Date }>({} as FirestorePrompt);
 }

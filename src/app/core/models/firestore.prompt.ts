@@ -1,5 +1,5 @@
 export interface FirestorePrompt {
-    id: number;
+    id: string;
     old_id?: number; // Para compatibilidad con IDs antiguos
     titulo: string;
     descripcion: string;
@@ -25,20 +25,4 @@ export interface FirestorePrompt {
     visibilidad?: string;
     licencia?: string;
     // Campos adicionales para Firestore
-}
-
-export interface FirestoreCategory {
-    id?: string;
-    name: string;
-    slug: string;
-    prompt_count: number;
-    fecha_creacion?: Date;
-}
-
-export interface FirestoreTag {
-    id?: string;
-    name: string;
-    slug: string;
-    prompt_count: number;
-    fecha_creacion?: Date;
 }
