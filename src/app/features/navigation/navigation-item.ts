@@ -1,9 +1,9 @@
 import { FirestorePrompt } from "../../core/models";
 
 export type NavigationItem = {
-    text: string;
+    name: string;
     slug: string;
-    cantidad: number;
+    prompt_count: number;
     prompts?: FirestorePrompt[];
 };
 

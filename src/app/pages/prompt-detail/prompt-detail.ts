@@ -4,6 +4,7 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { Observable } from "rxjs";
 import { CopyService, DetailHeader, LabelValueItem } from "../../core";
 import { FirestorePrompt } from "../../core/models";
+import { Title } from "@angular/platform-browser";
 
 @Component({
     selector: "pd-prompt-detail",
@@ -44,6 +45,10 @@ export class PromptDetail {
         { label: "Etiquetas", key: "tags" },
         { label: "ID", key: "id" },
     ];
+
+    constructor(title: Title) {
+        title.setTitle(`Prompt | ${this.prompt().titulo}`);
+    }
 
     onCopyPrompt(event: MouseEvent) {
         event.stopPropagation();

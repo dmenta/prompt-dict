@@ -11,21 +11,6 @@ const categoryResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnaps
 const tagResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
     inject(AppDataService).byTag(getId(route));
 
-const promptTitleResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
-    inject(AppDataService)
-        .byId(getId(route))
-        .then((p) => `Prompt | ${p.titulo}`);
-
-const categoryTitleResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
-    inject(AppDataService)
-        .byCategory(getId(route))
-        .then((p) => `Categoría | ${p.name}`);
-
-const tagTitleResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
-    inject(AppDataService)
-        .byTag(getId(route))
-        .then((s) => `Etiqueta | ${s.name}`);
-
 function getId(route: ActivatedRouteSnapshot): string {
     const id = route.paramMap.get("id");
     if (!id) {
@@ -34,11 +19,4 @@ function getId(route: ActivatedRouteSnapshot): string {
     return id;
 }
 
-export {
-    promptResolve,
-    categoryResolve,
-    tagResolve,
-    promptTitleResolve,
-    categoryTitleResolve,
-    tagTitleResolve,
-};
+export { promptResolve, categoryResolve, tagResolve };

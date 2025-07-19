@@ -1,12 +1,5 @@
 import { Routes } from "@angular/router";
-import {
-    categoryResolve,
-    categoryTitleResolve,
-    promptResolve,
-    promptTitleResolve,
-    tagResolve,
-    tagTitleResolve,
-} from "./core";
+import { categoryResolve, promptResolve, tagResolve } from "./core";
 import { navItemTypeLabels } from "./features/navigation/navigation-item";
 
 export const routes: Routes = [
@@ -18,20 +11,17 @@ export const routes: Routes = [
     {
         path: "category/:id",
         loadComponent: () => import("./pages/prompts/prompts").then((m) => m.Prompts),
-        title: categoryTitleResolve,
         resolve: { item: categoryResolve, type: () => navItemTypeLabels["category"] },
     },
     {
         path: "tag/:id",
         loadComponent: () => import("./pages/prompts/prompts").then((m) => m.Prompts),
-        title: tagTitleResolve,
         resolve: { item: tagResolve, type: () => navItemTypeLabels["tag"] },
     },
     {
         path: "prompt/:id",
         loadComponent: () =>
             import("./pages/prompt-detail/prompt-detail").then((m) => m.PromptDetail),
-        title: promptTitleResolve,
         resolve: { prompt: promptResolve },
     },
 

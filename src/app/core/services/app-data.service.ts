@@ -11,13 +11,9 @@ export class AppDataService {
 
     public prompts = computed<FirestorePrompt[]>(() => this.firestoreService.prompts());
 
-    public categories = computed<NavigationItem[]>(() =>
-        this.mapFirestoreCategoriesToNavigationItems()
-    );
+    public categories = computed<NavigationItem[]>(() => this.firestoreService.categories());
 
-    public tags = computed<NavigationItem[]>(() => this.mapFirestoreTagsToNavigationItems());
-
-    public isLoading = computed<boolean>(() => this.firestoreService.isLoading());
+    public tags = computed<NavigationItem[]>(() => this.firestoreService.tags());
 
     public error = computed<string | null>(() => this.firestoreService.error());
 
@@ -96,24 +92,6 @@ export class AppDataService {
                 found: [],
             };
         }
-    }
-
-    private mapFirestoreCategoriesToNavigationItems(): NavigationItem[] {
-        return this.firestoreService.categories().map((cat) => ({
-            text: cat.name,
-            slug: cat.slug,
-            cantidad: cat.prompt_count,
-            prompts: [],
-        }));
-    }
-
-    private mapFirestoreTagsToNavigationItems(): NavigationItem[] {
-        return this.firestoreService.tags().map((tag) => ({
-            text: tag.name,
-            slug: tag.slug,
-            cantidad: tag.prompt_count,
-            prompts: [],
-        }));
     }
 
     private titleCase(str: string): string {

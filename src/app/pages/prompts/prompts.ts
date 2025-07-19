@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ListPrompts, SectionHeader } from "../../core";
 import { FirestorePrompt } from "../../core/models";
+import { Title } from "@angular/platform-browser";
 
 @Component({
     selector: "pd-prompts",
@@ -33,6 +34,10 @@ export class Prompts {
     subtitulo = computed(() =>
         this.resolvedSubtitulo(this.prompts().length, this.data()!.type.lowercase)
     );
+
+    constructor(title: Title) {
+        title.setTitle(`${this.data()?.type.title} | ${this.data()?.item.name}`);
+    }
 
     private resolvedSubtitulo(numItems: number, type: string): string {
         const mensajeCantidad =

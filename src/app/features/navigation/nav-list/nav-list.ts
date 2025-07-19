@@ -11,9 +11,9 @@ import { NavItemType } from "../navigation-item";
         <li
             pd-nav-item
             [slug]="item.slug"
-            [text]="item.text"
+            [text]="item.name"
             [paramName]="list()"
-            [cantidad]="item.cantidad"></li>
+            [cantidad]="item.prompt_count"></li>
         }
     `,
     host: {
@@ -37,9 +37,9 @@ export class NavList {
     sortedItems = computed(() => {
         return this.items().sort((a, b) => {
             if (this.sort() === "qty") {
-                return b.cantidad - a.cantidad; // Sort by quantity descending
+                return b.prompt_count - a.prompt_count; // Sort by quantity descending
             } else {
-                return a.text.localeCompare(b.text); // Sort alphabetically
+                return a.name.localeCompare(b.name); // Sort alphabetically
             }
         });
     });
