@@ -52,3 +52,4 @@ firebase-config.json
 
 # Development files with injected secrets
 src/index.html
+src/index.html
