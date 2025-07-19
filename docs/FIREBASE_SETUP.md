@@ -106,8 +106,7 @@ La aplicación creará las siguientes colecciones:
   idioma?: string;
   fecha_creacion?: Date;
   slug?: string;
-  fechaCreacion: Date;
-  fechaModificacion: Date;
+  fecha_creacion: Date;
   // ... otros campos opcionales
 }
 ```

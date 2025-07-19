@@ -1,6 +1,6 @@
 import { Component, computed, inject, input } from "@angular/core";
 import { NavItem } from "../nav-item/nav-item";
-import { DataService } from "../../../core";
+import { AppDataService } from "../../../core";
 import { NavItemType } from "../navigation-item";
 
 @Component({
@@ -21,7 +21,7 @@ import { NavItemType } from "../navigation-item";
     },
 })
 export class NavList {
-    persistService = inject(DataService);
+    persistService = inject(AppDataService);
 
     list = input<NavItemType>("category");
 

@@ -60,6 +60,10 @@ export class AppDataService {
         this.dataSource.set("local");
     }
 
+    constructor() {
+        this.switchToFirestore();
+    }
+
     /**
      * Buscar prompts
      */

@@ -1,16 +1,17 @@
 export interface FirestorePrompt {
-    id?: string;
+    id: number;
+    old_id?: number; // Para compatibilidad con IDs antiguos
     titulo: string;
-    prompt: string;
     descripcion: string;
     autor: string;
     categoria: string;
     tags: string[];
-    uso?: "texto" | "código" | "imagen" | "video" | "audio" | "otro";
-    idioma?: string;
-    fecha_creacion?: Date;
-    slug?: string;
-    fechaEdicion?: Date;
+    prompt: string;
+    uso: "texto" | "código" | "imagen" | "video" | "audio" | "otro";
+    idioma: string;
+    fecha_creacion: Date;
+    slug: string;
+    fecha_edicion?: Date;
     modelo?: string;
     ejemplo?: string;
     fuente?: string;
@@ -24,8 +25,6 @@ export interface FirestorePrompt {
     visibilidad?: string;
     licencia?: string;
     // Campos adicionales para Firestore
-    fechaCreacion?: Date;
-    fechaModificacion?: Date;
 }
 
 export interface FirestoreCategory {

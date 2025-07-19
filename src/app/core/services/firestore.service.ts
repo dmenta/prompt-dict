@@ -11,17 +11,13 @@ import {
     query,
     where,
     orderBy,
-    limit,
-    QueryConstraint,
     DocumentData,
     QuerySnapshot,
     onSnapshot,
-    Unsubscribe,
+    Timestamp,
 } from "@angular/fire/firestore";
 import { FirestorePrompt, FirestoreCategory, FirestoreTag } from "./firestore.types";
 import { Prompt } from "../../features/prompts/prompt";
-import { Observable, from } from "rxjs";
-import { map, catchError } from "rxjs/operators";
 
 @Injectable({
     providedIn: "root",
@@ -56,7 +52,7 @@ export class FirestoreService {
             this.error.set(null);
 
             const querySnapshot = await getDocs(
-                query(this.promptsCollection, orderBy("fechaCreacion", "desc"))
+                query(this.promptsCollection, orderBy("fecha_creacion", "desc"))
             );
             const prompts = this.mapQuerySnapshotToPrompts(querySnapshot);
 
@@ -101,8 +97,7 @@ export class FirestoreService {
             this.error.set(null);
             const promptData = {
                 ...prompt,
-                fechaCreacion: new Date(),
-                fechaModificacion: new Date(),
+                fecha_creacion: new Date(),
             };
 
             const docRef = await addDoc(this.promptsCollection, promptData);
@@ -228,14 +223,17 @@ export class FirestoreService {
 
             const promises = localPrompts.map((prompt) => {
                 const firestorePrompt: Omit<FirestorePrompt, "id"> = {
+                    old_id: prompt.id,
                     titulo: prompt.titulo,
                     prompt: prompt.prompt,
                     descripcion: prompt.descripcion,
                     autor: prompt.autor,
                     categoria: prompt.categoria,
                     tags: prompt.tags,
-                    fechaCreacion: new Date(),
-                    fechaModificacion: new Date(),
+                    uso: prompt.uso,
+                    idioma: prompt.idioma,
+                    fecha_creacion: new Date(prompt.fecha_creacion),
+                    slug: prompt.slug,
                 };
                 return addDoc(this.promptsCollection, firestorePrompt);
             });
@@ -261,7 +259,7 @@ export class FirestoreService {
     private initializeRealtimeListeners(): void {
         // Listener para prompts
         onSnapshot(
-            query(this.promptsCollection, orderBy("fechaCreacion", "desc")),
+            query(this.promptsCollection, orderBy("fecha_creacion", "desc")),
             (snapshot) => {
                 const prompts = this.mapQuerySnapshotToPrompts(snapshot);
                 this.prompts.set(prompts);
@@ -284,6 +282,7 @@ export class FirestoreService {
      * Mapear documento a Prompt
      */
     private mapDocumentToPrompt(id: string, data: DocumentData): Prompt {
+        console.log("Mapping document to Prompt:", id, data);
         return {
             id: parseInt(id) || Math.random(), // Temporal - en Firestore usarás string IDs
             titulo: data["titulo"] || "",
@@ -293,10 +292,10 @@ export class FirestoreService {
             categoria: data["categoria"] || "",
             tags: data["tags"] || [],
             uso: data["uso"] || "texto",
-            idioma: data["idioma"] || "es",
-            fecha_creacion: data["fecha_creacion"] || data["fechaCreacion"] || new Date(),
+            idioma: data["idioma"] || "es-AR",
+            fecha_creacion: (<Timestamp>data["fecha_creacion"])?.toDate() || new Date(),
             slug: data["slug"] || this.generateSlug(data["titulo"] || ""),
-            fechaEdicion: data["fechaEdicion"] || data["fechaModificacion"],
+            fecha_edicion: (<Timestamp>data["fecha_edicion"])?.toDate() || new Date(),
             modelo: data["modelo"],
             ejemplo: data["ejemplo"],
             fuente: data["fuente"],

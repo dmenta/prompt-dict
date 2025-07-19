@@ -3,7 +3,7 @@ import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
 import { Prompt } from "../../features/prompts/prompt";
 import { NavList, NavListSort } from "../../features/navigation/nav-list/nav-list";
 import { NavItemType, navItemTypeLabels } from "../../features/navigation/navigation-item";
-import { Drawer, MainHeader, DataService, StorageService } from "../../core";
+import { Drawer, MainHeader, StorageService, AppDataService } from "../../core";
 
 @Component({
     selector: "pd-home",
@@ -43,7 +43,7 @@ export class Home {
     private listData = signal<NavListConfig>(
         this.store.get("navListConfig") ?? { category: "alpha", tag: "qty" }
     );
-    persistService = inject(DataService);
+    persistService = inject(AppDataService);
 
     prompts = computed<Prompt[]>(() => this.persistService.prompts());
 

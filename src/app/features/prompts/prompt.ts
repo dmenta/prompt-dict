@@ -10,7 +10,7 @@ export interface Prompt {
     idioma: string;
     fecha_creacion: Date;
     slug: string;
-    fechaEdicion?: Date;
+    fecha_edicion?: Date;
     modelo?: string;
     ejemplo?: string;
     fuente?: string;
