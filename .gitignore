@@ -40,3 +40,12 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Environment variables
+.env.local
+.env.production
+.env.development
+*.env
+
+# Firebase configuration (sensitive)
+firebase-config.json

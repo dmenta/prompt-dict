@@ -1,12 +1,12 @@
 export const environment = {
     production: true,
     firebase: {
-        apiKey: "AIzaSyAmX4zSpKJP097b3zFJKcozACXpg9gvyoE",
-        authDomain: "artificial-mente.firebaseapp.com",
-        projectId: "artificial-mente",
-        storageBucket: "artificial-mente.firebasestorage.app",
-        messagingSenderId: "81608383183",
-        appId: "1:81608383183:web:1d482c369219dad9f635ba",
-        measurementId: "G-4QH729ENBM",
+        apiKey: (globalThis as any)?.["ENV"]?.["FIREBASE_API_KEY"] || "",
+        authDomain: (globalThis as any)?.["ENV"]?.["FIREBASE_AUTH_DOMAIN"] || "",
+        projectId: (globalThis as any)?.["ENV"]?.["FIREBASE_PROJECT_ID"] || "",
+        storageBucket: (globalThis as any)?.["ENV"]?.["FIREBASE_STORAGE_BUCKET"] || "",
+        messagingSenderId: (globalThis as any)?.["ENV"]?.["FIREBASE_MESSAGING_SENDER_ID"] || "",
+        appId: (globalThis as any)?.["ENV"]?.["FIREBASE_APP_ID"] || "",
+        measurementId: (globalThis as any)?.["ENV"]?.["FIREBASE_MEASUREMENT_ID"] || "",
     },
 };
