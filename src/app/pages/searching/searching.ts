@@ -5,26 +5,28 @@ import {
     PersistService,
     SearchHeader,
 } from "../../core";
-import { RouterLink } from "@angular/router";
+import { ActivatedRoute, Params, Router, RouterLink } from "@angular/router";
+import { filter, map } from "rxjs";
 
 @Component({
     selector: "pd-searching",
     imports: [SearchHeader, HighlightedTextComponent, RouterLink],
-    template: `<header pd-search-header (search)="onSearch($event)"></header>
+    template: `<header pd-search-header [term]="initSearch()" (search)="onSearch($event)"></header>
         <ul class="divide-y-[0.5px] divide-gray-500/50 px-6 py-4">
             @for ( prompt of allSearchResults(); track prompt.id) {
-            <li
-                class="flex flex-col items-start justify-center relative  overflow-x-hidden  py-2 w-full">
-                <a [routerLink]="['/', promptUrl, prompt.originalItem.slug]">
+            <li class="overflow-x-hidden  py-2 w-full group">
+                <a
+                    [routerLink]="['/', promptUrl, prompt.originalItem.slug]"
+                    class="opacity-90 group-hover:opacity-100 transition-opacity">
                     <pd-highlighted-text
                         [textData]="prompt.titulo"
-                        class="text-primary-dark  uppercase font-semibold opacity-85 text-sm/5 group-hover:opacity-100"></pd-highlighted-text>
+                        class="text-primary-dark uppercase font-semibold text-sm/5"></pd-highlighted-text>
                     <pd-highlighted-text
                         [textData]="prompt.prompt"
                         class="font-merri italic"></pd-highlighted-text>
                     <pd-highlighted-text
                         [textData]="prompt.descripcion"
-                        class=" text-sm/5 "></pd-highlighted-text>
+                        class="text-sm/5"></pd-highlighted-text>
                 </a>
             </li>
             }
@@ -32,6 +34,9 @@ import { RouterLink } from "@angular/router";
 })
 export class Searching {
     private longitud = 50;
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+
     private persistService = inject(PersistService);
     private emptySearch = this.persistService
         .prompts()
@@ -41,10 +46,7 @@ export class Searching {
             titulo: { parts: [item.titulo.slice(0, this.longitud)], in: -1 },
             prompt: { parts: [item.prompt.slice(0, this.longitud)], in: -1 },
             descripcion: {
-                parts: [
-                    `${item.descripcion.slice(0, this.longitud)}...
-                `,
-                ],
+                parts: [`${item.descripcion.slice(0, this.longitud)}...`],
                 in: -1,
             },
             autor: { parts: [item.autor.slice(0, this.longitud)], in: -1 },
@@ -58,7 +60,25 @@ export class Searching {
     promptUrl = "prompt";
     allSearchResults = signal<ItemEncontradoExtendido[]>([]);
 
+    initSearch = signal<string>("");
+    ngOnInit() {
+        this.route.queryParams
+            .pipe(
+                filter((params: Params) => params["search"]),
+                map((params: Params) => params["search"])
+            )
+            .subscribe((searchTerm) => {
+                this.initSearch.set(searchTerm);
+            });
+    }
+
     onSearch(searchTerm: string) {
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { search: searchTerm.trim() },
+            queryParamsHandling: "merge",
+        });
+
         if (searchTerm.length === 0) {
             this.allSearchResults.set(this.emptySearch);
             this.currentSearchTerm.set("");

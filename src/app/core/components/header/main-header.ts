@@ -25,9 +25,8 @@ import {
                 pdHeaderButton
                 title="Abrir menú"
                 aria-label="Abrir menú"
-                (click)="onMainButtonClick($event)">
-                <span pdIcon="menu"></span>
-            </button>
+                (click)="onMainButtonClick($event)"
+                pdIcon="menu"></button>
             <pd-placeholder-searcher class="w-full"></pd-placeholder-searcher>
             <pd-mode-toggle></pd-mode-toggle>
         </div>

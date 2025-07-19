@@ -1,4 +1,4 @@
-import { Component, inject, output } from "@angular/core";
+import { Component, inject, input, output } from "@angular/core";
 import { Router } from "@angular/router";
 import { Searcher } from "../searcher/searcher";
 import { HeaderBackButton } from "./buttons/header-back-button";
@@ -15,8 +15,10 @@ import {
         <div pdHeaderRow>
             <button pdHeaderBackButton (back)="onBack($event)"></button>
 
-            <pd-searcher (search)="search.emit($event)" class="w-full"></pd-searcher>
-            <div></div>
+            <pd-searcher
+                [term]="term()"
+                (search)="search.emit($event)"
+                class="w-full"></pd-searcher>
         </div>
     </div>`,
     hostDirectives: [
@@ -28,6 +30,7 @@ import {
 export class SearchHeader {
     router = inject(Router);
     search = output<string>();
+    term = input<string>("");
 
     onBack(event: MouseEvent) {
         event.stopPropagation();
