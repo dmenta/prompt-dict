@@ -4,6 +4,7 @@ import {
     HighlightedTextComponent,
     DataService,
     SearchHeader,
+    AppDataService,
 } from "../../core";
 import { ActivatedRoute, Params, Router, RouterLink } from "@angular/router";
 import { filter, map } from "rxjs";
@@ -37,7 +38,7 @@ export class Searching {
     private route = inject(ActivatedRoute);
     private router = inject(Router);
 
-    private persistService = inject(DataService);
+    private persistService = inject(AppDataService);
     private emptySearch = this.persistService
         .prompts()
         .slice(0, 10)
@@ -89,45 +90,47 @@ export class Searching {
         this.currentSearchTerm.set(searchTerm);
         const resultado = this.persistService.search(searchTerm!, true);
 
-        if (resultado.found.length === 0) {
-            this.allSearchResults.set([]);
-            return;
-        }
-
-        const salida = resultado.found.map((found) => {
-            const item: ItemEncontradoExtendido = {
-                id: found.item.id,
-                titulo: { parts: [], in: -1 },
-                prompt: { parts: [], in: -1 },
-                descripcion: { parts: [], in: -1 },
-                autor: { parts: [], in: -1 },
-                matchType: found.relevanceScore === 1.0 ? "exact" : "fuzzy",
-                matchScore: found.relevanceScore,
-                originalItem: found.item,
-            };
-
-            // Solo procesar highlight si hay término de búsqueda
-            if (searchTerm.length > 0) {
-                if (found.foundIn !== "tags" && found.foundIn !== "categoria") {
-                    // Usar la nueva utilidad de highlight
-                    const highlight = createTextHighlight(
-                        found.item[found.foundIn] as string,
-                        searchTerm,
-                        this.longitud
-                    );
-                    item[found.foundIn] = {
-                        parts: highlight.parts,
-                        in: highlight.highlightIndex,
-                    };
-                }
+        resultado.then((res) => {
+            if (res.found.length === 0) {
+                this.allSearchResults.set([]);
+                return;
             }
 
-            // Rellenar campos vacíos con valores por defecto
-            this.fillEmptyFields(item, found.item);
-            return item;
-        });
+            const salida = res.found.map((found) => {
+                const item: ItemEncontradoExtendido = {
+                    id: found.item.id,
+                    titulo: { parts: [], in: -1 },
+                    prompt: { parts: [], in: -1 },
+                    descripcion: { parts: [], in: -1 },
+                    autor: { parts: [], in: -1 },
+                    matchType: found.relevanceScore === 1.0 ? "exact" : "fuzzy",
+                    matchScore: found.relevanceScore,
+                    originalItem: found.item,
+                };
 
-        this.allSearchResults.set(salida);
+                // Solo procesar highlight si hay término de búsqueda
+                if (searchTerm.length > 0) {
+                    if (found.foundIn !== "tags" && found.foundIn !== "categoria") {
+                        // Usar la nueva utilidad de highlight
+                        const highlight = createTextHighlight(
+                            found.item[found.foundIn] as string,
+                            searchTerm,
+                            this.longitud
+                        );
+                        item[found.foundIn] = {
+                            parts: highlight.parts,
+                            in: highlight.highlightIndex,
+                        };
+                    }
+                }
+
+                // Rellenar campos vacíos con valores por defecto
+                this.fillEmptyFields(item, found.item);
+                return item;
+            });
+
+            this.allSearchResults.set(salida);
+        });
     }
 
     private fillEmptyFields(item: ItemEncontrado, originalItem: any) {
