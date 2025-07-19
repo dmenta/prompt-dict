@@ -4,7 +4,6 @@ import {
     collection,
     doc,
     getDocs,
-    getDoc,
     addDoc,
     updateDoc,
     deleteDoc,
@@ -18,7 +17,6 @@ import {
 } from "@angular/fire/firestore";
 import { FirestorePrompt, FirestoreCategory, FirestoreTag } from "./firestore.types";
 import { Prompt } from "../../features/prompts/prompt";
-import { map } from "rxjs";
 
 @Injectable({
     providedIn: "root",

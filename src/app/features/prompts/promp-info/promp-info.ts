@@ -1,6 +1,6 @@
 import { Component, input } from "@angular/core";
 import { Prompt } from "../prompt";
-import { RelativeDatePipe } from "../../../core/directives/relative-date";
+import { RelativeDatePipe } from "../../../core";
 
 @Component({
     selector: "pd-promp-info",
