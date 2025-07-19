@@ -1,80 +1,78 @@
-import { Injectable, signal } from "@angular/core";
-import allPrompts from "../../../data/normalizados";
+import { computed, inject, Injectable, resource } from "@angular/core";
 import { Prompt } from "../../features/prompts/prompt";
 import { NavigationItem } from "../../features/navigation/navigation-item";
 import { createSearchMatcher, normalizeSearchText } from "../utils/search-utils";
+import { toObservable } from "@angular/core/rxjs-interop";
+import { filter, map, Observable } from "rxjs";
 
 @Injectable({
     providedIn: "root",
 })
-export class PersistService {
-    private promptsList = allPrompts;
-    public prompts = signal([] as Prompt[]);
-    public categories = signal<NavigationItem[]>([]);
-    public tags = signal<NavigationItem[]>([]);
+export class DataService {
+    promptsResource = resource({
+        loader: async () => {
+            return fetch("data.json")
+                .then((res) => res.json() as Promise<Prompt[]>)
+                .catch((error) => {
+                    console.error("Error loading prompts:", error);
+                    return [] as Prompt[];
+                });
+        },
+    });
 
-    constructor() {
-        this.prompts.set(
-            this.promptsList.map((prompt) => {
-                return {
-                    ...prompt,
-                    slug: this.slugify(prompt.titulo),
-                } as Prompt;
-            })
-        );
+    public prompts = computed<Prompt[]>(() => this.promptsResource.value() || []);
 
-        this.initializeCategories();
-        this.initializeTags();
-    }
+    ready$: Observable<DataService> = toObservable(this.prompts).pipe(
+        filter((prompts) => prompts.length > 0),
+        map(() => this)
+    );
 
-    private initializeCategories() {
+    public categories = computed<NavigationItem[]>(() => this.initializeCategories(this.prompts()));
+
+    public tags = computed<NavigationItem[]>(() => this.initializeTags(this.prompts()));
+
+    private initializeCategories(prompts: Prompt[]) {
         const categoriesSet = new Set<string>();
-        this.prompts().forEach((prompt) => {
+        prompts.forEach((prompt) => {
             categoriesSet.add(prompt.categoria);
         });
-        this.categories.set(
-            Array.from(categoriesSet)
-                .map((categoria) => {
-                    const promptsForCategory = this.prompts().filter(
-                        (prompt) => prompt.categoria.localeCompare(categoria) === 0
-                    );
-                    return {
-                        text: this.titleCase(categoria),
-                        slug: this.slugify(categoria),
-                        cantidad: promptsForCategory.length,
-                        prompts: promptsForCategory,
-                    };
-                })
-                .sort((a, b) => b.cantidad - a.cantidad || a.text.localeCompare(b.text))
-        );
+        return Array.from(categoriesSet)
+            .map((categoria) => {
+                const promptsForCategory = prompts.filter(
+                    (prompt) => prompt.categoria.localeCompare(categoria) === 0
+                );
+                return {
+                    text: this.titleCase(categoria),
+                    slug: this.slugify(categoria),
+                    cantidad: promptsForCategory.length,
+                    prompts: promptsForCategory,
+                };
+            })
+            .sort((a, b) => b.cantidad - a.cantidad || a.text.localeCompare(b.text));
     }
 
-    private initializeTags() {
+    private initializeTags(prompts: Prompt[]) {
         const tagsSet = new Set<string>();
-        this.prompts().forEach((prompt) => {
+        prompts.forEach((prompt) => {
             prompt.tags.forEach((tag) => {
                 tagsSet.add(tag);
             });
         });
 
-        this.tags.set(
-            Array.from(tagsSet)
-                .map((tag) => {
-                    const promptsForTag = this.prompts().filter((prompt) =>
-                        prompt.tags.includes(tag)
-                    );
-                    return {
-                        text: this.titleCase(tag),
-                        slug: this.slugify(tag),
-                        cantidad: promptsForTag.length,
-                        prompts: promptsForTag,
-                    };
-                })
-                .sort((a, b) => b.cantidad - a.cantidad || a.text.localeCompare(b.text))
-        );
+        return Array.from(tagsSet)
+            .map((tag) => {
+                const promptsForTag = prompts.filter((prompt) => prompt.tags.includes(tag));
+                return {
+                    text: this.titleCase(tag),
+                    slug: this.slugify(tag),
+                    cantidad: promptsForTag.length,
+                    prompts: promptsForTag,
+                };
+            })
+            .sort((a, b) => b.cantidad - a.cantidad || a.text.localeCompare(b.text));
     }
 
-    byCategory(slug: string): { name: string; prompts: Prompt[] } {
+    byCategory(slug: string): ListPrompts {
         const category = this.categories().find((cat) => cat.slug === slug);
 
         if (!category) {
@@ -84,7 +82,7 @@ export class PersistService {
         return { name: category.text, prompts: category.prompts || [] };
     }
 
-    byTag(slug: string): { name: string; prompts: Prompt[] } {
+    byTag(slug: string): ListPrompts {
         const tag = this.tags().find((tag) => tag.slug === slug);
 
         if (!tag) {
@@ -219,3 +217,5 @@ export type ResultadoBusqueda = {
 };
 
 export type foundInKey = "titulo" | "prompt" | "descripcion" | "autor" | "categoria" | "tags";
+
+export type ListPrompts = { name: string; prompts: Prompt[] };

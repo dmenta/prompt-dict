@@ -9,6 +9,7 @@ export interface Prompt {
     uso: "texto" | "código" | "imagen" | "video" | "audio" | "otro";
     idioma: string;
     fechaCreacion: Date;
+    slug: string;
     fechaEdicion?: Date;
     modelo?: string;
     ejemplo?: string;
@@ -22,5 +23,4 @@ export interface Prompt {
     rating?: 1 | 2 | 3 | 4 | 5;
     visibilidad?: string;
     licencia?: string;
-    slug?: string;
 }

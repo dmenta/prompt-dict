@@ -1,48 +1,39 @@
 import { inject } from "@angular/core";
-import type { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from "@angular/router";
-import { PersistService } from "../services";
-import { Prompt } from "../../features/prompts/prompt";
+import type { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+import { DataService } from "../services";
+import { map } from "rxjs";
 
-export const promptResolve: ResolveFn<Prompt> = (
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-) => {
-    return inject(PersistService).byId(<string>route.paramMap.get("id"));
-};
+const promptResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
+    inject(DataService).ready$.pipe(map((s) => s.byId(getId(route))));
 
-export const categoryResolve: ResolveFn<{ name: string; prompts: Prompt[] }> = (
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-) => {
-    return inject(PersistService).byCategory(<string>route.paramMap.get("id"));
-};
+const categoryResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
+    inject(DataService).ready$.pipe(map((s) => s.byCategory(getId(route))));
 
-export const tagResolve: ResolveFn<{ name: string; prompts: Prompt[] }> = (
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-) => {
-    return inject(PersistService).byTag(<string>route.paramMap.get("id"));
-};
+const tagResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
+    inject(DataService).ready$.pipe(map((s) => s.byTag(getId(route))));
 
-export const promptTitleResolve: ResolveFn<string> = (
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-) => {
-    return `Prompt | ${inject(PersistService).byId(<string>route.paramMap.get("id")).titulo}`;
-};
+const promptTitleResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
+    inject(DataService).ready$.pipe(map((s) => `Prompt | ${s.byId(getId(route)).titulo}`));
 
-export const categoryTitleResolve: ResolveFn<string> = (
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-) => {
-    return `Categoría | ${
-        inject(PersistService).byCategory(<string>route.paramMap.get("id")).name
-    }`;
-};
+const categoryTitleResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
+    inject(DataService).ready$.pipe(map((s) => `Categoría | ${s.byCategory(getId(route)).name}`));
 
-export const tagTitleResolve: ResolveFn<string> = (
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-) => {
-    return `Etiqueta | ${inject(PersistService).byTag(<string>route.paramMap.get("id")).name}`;
+const tagTitleResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
+    inject(DataService).ready$.pipe(map((s) => `Etiqueta | ${s.byTag(getId(route)).name}`));
+
+function getId(route: ActivatedRouteSnapshot): string {
+    const id = route.paramMap.get("id");
+    if (!id) {
+        throw new Error("Route parameter 'id' is required");
+    }
+    return id;
+}
+
+export {
+    promptResolve,
+    categoryResolve,
+    tagResolve,
+    promptTitleResolve,
+    categoryTitleResolve,
+    tagTitleResolve,
 };

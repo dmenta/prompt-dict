@@ -4,7 +4,7 @@ import { Prompt } from "../../features/prompts/prompt";
 import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { SectionHeader } from "../../core";
+import { ListPrompts, SectionHeader } from "../../core";
 
 @Component({
     selector: "pd-prompts",
@@ -24,7 +24,7 @@ export class Prompts {
     private data = toSignal(
         this.route.data as Observable<{
             type: { title: string; lowercase: string };
-            item: { name: string; prompts: Prompt[] };
+            item: ListPrompts;
         }>
     );
 

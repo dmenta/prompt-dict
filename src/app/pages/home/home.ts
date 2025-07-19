@@ -3,7 +3,7 @@ import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
 import { Prompt } from "../../features/prompts/prompt";
 import { NavList, NavListSort } from "../../features/navigation/nav-list/nav-list";
 import { NavItemType, navItemTypeLabels } from "../../features/navigation/navigation-item";
-import { Drawer, MainHeader, PersistService, StorageService } from "../../core";
+import { Drawer, MainHeader, DataService, StorageService } from "../../core";
 
 @Component({
     selector: "pd-home",
@@ -40,15 +40,15 @@ import { Drawer, MainHeader, PersistService, StorageService } from "../../core";
 })
 export class Home {
     private store = inject(StorageService);
-    private persistService = inject(PersistService);
-    listData = signal<NavListConfig>(
+    private listData = signal<NavListConfig>(
         this.store.get("navListConfig") ?? { category: "alpha", tag: "qty" }
     );
+    persistService = inject(DataService);
+
+    prompts = computed<Prompt[]>(() => this.persistService.prompts());
 
     list = signal<NavItemType>(this.store.get("navList") ?? "category");
     sort = computed<NavListSort>(() => this.listData()[this.list()] ?? "qty");
-
-    prompts = signal<Prompt[]>([] as Prompt[]);
 
     onClick(event: MouseEvent, list: NavItemType) {
         event.stopPropagation();
@@ -75,10 +75,6 @@ export class Home {
     activo = computed(() => {
         return navItemTypeLabels[this.list()].title;
     });
-
-    constructor() {
-        this.prompts.set(this.persistService.prompts());
-    }
 }
 
 type NavListConfig = Record<NavItemType, NavListSort>;

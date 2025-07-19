@@ -19,28 +19,20 @@ export const routes: Routes = [
         path: "category/:id",
         loadComponent: () => import("./pages/prompts/prompts").then((m) => m.Prompts),
         title: categoryTitleResolve,
-        resolve: {
-            item: categoryResolve,
-            type: () => navItemTypeLabels["category"],
-        },
+        resolve: { item: categoryResolve, type: () => navItemTypeLabels["category"] },
     },
     {
         path: "tag/:id",
         loadComponent: () => import("./pages/prompts/prompts").then((m) => m.Prompts),
         title: tagTitleResolve,
-        resolve: {
-            item: tagResolve,
-            type: () => navItemTypeLabels["tag"],
-        },
+        resolve: { item: tagResolve, type: () => navItemTypeLabels["tag"] },
     },
     {
         path: "prompt/:id",
         loadComponent: () =>
             import("./pages/prompt-detail/prompt-detail").then((m) => m.PromptDetail),
         title: promptTitleResolve,
-        resolve: {
-            prompt: promptResolve,
-        },
+        resolve: { prompt: promptResolve },
     },
 
     {

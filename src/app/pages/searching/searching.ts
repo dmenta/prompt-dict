@@ -2,7 +2,7 @@ import { Component, inject, signal } from "@angular/core";
 import {
     createTextHighlight,
     HighlightedTextComponent,
-    PersistService,
+    DataService,
     SearchHeader,
 } from "../../core";
 import { ActivatedRoute, Params, Router, RouterLink } from "@angular/router";
@@ -37,7 +37,7 @@ export class Searching {
     private route = inject(ActivatedRoute);
     private router = inject(Router);
 
-    private persistService = inject(PersistService);
+    private persistService = inject(DataService);
     private emptySearch = this.persistService
         .prompts()
         .slice(0, 10)
