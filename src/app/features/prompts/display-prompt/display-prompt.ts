@@ -3,13 +3,15 @@ import { Prompt } from "../prompt";
 import { CopyActions } from "../../../core";
 import { Router, RouterLink } from "@angular/router";
 import { APP_BASE_HREF } from "@angular/common";
+import { PrompInfo } from "../promp-info/promp-info";
 
 @Component({
     selector: "pd-display-prompt, [pd-display-prompt]",
-    imports: [CopyActions, RouterLink],
+    imports: [CopyActions, RouterLink, PrompInfo],
 
     template: `
         @if(prompt(); as promptOk) {
+        <pd-promp-info [prompt]="promptOk" class="pb-4 px-4 text-xs"></pd-promp-info>
         <a [routerLink]="['/', promptUrl, promptOk.slug]">
             <div
                 class="text-primary-dark  px-4 text-lg/6 font-semibold uppercase opacity-85 group-hover:opacity-100"
@@ -19,7 +21,7 @@ import { APP_BASE_HREF } from "@angular/common";
         </a>
         <div
             class="relative prompt  opacity-85 group-hover:opacity-100 text-prompt
-      transition-opacity duration-150 px-4 ">
+            transition-opacity duration-150 px-4 ">
             <div class="prompt-text font-merri font-[370] py-3 leading-7 italic">
                 {{ promptOk.prompt }}
             </div>

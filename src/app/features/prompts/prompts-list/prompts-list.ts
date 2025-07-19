@@ -18,7 +18,7 @@ import { Prompt } from "../prompt";
         }
     `,
     host: {
-        class: "flex flex-col md:flex-row flex-wrap h-full w-full  gap-4",
+        class: "flex flex-col md:flex-row flex-wrap h-full w-full  gap-6",
     },
 })
 export class PromptsList {

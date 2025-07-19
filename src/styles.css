@@ -27,6 +27,7 @@
 
     --color-contrast: var(--color-white);
     --color-low-contrast: var(--color-neutral-100);
+    --color-inverse-low: var(--color-neutral-500);
     --color-inverse: var(--color-black);
 
     --color-list-name: var(--color-primary-dark);
@@ -66,6 +67,7 @@
 
     --color-contrast: var(--color-white);
     --color-low-contrast: var(--color-neutral-200);
+    --color-inverse-low: var(--color-neutral-400);
     --color-inverse: var(--color-white);
 
     --color-card-hover: var(--color-neutral-900);

@@ -7,7 +7,7 @@ import { NavItemType } from "../navigation-item";
     selector: "nav[pd-nav-list], ul[pd-nav-list], ol[pd-nav-list]",
     imports: [NavItem],
     template: `
-        @for(item of items(); track item.slug) {
+        @for(item of sortedItems(); track item.slug) {
         <li
             pd-nav-item
             [slug]="item.slug"
@@ -25,6 +25,8 @@ export class NavList {
 
     list = input<NavItemType>("category");
 
+    sort = input<NavListSort>("qty");
+
     items = computed(() => {
         if (this.list() === "category") {
             return this.persistService.categories();
@@ -32,4 +34,15 @@ export class NavList {
             return this.persistService.tags();
         }
     });
+    sortedItems = computed(() => {
+        return this.items().sort((a, b) => {
+            if (this.sort() === "qty") {
+                return b.cantidad - a.cantidad; // Sort by quantity descending
+            } else {
+                return a.text.localeCompare(b.text); // Sort alphabetically
+            }
+        });
+    });
 }
+
+export type NavListSort = "qty" | "alpha";
