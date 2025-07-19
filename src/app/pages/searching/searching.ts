@@ -2,7 +2,6 @@ import { Component, inject, signal } from "@angular/core";
 import {
     createTextHighlight,
     HighlightedTextComponent,
-    DataService,
     SearchHeader,
     AppDataService,
 } from "../../core";

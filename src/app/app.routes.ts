@@ -40,13 +40,6 @@ export const routes: Routes = [
         loadComponent: () => import("./pages/searching/searching").then((m) => m.Searching),
         title: "Prompter | Búsqueda",
     },
-
-    // {
-    //     path: "admin",
-    //     loadComponent: () => import("./pages/admin/admin").then((m) => m.AdminComponent),
-    //     title: "Prompter | Administración",
-    // },
-
     {
         path: "home",
         redirectTo: "",
