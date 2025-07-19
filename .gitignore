@@ -49,3 +49,6 @@ Thumbs.db
 
 # Firebase configuration (sensitive)
 firebase-config.json
+
+# Development files with injected secrets
+src/index.html

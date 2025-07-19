@@ -5,22 +5,13 @@
 export const environment = {
     production: false,
     firebase: {
-        apiKey:
-            (globalThis as any)?.["ENV"]?.["FIREBASE_API_KEY"] ||
-            "AIzaSyAmX4zSpKJP097b3zFJKcozACXpg9gvyoE",
-        authDomain:
-            (globalThis as any)?.["ENV"]?.["FIREBASE_AUTH_DOMAIN"] ||
-            "artificial-mente.firebaseapp.com",
-        projectId: (globalThis as any)?.["ENV"]?.["FIREBASE_PROJECT_ID"] || "artificial-mente",
-        storageBucket:
-            (globalThis as any)?.["ENV"]?.["FIREBASE_STORAGE_BUCKET"] ||
-            "artificial-mente.firebasestorage.app",
-        messagingSenderId:
-            (globalThis as any)?.["ENV"]?.["FIREBASE_MESSAGING_SENDER_ID"] || "81608383183",
-        appId:
-            (globalThis as any)?.["ENV"]?.["FIREBASE_APP_ID"] ||
-            "1:81608383183:web:1d482c369219dad9f635ba",
-        measurementId: (globalThis as any)?.["ENV"]?.["FIREBASE_MEASUREMENT_ID"] || "G-4QH729ENBM",
+        apiKey: (globalThis as any)?.["ENV"]?.["FIREBASE_API_KEY"] || "",
+        authDomain: (globalThis as any)?.["ENV"]?.["FIREBASE_AUTH_DOMAIN"] || "",
+        projectId: (globalThis as any)?.["ENV"]?.["FIREBASE_PROJECT_ID"] || "",
+        storageBucket: (globalThis as any)?.["ENV"]?.["FIREBASE_STORAGE_BUCKET"] || "",
+        messagingSenderId: (globalThis as any)?.["ENV"]?.["FIREBASE_MESSAGING_SENDER_ID"] || "",
+        appId: (globalThis as any)?.["ENV"]?.["FIREBASE_APP_ID"] || "",
+        measurementId: (globalThis as any)?.["ENV"]?.["FIREBASE_MEASUREMENT_ID"] || "",
     },
 };
 /*
