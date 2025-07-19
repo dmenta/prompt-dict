@@ -1,7 +1,7 @@
 export const viajes = [
     {
         id: 90,
-        titulo: "Destino de viaje (1/12)",
+        titulo: "Destino de viaje (1 de 12)",
         descripcion: "Ayuda a elegir un destino de viaje basándose en preferencias personales.",
         autor: "Patricia Ceriani",
         prompt: "Quiero planear un viaje de vacaciones, pero no estoy segura de a dónde ir. ¿Puedes sugerirme tres destinos populares para viajar en [fecha tentativa] desde Buenos Aires? Prefiero un lugar con [características de los posibles destinos].",
@@ -13,7 +13,7 @@ export const viajes = [
     },
     {
         id: 91,
-        titulo: "Presupuesto de viaje (2/12)",
+        titulo: "Presupuesto de viaje (2 de 12)",
         descripcion:
             "Ayuda a calcular el presupuesto de un viaje, incluyendo transporte y alojamiento.",
         autor: "Patricia Ceriani",
@@ -26,7 +26,7 @@ export const viajes = [
     },
     {
         id: 92,
-        titulo: "Información básica del destino (3/12)",
+        titulo: "Información básica del destino (3 de 12)",
         descripcion: "Recopila información básica sobre el destino del viaje.",
         autor: "Patricia Ceriani",
         prompt: "Crea un listado con información básica sobre [país de destino], como moneda y cambio, clima en la fecha de mi viaje, idioma, costo de vida en comparación con Argentina y otros datos que consideres relevantes.",
@@ -38,7 +38,7 @@ export const viajes = [
     },
     {
         id: 93,
-        titulo: "Requisitos de entrada al país (4/12)",
+        titulo: "Requisitos de entrada al país (4 de 12)",
         descripcion:
             "Ayuda a entender los requisitos de entrada a un país específico desde Argentina.",
         autor: "Patricia Ceriani",
@@ -51,7 +51,7 @@ export const viajes = [
     },
     {
         id: 94,
-        titulo: "Lugares de interés y eventos (5/12)",
+        titulo: "Lugares de interés y eventos (5 de 12)",
         descripcion:
             "Ayuda a identificar lugares de interés y eventos importantes en el destino del viaje.",
         autor: "Patricia Ceriani",
@@ -64,7 +64,7 @@ export const viajes = [
     },
     {
         id: 95,
-        titulo: "Actividades recomendadas (6/12)",
+        titulo: "Actividades recomendadas (6 de 12)",
         descripcion: "Sugiere actividades recomendadas en el destino del viaje.",
         autor: "Patricia Ceriani",
         prompt: "¿Puedes ayudarme a crear un itinerario de [cantidad] días en [ciudad]? Me gustaría hacer actividades [tipo de actividades].",
@@ -76,7 +76,7 @@ export const viajes = [
     },
     {
         id: 96,
-        titulo: "Opciones de transporte local (7/12)",
+        titulo: "Opciones de transporte local (7 de 12)",
         descripcion: "Ayuda a encontrar opciones de transporte local en el destino del viaje.",
         autor: "Patricia Ceriani",
         prompt: "¿Cuál es la mejor manera para ir de [ciudad] a [ciudad]? ¿Puedo alquilar un coche o hay transporte público conveniente?",
@@ -88,7 +88,7 @@ export const viajes = [
     },
     {
         id: 97,
-        titulo: "Alojamiento recomendado (8/12)",
+        titulo: "Alojamiento recomendado (8 de 12)",
         descripcion: "Ayuda a encontrar opciones de alojamiento en el destino del viaje.",
         autor: "Patricia Ceriani",
         prompt: "Puedes buscar opciones de alojamiento en [ciudad]? Me gustaría que fueran hoteles [ubicación] y del tipo [características].",
@@ -100,7 +100,7 @@ export const viajes = [
     },
     {
         id: 98,
-        titulo: "Consejos de seguridad (9/12)",
+        titulo: "Consejos de seguridad (9 de 12)",
         descripcion: "Proporciona consejos de seguridad para el viaje.",
         autor: "Patricia Ceriani",
         prompt: "¿Puedes crear un listado de expresiones y palabras que me ayudarán a interactuar en la lengua local? Por favor incluye cómo pronunciarlas.",
@@ -112,7 +112,7 @@ export const viajes = [
     },
     {
         id: 99,
-        titulo: "Consejos de etiqueta cultural (10/12)",
+        titulo: "Consejos de etiqueta cultural (10 de 12)",
         descripcion: "Proporciona consejos sobre la etiqueta cultural en el destino del viaje.",
         autor: "Patricia Ceriani",
         prompt: "¿Puedes crear un listado de productos locales significativos que puedo comprar? Averigua si puedo ingresarlos a la Argentina o si debo pagar algún impuesto.",
@@ -124,7 +124,7 @@ export const viajes = [
     },
     {
         id: 100,
-        titulo: "Checklist de equipaje (11/12)",
+        titulo: "Checklist de equipaje (11 de 12)",
         descripcion:
             "Ayuda a organizar el equipaje para el viaje, incluyendo artículos esenciales y recomendaciones de equipaje de mano.",
         autor: "Patricia Ceriani",
@@ -137,7 +137,7 @@ export const viajes = [
     },
     {
         id: 101,
-        titulo: "Planificación de itinerario (12/12)",
+        titulo: "Planificación de itinerario (12 de 12)",
         descripcion:
             "Ayuda a planificar un itinerario de viaje, incluyendo actividades y horarios.",
         autor: "Patricia Ceriani",

@@ -42,7 +42,7 @@ export class Home {
     private store = inject(StorageService);
     private persistService = inject(PersistService);
     listData = signal<NavListConfig>(
-        this.store.get("navListConfig") ?? { category: "qty", tag: "alpha" }
+        this.store.get("navListConfig") ?? { category: "alpha", tag: "qty" }
     );
 
     list = signal<NavItemType>(this.store.get("navList") ?? "category");
@@ -68,12 +68,12 @@ export class Home {
 
     inactivo = computed(() => {
         return this.list() === "category"
-            ? navItemTypeLabels["tag"]
-            : navItemTypeLabels["category"];
+            ? navItemTypeLabels["tag"].title
+            : navItemTypeLabels["category"].title;
     });
 
     activo = computed(() => {
-        return navItemTypeLabels[this.list()];
+        return navItemTypeLabels[this.list()].title;
     });
 
     constructor() {
@@ -81,7 +81,4 @@ export class Home {
     }
 }
 
-type NavListConfig = {
-    category: NavListSort;
-    tag: NavListSort;
-};
+type NavListConfig = Record<NavItemType, NavListSort>;

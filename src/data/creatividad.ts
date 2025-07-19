@@ -1,7 +1,7 @@
 export const creatividad = [
     {
         id: 50,
-        titulo: "Generación de imagen (básica)",
+        titulo: "Imagen básica",
         descripcion: "Genera una imagen basada en una descripción visual simple.",
         autor: "Patricia Ceriani",
         prompt: "Describe una imagen en la que se vea una plaza con árboles.",
@@ -13,7 +13,7 @@ export const creatividad = [
     },
     {
         id: 51,
-        titulo: "Generación de imagen (enriquecida)",
+        titulo: "Imagen enriquecida",
         descripcion: "Genera una imagen con más detalles, contexto y estilo específico.",
         autor: "Patricia Ceriani",
         prompt: "Imagina un parque en un día soleado. Hay árboles verdes, un tobogán rojo y niños jugando. Dibuja esta escena en un estilo de dibujo animado.",
@@ -26,8 +26,7 @@ export const creatividad = [
     {
         id: 52,
         titulo: "Estructura de prompt para nueva imagen",
-        descripcion:
-            "Proporciona un marco detallado para crear prompts específicos para generación de imágenes.",
+        descripcion: "Proporciona un marco detallado para crear prompts específicos para Imágenes.",
         autor: "Patricia Ceriani",
         prompt: "(Compuesto por elementos como): Contenido visual específico, Ambiente y atmósfera, Estilo artístico, Perspectiva y composición, Emociones y estado de ánimo, Paleta de colores, Detalles y elementos adicionales, Contexto e historia.",
         tags: ["estructura"],
@@ -38,7 +37,7 @@ export const creatividad = [
     },
     {
         id: 53,
-        titulo: "Generación de imagen de colibrí detallada",
+        titulo: "Imagen de colibrí detallada",
         descripcion: "Genera una imagen específica basada en una descripción muy detallada.",
         autor: "Patricia Ceriani",
         prompt: "Imagen de un colibrí en primer plano bebiendo néctar de una flor exótica de colores amarillos y violetas vibrantes. La iluminación en contraluz resalta el brillo iridiscente de sus plumas. El fondo muestra una exuberante selva tropical con destellos de luz filtrándose entre las hojas. El enfoque de la cámara es muy cercano y se centra en el colibrí, con un ambiente vibrante y lleno de energía, donde los colores intensos y contrastantes dominan la escena.",
@@ -50,7 +49,7 @@ export const creatividad = [
     },
     {
         id: 54,
-        titulo: "Generación de imagen de libélula detallada",
+        titulo: "Imagen de libélula detallada",
         descripcion: "Genera una imagen específica basada en una descripción visual detallada.",
         autor: "Patricia Ceriani",
         prompt: "Imagen de una libélula en primer plano posándose sobre un loto en flor. La iluminación en contraluz es tenue, resaltando los detalles de sus alas translúcidas. El fondo muestra un estanque con reflejos suaves y un cielo azul pastel. El enfoque de la cámara está en la libélula, con un ambiente tranquilo y armonioso.",
@@ -62,7 +61,7 @@ export const creatividad = [
     },
     {
         id: 55,
-        titulo: "Generación de imagen con amanecer",
+        titulo: "Imagen con amanecer",
         descripcion: "Genera una imagen basada en una descripción clara y concisa.",
         autor: "Patricia Ceriani",
         prompt: "Crea una imagen de un amanecer en una montaña, con una persona en la cima, mirando el horizonte.”",
@@ -74,7 +73,7 @@ export const creatividad = [
     },
     {
         id: 56,
-        titulo: "Generación de ilustración con texto integrado",
+        titulo: "Ilustración con texto integrado",
         descripcion: "Crea una ilustración que integra texto y elementos visuales específicos.",
         autor: "Patricia Ceriani",
         prompt: "Crea una ilustración que tenga el texto 'informática Útil' y debajo el dibujo de una lamparita encendida sobre un fondo naranja.",
@@ -86,7 +85,7 @@ export const creatividad = [
     },
     {
         id: 57,
-        titulo: "Generación de imagen de torta de cumpleaños con texto",
+        titulo: "Imagen de torta de cumpleaños con texto",
         descripcion: "Genera una imagen festiva con elementos textuales y temáticos específicos.",
         autor: "Patricia Ceriani",
         prompt: "Crea una imagen de una torta de cumpleaños con el número 5 y globos metalizados de colores brillantes. Las velas están encendidas y los globos dicen 'Tomy' que es el nombre del niño que cumple años, fanático de ironman. typography, photo",
@@ -99,8 +98,7 @@ export const creatividad = [
     {
         id: 58,
         titulo: "Elementos de un prompt efectivo para imágenes",
-        descripcion:
-            "Define indicaciones esenciales para crear prompts efectivos para generación de imágenes.",
+        descripcion: "Define indicaciones esenciales para crear prompts efectivos para Imágenes.",
         autor: "Patricia Ceriani",
         prompt: "(Comprende elementos como): Contenido visual específico, Ambiente y atmósfera, Estilo artístico, Perspectiva y composición, Emociones y estado de ánimo, Paleta de colores, Detalles y elementos adicionales, Contexto o historia, Referencias visuales o inspiración, Estimulación de la creatividad.",
         tags: ["efectivo", "elementos"],
@@ -111,7 +109,7 @@ export const creatividad = [
     },
     {
         id: 59,
-        titulo: "Generación de póster con texto",
+        titulo: "Póster con texto",
         descripcion:
             "Genera un póster con elementos visuales, colores específicos y texto integrado.",
         autor: "Patricia Ceriani",
@@ -124,7 +122,7 @@ export const creatividad = [
     },
     {
         id: 60,
-        titulo: "Generación de tipografías a partir de descripciones textuales",
+        titulo: "Tipografías a partir de descripciones textuales",
         descripcion: "Permite describir tipografías en lenguaje natural para que la IA las genere.",
         autor: "Patricia Ceriani",
         prompt: "una fuente sans-serif moderna, elegante y legible con un toque de sofisticación / una fuente divertida y amigable que sea fácil de leer para niños / una fuente cursiva elegante y romántica con detalles clásicos",
@@ -136,7 +134,7 @@ export const creatividad = [
     },
     {
         id: 61,
-        titulo: "Generación de recorrido turístico",
+        titulo: "Recorrido turístico",
         descripcion:
             "Genera un itinerario turístico personalizado para un barrio específico de Buenos Aires.",
         autor: "Patricia Ceriani",
@@ -149,7 +147,7 @@ export const creatividad = [
     },
     {
         id: 62,
-        titulo: "Generación de imagen combinando elementos (animal, rol, paisaje, instrumento)",
+        titulo: "Imagen combinanda (animal, rol, paisaje, instrumento)",
         descripcion:
             "Genera imágenes combinando un estilo artístico, un animal, un rol, un paisaje y un instrumento musical.",
         autor: "Patricia Ceriani",
@@ -188,7 +186,7 @@ export const creatividad = [
     },
     {
         id: 65,
-        titulo: "El editor fantasma que escribe con vos",
+        titulo: "Editor fantasma que escribe con vos",
         descripcion:
             "Mejora textos manteniendo el tono y personalidad del autor, sugiriendo cortes o adiciones.",
         autor: "Santiago Bilinkis",
@@ -201,7 +199,7 @@ export const creatividad = [
     },
     {
         id: 66,
-        titulo: "El traductor de cerebros",
+        titulo: "Traductor de cerebros",
         descripcion:
             "Simplifica ideas complejas para una audiencia específica, usando analogías y ejemplos.",
         autor: "Santiago Bilinkis",
@@ -214,7 +212,7 @@ export const creatividad = [
     },
     {
         id: 67,
-        titulo: "El arquitecto de tu voz digital",
+        titulo: "Arquitecto de tu voz digital",
         descripcion:
             "Analiza la comunicación en redes sociales y diseña una estrategia de personal branding.",
         autor: "Santiago Bilinkis",
@@ -239,7 +237,7 @@ export const creatividad = [
     },
     {
         id: 69,
-        titulo: "Creación de historia interactiva",
+        titulo: "Historia interactiva",
         descripcion: "Crea una historia interactiva para niños con momentos de elección.",
         autor: "Patricia Ceriani",
         prompt: "Quiero crear una historia interactiva para contarles a mis nietos de 7 y 9 años. La historia debe ser divertida y emocionante, con un tema relacionado con aventuras en la ciudad de Buenos Aires, quizás explorando los misterios de un antiguo barrio porteño. Me gustaría que la historia incluya momentos donde ellos puedan elegir qué pasará a continuación. ¿Podrías comenzar la historia y ofrecer opciones para que ellos elijan?”",
@@ -301,7 +299,7 @@ export const creatividad = [
     },
     {
         id: 74,
-        titulo: "Creación de cuento ilustrado",
+        titulo: "Cuento ilustrado",
         descripcion:
             "Utiliza modelos generativos para crear la narrativa de un cuento y generar ilustraciones correspondientes.",
         autor: "Patricia Ceriani",
@@ -314,7 +312,7 @@ export const creatividad = [
     },
     {
         id: 75,
-        titulo: "Generación de noticia falsa",
+        titulo: "Noticia falsa",
         descripcion:
             "Solicita a la IA que invente una noticia, útil para reflexionar sobre los límites éticos de la IA.",
         autor: "Patricia Ceriani",

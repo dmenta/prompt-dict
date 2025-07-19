@@ -56,7 +56,7 @@ export const vinculos = [
     },
     {
         id: 5,
-        titulo: "El reparador de vínculos rotos",
+        titulo: "Reparador de vínculos rotos",
         descripcion:
             "Analiza relaciones deterioradas, brindando claridad emocional y ayudando a redactar mensajes genuinos.",
         autor: "Santiago Bilinkis",
@@ -70,7 +70,7 @@ export const vinculos = [
     },
     {
         id: 6,
-        titulo: "El creador de excusas perfectas (pero éticas)",
+        titulo: "Creador de excusas perfectas (pero éticas)",
         descripcion:
             "Ayuda a cancelar actividades con excusas elegantes y creíbles, sin dañar vínculos.",
         autor: "Santiago Bilinkis",
@@ -84,7 +84,7 @@ export const vinculos = [
     },
     {
         id: 7,
-        titulo: "El evitador de malos entendidos en mensajes antes de mandarlos",
+        titulo: "Evitador de malos entendidos en mensajes antes de mandarlos",
         descripcion: "Analiza mensajes para prevenir malentendidos, ajustando el tono y claridad.",
         autor: "Santiago Bilinkis",
         prompt: "Te voy a mostrar un mensaje que estoy por mandar por WhatsApp. Quiero que me digas cómo puede interpretarlo la otra persona (tono, impacto emocional, posibles malentendidos) y si hay una forma más clara o empática de decirlo. Quiero sonar sincero, pero no cortante ni pasivo-agresivo.",
@@ -97,7 +97,7 @@ export const vinculos = [
     },
     {
         id: 8,
-        titulo: "El resolutor universal de conflictos",
+        titulo: "Resolutor universal de conflictos",
         descripcion:
             "Ayuda a resolver conflictos identificando perspectivas y sugiriendo estrategias de comunicación no violenta.",
         autor: "Santiago Bilinkis",

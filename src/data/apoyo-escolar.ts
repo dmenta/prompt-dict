@@ -53,7 +53,7 @@ export const apoyoEscolar = [
     },
     {
         id: 84,
-        titulo: "El asistente para ayuda escolar de hijos",
+        titulo: "Asistente para ayuda escolar de hijos",
         descripcion: "Sugiere mejoras para textos escolares sin reemplazar la voz del niño.",
         autor: "Santiago Bilinkis",
         prompt: "Actuá como un profe que ayuda a mejorar textos escolares sin hacerlos por completo. Te voy a mostrar lo que escribió mi hijo/a para el colegio. Quiero que me des sugerencias para que él/ella pueda entender qué mejorar, con ejemplos y explicaciones simples, sin cambiar su estilo.",
@@ -65,7 +65,7 @@ export const apoyoEscolar = [
     },
     {
         id: 85,
-        titulo: "El copiloto escolar que fomenta el pensamiento crítico",
+        titulo: "Copiloto escolar que fomenta el pensamiento crítico",
         descripcion:
             "Guía a los niños para mejorar sus trabajos escolares, estimulando su pensamiento.",
         autor: "Santiago Bilinkis",

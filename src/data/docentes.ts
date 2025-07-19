@@ -1,7 +1,7 @@
 export const docentes = [
     {
         id: 31,
-        titulo: "Generación de texto",
+        titulo: "Textos generales",
         descripcion:
             "Solicita respuestas a preguntas simples o complejas, adaptando el contexto y la audiencia para observar el comportamiento del modelo.",
         autor: "Patricia Ceriani",
@@ -15,7 +15,7 @@ export const docentes = [
     },
     {
         id: 32,
-        titulo: "Contexto",
+        titulo: "Contexto de respuesta",
         descripcion:
             "Adapta la respuesta al contexto proporcionado, evaluando cómo el modelo ajusta su respuesta con información adicional.",
         autor: "Patricia Ceriani",
@@ -29,7 +29,7 @@ export const docentes = [
     },
     {
         id: 33,
-        titulo: "Audiencia",
+        titulo: "Audiencia específica",
         descripcion:
             "Adapta el lenguaje y la explicación a una audiencia específica, como niños o estudiantes universitarios.",
         autor: "Patricia Ceriani",

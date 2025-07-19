@@ -1,7 +1,7 @@
 export const trabajo = [
     {
         id: 9,
-        titulo: "El reescritor de currículums según el puesto",
+        titulo: "Reescritor de currículums según el puesto",
         descripcion:
             "Adapta el currículum a ofertas de trabajo específicas, resaltando lo relevante para cada empresa.",
         autor: "Santiago Bilinkis",
@@ -15,7 +15,7 @@ export const trabajo = [
     },
     {
         id: 10,
-        titulo: "El simulador de respuestas para entrevistas de trabajo",
+        titulo: "Simulador de respuestas para entrevistas de trabajo",
         descripcion:
             "Simula entrevistas laborales, proporcionando feedback para mejorar claridad, impacto y confianza en las respuestas.",
         autor: "Santiago Bilinkis",
@@ -29,7 +29,7 @@ export const trabajo = [
     },
     {
         id: 11,
-        titulo: "El negociador que te ayuda a pedir mejor",
+        titulo: "Negociador que te ayuda a pedir mejor",
         descripcion:
             "Ayuda a estructurar propuestas convincentes para negociaciones laborales, como aumentos o cambios de horario.",
         autor: "Santiago Bilinkis",
@@ -56,7 +56,7 @@ export const trabajo = [
         fechaCreacion: new Date("2023-10-01"),
     },
     {
-        titulo: "Generación de presentación de marketing",
+        titulo: "Presentación de marketing",
         id: 13,
         descripcion:
             "Crea el contenido para presentaciones de marketing, incluyendo texto para diapositivas y búsqueda de imágenes.",
@@ -85,7 +85,7 @@ export const trabajo = [
     },
     {
         id: 15,
-        titulo: "Generación de textos de venta para redes sociales",
+        titulo: "Textos de venta para redes sociales",
         descripcion:
             "Escribe textos de venta para publicaciones en Instagram, adaptados a negocios específicos.",
         autor: "Patricia Ceriani",
@@ -99,7 +99,7 @@ export const trabajo = [
     },
     {
         id: 16,
-        titulo: "Generación de frases motivacionales para servicios",
+        titulo: "Frases motivacionales para servicios",
         descripcion: "Crea frases o preguntas para atraer clientes a servicios profesionales.",
         autor: "Patricia Ceriani",
         prompt: "Soy abogada y me especializo en mediación de conflictos, ¿me podrías escribir 5 frases o preguntas que motiven a las personas a contratar mis servicios?",
@@ -112,7 +112,7 @@ export const trabajo = [
     },
     {
         id: 17,
-        titulo: "Generación de nombres o slogans para eventos",
+        titulo: "Nombres o slogans para eventos",
         descripcion: "Sugiere nombres creativos para eventos o negocios.",
         autor: "Patricia Ceriani",
         prompt: "Estoy realizando en la Ciudad de Buenos Aires un espectáculo de tango, pretendo convocar a turistas de todo el mundo a una experiencia inmersiva en el Buenos Aires del arrabal, la libertad y las emociones. ¿Podés sugerirme 5 nombres para el espectáculo?",
@@ -125,7 +125,7 @@ export const trabajo = [
     },
     {
         id: 18,
-        titulo: "Generación de preguntas para entrevistas periodísticas",
+        titulo: "Preguntas para entrevistas periodísticas",
         descripcion: "Sugiere preguntas esenciales para entrevistas con figuras públicas.",
         autor: "Patricia Ceriani",
         prompt: "Soy periodista y voy a entrevistar al escritor Ken Follet en su paso por la Argentina, ¿qué preguntas te parece que no deben faltar en mi entrevista?",
@@ -138,7 +138,7 @@ export const trabajo = [
     },
     {
         id: 19,
-        titulo: "Generación de correspondencia/email de presentación",
+        titulo: "Correspondencia/email de presentación",
         descripcion: "Redacta correos electrónicos profesionales de presentación.",
         autor: "Patricia Ceriani",
         prompt: "Tengo que enviarle un mail presentándome, mi nombre es Edgardo Barranco y soy especialista en noticias literarias, escribo una columna en el portal de noticias Infobae. Y adelantándole los temas sobre los que me gustaría que trate la entrevista. Y por supuesto agradecerle esta gran oportunidad",
@@ -165,7 +165,7 @@ export const trabajo = [
     },
     {
         id: 21,
-        titulo: "Creación de rúbricas",
+        titulo: "Rúbricas",
         descripcion: "Ayuda a diseñar rúbricas detalladas para evaluar trabajos de estudiantes.",
         autor: "Patricia Ceriani",
         prompt: "Necesito que me ayudes a crear una evaluación de 10 preguntas sobre la fotosíntesis. La evaluación debe incluir 5 preguntas de desarrollo y 5 de opción múltiple. Los temas a cubrir son: las etapas de la fotosíntesis, los pigmentos involucrados, la ecuación química de la fotosíntesis, los factores que afectan la fotosíntesis y la importancia de la fotosíntesis para los ecosistemas. También necesito una rúbrica para evaluar las preguntas de desarrollo y una lista de cotejo para las preguntas de opción múltiple.",
@@ -177,7 +177,7 @@ export const trabajo = [
         fechaCreacion: new Date("2023-10-01"),
     },
     {
-        titulo: "Creación de listas de cotejo",
+        titulo: "Listas de cotejo",
         id: 22,
         descripcion:
             "Genera listas de cotejo para verificar el cumplimiento de criterios específicos.",
@@ -192,7 +192,7 @@ export const trabajo = [
     },
     {
         id: 23,
-        titulo: "Creación de listas de apreciación",
+        titulo: "Listas de apreciación",
         descripcion:
             "Crea listas de apreciación para evaluar el desempeño de estudiantes en diferentes aspectos.",
         autor: "Patricia Ceriani",
@@ -233,7 +233,7 @@ export const trabajo = [
     },
     {
         id: 26,
-        titulo: "Generación de trabajo práctico sobre fotosíntesis",
+        titulo: "Trabajo práctico sobre fotosíntesis",
         descripcion:
             "Diseña trabajos prácticos para estudiantes de secundaria, combinando preguntas de refuerzo con desafíos prácticos.",
         autor: "Patricia Ceriani",
@@ -247,7 +247,7 @@ export const trabajo = [
     },
     {
         id: 27,
-        titulo: "Generación de preguntas de opción múltiple para examen de historia",
+        titulo: "Preguntas de opción múltiple para examen de historia",
         descripcion: "Genera preguntas de opción múltiple para exámenes de historia.",
         autor: "Patricia Ceriani",
         prompt: "Genera un conjunto de 10 preguntas de opción múltiple sobre la Revolución Industrial para un examen de historia de nivel secundario. Asegúrate de cubrir los principales eventos, causas y consecuencias.",
@@ -279,7 +279,7 @@ export const trabajo = [
     },
     {
         id: 29,
-        titulo: "Creación de trabajo práctico de ciencias sociales (redes sociales)",
+        titulo: "Trabajo práctico de ciencias sociales (redes sociales)",
         descripcion:
             "Desarrolla trabajos prácticos sobre el impacto de las redes sociales en diferentes culturas, presentando múltiples perspectivas.",
         autor: "Patricia Ceriani",
@@ -293,7 +293,7 @@ export const trabajo = [
     },
     {
         id: 30,
-        titulo: "Generación de texto para excel (tablas y gráficos)",
+        titulo: "Texto para excel (tablas y gráficos)",
         descripcion:
             "Permite crear tablas comparativas, realizar cálculos y generar gráficos en documentos de Excel.",
         autor: "Patricia Ceriani",

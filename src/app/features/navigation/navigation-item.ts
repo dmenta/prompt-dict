@@ -9,7 +9,7 @@ export type NavigationItem = {
 
 export type NavItemType = "category" | "tag";
 
-export const navItemTypeLabels: Record<NavItemType, string> = {
-    category: "Categoría",
-    tag: "Etiqueta",
+export const navItemTypeLabels: Record<NavItemType, { title: string; lowercase: string }> = {
+    category: { title: "Categoría", lowercase: "categoría" },
+    tag: { title: "Etiqueta", lowercase: "etiqueta" },
 };

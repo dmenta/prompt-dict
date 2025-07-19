@@ -2,7 +2,7 @@ import { Injectable, signal } from "@angular/core";
 import allPrompts from "../../../data/normalizados";
 import { Prompt } from "../../features/prompts/prompt";
 import { NavigationItem } from "../../features/navigation/navigation-item";
-import { createSearchMatcher } from "../utils/search-utils";
+import { createSearchMatcher, normalizeSearchText } from "../utils/search-utils";
 
 @Injectable({
     providedIn: "root",
@@ -203,8 +203,7 @@ export class PersistService {
     }
 
     private slugify(name: string): string {
-        return name
-            .toLowerCase()
+        return normalizeSearchText(name)
             .replace(/\s+/g, "-")
             .replace(/[^\w-]/g, "");
     }

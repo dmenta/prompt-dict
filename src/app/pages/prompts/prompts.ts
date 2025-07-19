@@ -22,15 +22,19 @@ import { SectionHeader } from "../../core";
 export class Prompts {
     private route = inject(ActivatedRoute);
     private data = toSignal(
-        this.route.data as Observable<{ type: string; item: { name: string; prompts: Prompt[] } }>
+        this.route.data as Observable<{
+            type: { title: string; lowercase: string };
+            item: { name: string; prompts: Prompt[] };
+        }>
     );
 
     prompts = computed(() => <Prompt[]>this.data()!.item.prompts);
     titulo = computed(() => <string>this.data()!.item.name);
-    subtitulo = computed(() => this.resolvedSubtitulo(this.prompts().length, this.data()!.type));
+    subtitulo = computed(() =>
+        this.resolvedSubtitulo(this.prompts().length, this.data()!.type.lowercase)
+    );
 
     private resolvedSubtitulo(numItems: number, type: string): string {
-        type = type.toLowerCase();
         const mensajeCantidad =
             numItems === 0
                 ? "Ningún prompt asociado"

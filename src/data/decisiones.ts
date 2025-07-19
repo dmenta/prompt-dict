@@ -15,7 +15,7 @@ export const decisiones = [
     },
     {
         id: 42,
-        titulo: "El simulador de futuro profesional",
+        titulo: "Simulador de futuro profesional",
         descripcion:
             "Explora opciones de carrera combinando propósito, ingresos y tendencias del mercado laboral. Ayuda a visualizar futuros profesionales y los pasos para alcanzarlos.",
         autor: "Santiago Bilinkis",
@@ -29,7 +29,7 @@ export const decisiones = [
     },
     {
         id: 43,
-        titulo: "El asistente de decisiones importantes",
+        titulo: "Asistente de decisiones importantes",
         descripcion:
             "Identifica sesgos cognitivos en decisiones personales o profesionales, ayudando a evitar trampas mentales como el sesgo de confirmación o el efecto halo.",
         autor: "Santiago Bilinkis",
@@ -43,7 +43,7 @@ export const decisiones = [
     },
     {
         id: 44,
-        titulo: "El coach sin sarasa para tu narrativa interna",
+        titulo: "Coach sin sarasa para tu narrativa interna",
         descripcion:
             "Reinterpreta experiencias negativas desde una perspectiva compasiva y realista, evitando frases hechas o positividad tóxica.",
         autor: "Santiago Bilinkis",
@@ -57,7 +57,7 @@ export const decisiones = [
     },
     {
         id: 45,
-        titulo: "El recomendador de contenidos",
+        titulo: "Recomendador de contenidos",
         descripcion:
             "Sugiere libros, películas y canciones basados en el estado emocional o momento vital del usuario, evitando recomendaciones obvias.",
         autor: "Santiago Bilinkis",
@@ -71,7 +71,7 @@ export const decisiones = [
     },
     {
         id: 46,
-        titulo: "El showrunner de tu vida",
+        titulo: "Showrunner de tu vida",
         descripcion:
             "Crea una serie dramática basada en la vida del usuario, incorporando elementos de su personalidad y desafíos reales.",
         autor: "Santiago Bilinkis",
