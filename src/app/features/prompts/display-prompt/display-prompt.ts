@@ -36,7 +36,7 @@ import { APP_BASE_HREF } from "@angular/common";
         }
     `,
     host: {
-        class: "select-none md:min-w-64 md:w-1/5 grow-1  relative inline-block group px-2  py-4  shadow-md/30 shadow-black/40 dark:shadow-black/80  bg-card hover:bg-card-hover  dark:hover:bg-card-hover/30 transition-colors duration-150",
+        class: "select-none md:min-w-[16rem] md:w-[24rem] md:max-w-[36rem] grow-1  relative inline-block group px-2  py-4  shadow-md/30 shadow-black/40 dark:shadow-black/80  bg-card hover:bg-card-hover  dark:hover:bg-card-hover/30 transition-colors duration-150",
     },
 })
 export class DisplayPrompt {
