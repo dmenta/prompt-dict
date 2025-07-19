@@ -12,7 +12,6 @@ import {
     orderBy,
     DocumentData,
     QuerySnapshot,
-    onSnapshot,
     Timestamp,
 } from "@angular/fire/firestore";
 import { FirestorePrompt } from "../models/firestore.prompt";

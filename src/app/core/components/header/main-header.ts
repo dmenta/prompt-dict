@@ -29,8 +29,9 @@ import {
                 class="md:hidden "
                 pdIcon="menu"></button>
             <div
-                class="text-2xl hidden md:inline-block text-contrast font-mont-alt font-semibold"
+                class="text-2xl/8 hidden md:inline-flex items-center gap-0.5 text-contrast font-mont-alt font-semibold"
                 style="letter-spacing: 0.07em;">
+                <span pdIcon="terminal" class="scale-[115%] text-lime-300"></span>
                 ARTIFICIALMENTE
             </div>
             <pd-placeholder-searcher class="w-full max-w-[500px]"></pd-placeholder-searcher>
