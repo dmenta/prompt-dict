@@ -97,8 +97,7 @@
     }
 
     .drawer:not(.open) {
-        left: -18rem;
-        opacity: 1;
+        @apply -left-72   opacity-100 md:left-0;
     }
 
     .search-chip {

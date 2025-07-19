@@ -26,8 +26,9 @@ import {
                 title="Abrir menú"
                 aria-label="Abrir menú"
                 (click)="onMainButtonClick($event)"
+                class="md:invisible "
                 pdIcon="menu"></button>
-            <pd-placeholder-searcher class="w-full"></pd-placeholder-searcher>
+            <pd-placeholder-searcher class="w-full max-w-[500px]"></pd-placeholder-searcher>
             <pd-mode-toggle></pd-mode-toggle>
         </div>
     </div>`,

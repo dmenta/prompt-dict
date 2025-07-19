@@ -5,7 +5,7 @@ import { NotificationService } from "../../services";
     selector: "pd-notification",
     imports: [],
     template: `<div
-            class="fixed duration-200 m-auto z-35 scale-0 left-0 right-0 w-fit  shadow-lg shadow-black/30 dark:shadow-black/60 transition-all ease-out"
+            class="fixed duration-200 m-auto z-35 scale-0 left-0 right-0 w-fit min-w-64  shadow-lg shadow-black/30 dark:shadow-black/60 transition-all ease-out"
             [class.-bottom-8]="!notificationService.showNotification()"
             [class.bottom-18]="notificationService.showNotification()"
             [class.scale-100]="notificationService.showNotification()">

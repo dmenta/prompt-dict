@@ -10,7 +10,7 @@ import { Drawer, MainHeader, PersistService, StorageService } from "../../core";
     imports: [PromptsList, MainHeader, Drawer, NavList],
     template: `
         <header pd-main-header (open)="drawer.show()"></header>
-        <div pd-drawer class="w-fit  select-none" #drawer>
+        <div pd-drawer class="w-fit  select-none " #drawer>
             <div
                 drawer-title
                 class="flex items-center justify-between w-full"
@@ -25,8 +25,8 @@ import { Drawer, MainHeader, PersistService, StorageService } from "../../core";
             </div>
             <nav pd-nav-list [list]="list()"></nav>
         </div>
-        <div class="flex flex-row w-full">
-            <ul pd-prompts-list class="p-4 " [prompts]="prompts()"></ul>
+        <div class="flex flex-row  md:ml-72">
+            <ul pd-prompts-list class="p-4" [prompts]="prompts()"></ul>
         </div>
     `,
     host: {
