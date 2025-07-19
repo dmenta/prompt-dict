@@ -11,17 +11,17 @@ import { PrompInfo } from "../promp-info/promp-info";
 
     template: `
         @if(prompt(); as promptOk) {
-        <pd-promp-info [prompt]="promptOk" class="pb-4 px-4 text-xs"></pd-promp-info>
+        <pd-promp-info [prompt]="promptOk" class="pb-4 px-2 text-xs"></pd-promp-info>
         <a [routerLink]="['/', promptUrl, promptOk.slug]">
             <div
-                class="text-primary-dark  px-4 text-lg/6 font-semibold uppercase opacity-85 group-hover:opacity-100"
+                class="text-primary-dark  px-2 text-lg/6 font-semibold uppercase opacity-85 group-hover:opacity-100"
                 style="text-wrap: balance">
                 {{ promptOk.titulo }}
             </div>
         </a>
         <div
             class="relative prompt  opacity-85 group-hover:opacity-100 text-prompt
-            transition-opacity duration-150 px-4 ">
+            transition-opacity duration-150 px-2">
             <div class="prompt-text font-merri font-[370] py-3 leading-7 italic">
                 {{ promptOk.prompt }}
             </div>

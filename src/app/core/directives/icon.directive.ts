@@ -1,4 +1,4 @@
-import { Directive, input, ElementRef, inject, Renderer2 } from "@angular/core";
+import { Directive, input, ElementRef, inject, Renderer2, effect } from "@angular/core";
 
 export type IconType =
     | "menu"
@@ -36,19 +36,22 @@ export class IconDirective {
     size = input<number>(24);
     fill = input<string>("currentColor");
 
-    ngOnInit() {
-        this.createSvgIcon();
+    constructor() {
+        effect(() => {
+            this.createSvgIcon();
+        });
     }
 
     private createSvgIcon(): void {
         const iconPath = ICON_PATHS[this.icon()];
         if (!iconPath) {
             // Clear any existing content
-            this.elementRef.nativeElement.innerHTML = "";
 
             console.warn(`Icon "${this.icon()}" not found`);
             return;
         }
+
+        this.elementRef.nativeElement.innerHTML = "";
 
         // Create SVG element
         const svg = this.renderer.createElement("svg", "http://www.w3.org/2000/svg");
