@@ -29,7 +29,7 @@ import {
                 class="md:hidden "
                 pdIcon="menu"></button>
             <div
-                class="text-2xl hidden md:inline-block font-mont-alt font-semibold"
+                class="text-2xl hidden md:inline-block text-contrast font-mont-alt font-semibold"
                 style="letter-spacing: 0.07em;">
                 ARTIFICIALMENTE
             </div>

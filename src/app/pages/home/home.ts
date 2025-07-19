@@ -18,7 +18,7 @@ import { Drawer, MainHeader, StorageService, AppDataService } from "../../core";
                 [class.flex-row-reverse]="list() === 'tag'">
                 <div>
                     <span class="font-semibold text-list-name  pr-1">{{ activo() }}</span>
-                    <button class="cursor-pointer text-sm" (click)="onSortChange()">
+                    <button class="cursor-pointer text-xs opacity-85" (click)="onSortChange()">
                         [{{ sort() === "qty" ? "Num" : "A-Z" }}]
                     </button>
                 </div>
