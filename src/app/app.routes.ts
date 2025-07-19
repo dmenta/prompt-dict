@@ -42,6 +42,12 @@ export const routes: Routes = [
     },
 
     {
+        path: "admin",
+        loadComponent: () => import("./pages/admin/admin").then((m) => m.AdminComponent),
+        title: "Prompter | Administración",
+    },
+
+    {
         path: "home",
         redirectTo: "",
         pathMatch: "full",

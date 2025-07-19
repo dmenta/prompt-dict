@@ -9,6 +9,9 @@ import { provideRouter, Router, withNavigationErrorHandler } from "@angular/rout
 import { routes } from "./app.routes";
 import { NotificationService } from "./core";
 import { APP_BASE_HREF, PlatformLocation } from "@angular/common";
+import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
+import { provideFirestore, getFirestore } from "@angular/fire/firestore";
+import { environment } from "../environments/environment";
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -31,6 +34,9 @@ export const appConfig: ApplicationConfig = {
             provide: APP_BASE_HREF,
             useFactory: getBaseHref,
         },
+        // Firebase providers
+        provideFirebaseApp(() => initializeApp(environment.firebase)),
+        provideFirestore(() => getFirestore()),
     ],
 };
 
