@@ -45,10 +45,16 @@ export class Home {
     );
     persistService = inject(AppDataService);
 
-    prompts = computed<FirestorePrompt[]>(() => this.persistService.prompts());
+    prompts = signal<FirestorePrompt[]>([]);
 
     list = signal<NavItemType>(this.store.get("navList") ?? "category");
     sort = computed<NavListSort>(() => this.listData()[this.list()] ?? "qty");
+
+    constructor() {
+        this.persistService.prompts().then((prompts) => {
+            this.prompts.set(prompts);
+        });
+    }
 
     onClick(event: MouseEvent, list: NavItemType) {
         event.stopPropagation();

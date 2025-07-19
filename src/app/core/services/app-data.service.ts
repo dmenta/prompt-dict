@@ -1,19 +1,14 @@
 import { Injectable, inject, computed } from "@angular/core";
 import { FirestoreService } from "./firestore.service";
-import { NavigationItem } from "../../features/navigation/navigation-item";
 import { FirestorePrompt } from "../models";
+import { FirestoreCategory } from "../models/firestore-category";
+import { FirestoreTag } from "../models/firestore-tag";
 
 @Injectable({
     providedIn: "root",
 })
 export class AppDataService {
     private firestoreService = inject(FirestoreService);
-
-    public prompts = computed<FirestorePrompt[]>(() => this.firestoreService.prompts());
-
-    public categories = computed<NavigationItem[]>(() => this.firestoreService.categories());
-
-    public tags = computed<NavigationItem[]>(() => this.firestoreService.tags());
 
     public error = computed<string | null>(() => this.firestoreService.error());
 
@@ -22,6 +17,26 @@ export class AppDataService {
      */
     search(searchTerm: string, enableFuzzy: boolean = true): Promise<ResultadoBusqueda> {
         return this.searchInFirestore(searchTerm, enableFuzzy);
+    }
+
+    /**
+     * Obtener categorías
+     */
+    async prompts(): Promise<FirestorePrompt[]> {
+        return await this.firestoreService.getPrompts();
+    }
+    /**
+     * Obtener categorías
+     */
+    async categories(): Promise<FirestoreCategory[]> {
+        return await this.firestoreService.getCategories();
+    }
+
+    /**
+     * Obtener categorías
+     */
+    async tags(): Promise<FirestoreTag[]> {
+        return await this.firestoreService.getTags();
     }
 
     /**

@@ -18,6 +18,7 @@ import {
 import { FirestorePrompt } from "../models/firestore.prompt";
 import { FirestoreTag } from "../models/firestore-tag";
 import { FirestoreCategory } from "../models/firestore-category";
+import { limit, startAt } from "firebase/firestore";
 
 @Injectable({
     providedIn: "root",
@@ -30,16 +31,11 @@ export class FirestoreService {
     private categoriesCollection = collection(this.firestore, "categories");
     private tagsCollection = collection(this.firestore, "tags");
 
-    // Signals para reactive data
-    public prompts = signal<FirestorePrompt[]>([]);
-    public categories = signal<FirestoreCategory[]>([]);
-    public tags = signal<FirestoreTag[]>([]);
-    public isLoading = signal(false);
-    public error = signal<string | null>(null);
+    private currCategories = signal([] as FirestoreCategory[]);
+    private currTags = signal([] as FirestoreTag[]);
+    private currPrompts = signal<FirestorePrompt[]>([]);
 
-    constructor() {
-        this.initializeRealtimeListeners();
-    }
+    public error = signal<string | null>(null);
 
     // ==================== PROMPTS ====================
 
@@ -47,24 +43,33 @@ export class FirestoreService {
      * Obtener todos los prompts
      */
     async getPrompts(): Promise<FirestorePrompt[]> {
+        // if (this.currPrompts().length > 0) {
+        //     return this.currPrompts();
+        // }
+
         try {
-            this.isLoading.set(true);
             this.error.set(null);
 
+            const curr = this.currPrompts();
+            const fecha = curr.length === 0 ? new Date() : curr[curr.length - 1].fecha_creacion;
+
             const querySnapshot = await getDocs(
-                query(this.promptsCollection, orderBy("fecha_creacion", "desc"))
+                query(
+                    this.promptsCollection,
+                    orderBy("fecha_creacion", "desc"),
+                    startAt(Timestamp.fromDate(fecha)),
+                    limit(12)
+                )
             );
             const prompts = this.mapQuerySnapshotToPrompts(querySnapshot);
 
-            this.prompts.set(prompts);
-            return prompts;
+            this.currPrompts.set([...curr, ...prompts]);
+            return this.currPrompts();
         } catch (error) {
             const errorMessage = `Error al obtener prompts: ${error}`;
             this.error.set(errorMessage);
             console.error(errorMessage);
             return [];
-        } finally {
-            this.isLoading.set(false);
         }
     }
 
@@ -215,6 +220,54 @@ export class FirestoreService {
     }
 
     /**
+     * Obtener lista de categorias
+     */
+    async getCategories(): Promise<FirestoreCategory[]> {
+        if (this.currCategories().length > 0) {
+            return this.currCategories();
+        }
+
+        try {
+            this.error.set(null);
+            const q = query(this.categoriesCollection);
+            const querySnapshot = await getDocs(q);
+            const categories = this.mapQuerySnapshotToCategories(querySnapshot);
+            this.currCategories.set(categories);
+
+            return categories;
+        } catch (error) {
+            const errorMessage = `Error al obtener categorís: ${error}`;
+            this.error.set(errorMessage);
+            console.error(errorMessage);
+            return [];
+        }
+    }
+
+    /**
+     * Obtener lista de etiquetas
+     */
+    async getTags(): Promise<FirestoreTag[]> {
+        if (this.currTags().length > 0) {
+            return this.currTags();
+        }
+
+        try {
+            this.error.set(null);
+            const q = query(this.tagsCollection);
+            const querySnapshot = await getDocs(q);
+            const tags = this.mapQuerySnapshotToTags(querySnapshot);
+            this.currTags.set(tags);
+
+            return tags;
+        } catch (error) {
+            const errorMessage = `Error al obtener etiquetas: ${error}`;
+            this.error.set(errorMessage);
+            console.error(errorMessage);
+            return [];
+        }
+    }
+
+    /**
      * Obtener un prompt por ID
      */
     async getCategoryBySlug(slug: string): Promise<FirestoreCategory | null> {
@@ -262,159 +315,8 @@ export class FirestoreService {
             return null;
         }
     }
-    // ==================== SYNC METHODS ====================
-
-    /**
-     * Migrar datos locales a Firestore (usar solo una vez)
-     */
-    async migrateLocalData(localPrompts: FirestorePrompt[]): Promise<boolean> {
-        try {
-            this.isLoading.set(true);
-            this.error.set(null);
-
-            // console.log(`Iniciando migración de ${localPrompts.length} prompts...`);
-
-            // const promises = localPrompts.map((prompt) => {
-            //     const firestorePrompt: Omit<FirestorePrompt, "id"> = {
-            //         old_id: prompt.id,
-            //         titulo: prompt.titulo,
-            //         prompt: prompt.prompt,
-            //         descripcion: prompt.descripcion,
-            //         autor: prompt.autor,
-            //         categoria: prompt.categoria,
-            //         tags: prompt.tags,
-            //         uso: prompt.uso,
-            //         idioma: prompt.idioma,
-            //         fecha_creacion: new Date(prompt.fecha_creacion),
-            //         slug: prompt.slug,
-            //     };
-            //     return addDoc(this.promptsCollection, firestorePrompt);
-            // });
-
-            const categorias = [] as {
-                name: string;
-                slug: string;
-                fecha_creacion: Date;
-                prompt_count: number;
-            }[];
-            localPrompts.forEach((prompt) => {
-                const name = prompt.categoria.toLowerCase();
-                const previa = categorias.find((c) => c.name === name);
-                if (previa) {
-                    previa.prompt_count++;
-                    return;
-                }
-                const categoria = {
-                    name,
-                    slug: this.generateSlug(name),
-                    fecha_creacion: new Date(),
-                    prompt_count: 1, // Inicialmente 0, se actualizará después
-                };
-                categorias.push(categoria);
-            });
-
-            const catPromises = categorias.map((categorias) => {
-                const firestoreCategory: Omit<FirestoreCategory, "id"> = {
-                    name: categorias.name,
-                    slug: categorias.slug,
-                    fecha_creacion: categorias.fecha_creacion,
-                    prompt_count: categorias.prompt_count,
-                };
-                return addDoc(this.categoriesCollection, firestoreCategory);
-            });
-
-            await Promise.all(catPromises);
-
-            const tags = [] as {
-                name: string;
-                slug: string;
-                fecha_creacion: Date;
-                prompt_count: number;
-            }[];
-            localPrompts.forEach((prompt) => {
-                prompt.tags.forEach((or_tag) => {
-                    const name = or_tag.toLowerCase();
-                    const previa = tags.find((c) => c.name === name);
-                    if (previa) {
-                        previa.prompt_count++;
-                        return;
-                    }
-                    const tag = {
-                        name,
-                        slug: this.generateSlug(name),
-                        fecha_creacion: new Date(),
-                        prompt_count: 1, // Inicialmente 0, se actualizará después
-                    };
-                    tags.push(tag);
-                });
-            });
-
-            const tagPromises = tags.map((tag) => {
-                const firestoreTag: Omit<FirestoreTag, "id"> = {
-                    name: tag.name,
-                    slug: tag.slug,
-                    fecha_creacion: tag.fecha_creacion,
-                    prompt_count: tag.prompt_count,
-                };
-                return addDoc(this.tagsCollection, firestoreTag);
-            });
-
-            await Promise.all(tagPromises);
-            console.log("Migración completada exitosamente");
-            return true;
-        } catch (error) {
-            const errorMessage = `Error en migración: ${error}`;
-            this.error.set(errorMessage);
-            console.error(errorMessage);
-            return false;
-        } finally {
-            this.isLoading.set(false);
-        }
-    }
 
     // ==================== PRIVATE METHODS ====================
-
-    /**
-     * Configurar listeners en tiempo real
-     */
-    private initializeRealtimeListeners(): void {
-        // Listener para prompts
-        onSnapshot(
-            query(this.promptsCollection, orderBy("fecha_creacion", "desc")),
-            (snapshot) => {
-                const prompts = this.mapQuerySnapshotToPrompts(snapshot);
-                this.prompts.set(prompts);
-            },
-            (error) => {
-                console.error("Error en listener de prompts:", error);
-                this.error.set(`Error en sincronización: ${error}`);
-            }
-        );
-
-        onSnapshot(
-            query(this.categoriesCollection, orderBy("name", "asc")),
-            (snapshot) => {
-                const categories = this.mapQuerySnapshotToCategories(snapshot);
-                this.categories.set(categories);
-            },
-            (error) => {
-                console.error("Error en listener de categories:", error);
-                this.error.set(`Error en sincronización: ${error}`);
-            }
-        );
-
-        onSnapshot(
-            query(this.tagsCollection, orderBy("prompt_count", "desc")),
-            (snapshot) => {
-                const tags = this.mapQuerySnapshotToTags(snapshot);
-                this.tags.set(tags);
-            },
-            (error) => {
-                console.error("Error en listener de tags:", error);
-                this.error.set(`Error en sincronización: ${error}`);
-            }
-        );
-    }
 
     /**
      * Mapear QuerySnapshot a array de Prompts
@@ -426,7 +328,7 @@ export class FirestoreService {
     }
 
     /**
-     * Mapear QuerySnapshot a array de Prompts
+     * Mapear QuerySnapshot a array de Categories
      */
     private mapQuerySnapshotToCategories(
         querySnapshot: QuerySnapshot<DocumentData>
@@ -434,6 +336,9 @@ export class FirestoreService {
         return querySnapshot.docs.map((doc) => this.mapDocumentToCategory(doc.id, doc.data()));
     }
 
+    /**
+     * Mapear QuerySnapshot a array de Tags
+     */
     private mapQuerySnapshotToTags(querySnapshot: QuerySnapshot<DocumentData>): FirestoreTag[] {
         return querySnapshot.docs.map((doc) => this.mapDocumentToTag(doc.id, doc.data()));
     }

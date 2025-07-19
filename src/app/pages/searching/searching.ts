@@ -38,23 +38,25 @@ export class Searching {
     private router = inject(Router);
 
     private persistService = inject(AppDataService);
-    private emptySearch = this.persistService
-        .prompts()
-        .slice(0, 10)
-        .map((item) => ({
-            id: item.id,
-            old_id: item.old_id,
-            titulo: { parts: [item.titulo.slice(0, this.longitud)], in: -1 },
-            prompt: { parts: [item.prompt.slice(0, this.longitud)], in: -1 },
-            descripcion: {
-                parts: [`${item.descripcion.slice(0, this.longitud)}...`],
-                in: -1,
-            },
-            autor: { parts: [item.autor.slice(0, this.longitud)], in: -1 },
-            matchType: "exact",
-            matchScore: 1.0,
-            originalItem: item,
-        })) as ItemEncontradoExtendido[];
+    // private emptySearch = this.persistService
+    //     .prompts()
+    //     .slice(0, 10)
+    //     .map((item) => ({
+    //         id: item.id,
+    //         old_id: item.old_id,
+    //         titulo: { parts: [item.titulo.slice(0, this.longitud)], in: -1 },
+    //         prompt: { parts: [item.prompt.slice(0, this.longitud)], in: -1 },
+    //         descripcion: {
+    //             parts: [`${item.descripcion.slice(0, this.longitud)}...`],
+    //             in: -1,
+    //         },
+    //         autor: { parts: [item.autor.slice(0, this.longitud)], in: -1 },
+    //         matchType: "exact",
+    //         matchScore: 1.0,
+    //         originalItem: item,
+    //     })) as ItemEncontradoExtendido[];
+
+    private emptySearch: ItemEncontradoExtendido[] = [];
 
     private currentSearchTerm = signal<string>("");
 

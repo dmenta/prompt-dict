@@ -1,7 +1,7 @@
-import { Component, computed, inject, input } from "@angular/core";
+import { Component, computed, effect, inject, input, signal } from "@angular/core";
 import { NavItem } from "../nav-item/nav-item";
 import { AppDataService } from "../../../core";
-import { NavItemType } from "../navigation-item";
+import { NavigationItem, NavItemType } from "../navigation-item";
 
 @Component({
     selector: "nav[pd-nav-list], ul[pd-nav-list], ol[pd-nav-list]",
@@ -27,13 +27,8 @@ export class NavList {
 
     sort = input<NavListSort>("qty");
 
-    items = computed(() => {
-        if (this.list() === "category") {
-            return this.persistService.categories();
-        } else {
-            return this.persistService.tags();
-        }
-    });
+    items = signal([] as NavigationItem[]);
+
     sortedItems = computed(() => {
         return this.items().sort((a, b) => {
             if (this.sort() === "qty") {
@@ -43,6 +38,20 @@ export class NavList {
             }
         });
     });
+
+    constructor() {
+        effect(() => {
+            if (this.list() === "category") {
+                this.persistService.categories().then((categories) => {
+                    this.items.set(categories);
+                });
+            } else {
+                this.persistService.tags().then((tags) => {
+                    this.items.set(tags);
+                });
+            }
+        });
+    }
 }
 
 export type NavListSort = "qty" | "alpha";
