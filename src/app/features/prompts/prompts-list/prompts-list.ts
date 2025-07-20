@@ -6,16 +6,12 @@ import { FirestorePrompt } from "../../../core/models";
     selector: "pd-prompts-list, [pd-prompts-list]",
     imports: [DisplayPrompt],
     template: `
-        @for(item of prompts(); track item.id) {
+        @for(item of prompts(); track item.id) { @defer (on viewport) {
         <li pd-display-prompt [attr.tabindex]="1" [prompt]="item"></li>
-        } @empty {
-        <li class="flex flex-col items-center justify-center h-full">
-            <h1 class="text-lg font-semibold">No hay prompts</h1>
-            <p class="text-not-found text-balance text-center">
-                No se encontraron prompts para mostrar.
-            </p>
-        </li>
-        }
+        } @placeholder {
+        <li
+            class="select-none md:min-w-[16rem] md:w-[24rem] md:max-w-[36rem] grow-1  relative inline-block group px-2  py-4  shadow-md/30 shadow-black/40 dark:shadow-black/80  bg-card hover:bg-card-hover  dark:hover:bg-card-hover/30 transition-colors duration-150"></li>
+        } }
     `,
     host: {
         class: "flex flex-col md:flex-row flex-wrap h-full w-full  gap-6",

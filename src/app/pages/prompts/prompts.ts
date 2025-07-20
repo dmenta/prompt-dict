@@ -1,10 +1,9 @@
 import { Component, computed, inject } from "@angular/core";
-import { PromptsList } from "../../features/prompts/prompts-list/prompts-list";
+import { PromptsList } from "../../features/";
 import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { ListPrompts, SectionHeader } from "../../core";
-import { FirestorePrompt } from "../../core/models";
+import { ListPrompts, SectionHeader, FirestorePrompt } from "../../core";
 import { Title } from "@angular/platform-browser";
 
 @Component({
@@ -36,7 +35,7 @@ export class Prompts {
     );
 
     constructor(title: Title) {
-        title.setTitle(`${this.data()?.type.title} | ${this.data()?.item.name}`);
+        title.setTitle(`${this.data()?.item.name} | ${this.data()?.type.title} | Prompter`);
     }
 
     private resolvedSubtitulo(numItems: number, type: string): string {

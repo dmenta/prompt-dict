@@ -2,7 +2,7 @@ import { Component, inject, input, signal } from "@angular/core";
 import { CopyActions } from "../../../core";
 import { RouterLink } from "@angular/router";
 import { APP_BASE_HREF } from "@angular/common";
-import { PromptInfo } from "../promp-info/promp-info";
+import { PromptInfo } from "../prompt-info/prompt-info";
 import { FirestorePrompt } from "../../../core/models";
 
 @Component({

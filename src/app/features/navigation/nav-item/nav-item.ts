@@ -5,7 +5,7 @@ import { QuantityBagde } from "../../../core";
 @Component({
     selector: "[pd-nav-item]",
     imports: [RouterLink, RouterLinkActive, QuantityBagde],
-    template: ` <a
+    template: `<a
         [routerLink]="[this.paramName(), this.slug()]"
         routerLinkActive
         #rla="routerLinkActive"

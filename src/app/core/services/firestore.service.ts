@@ -14,9 +14,7 @@ import {
     QuerySnapshot,
     Timestamp,
 } from "@angular/fire/firestore";
-import { FirestorePrompt } from "../models/firestore.prompt";
-import { FirestoreTag } from "../models/firestore-tag";
-import { FirestoreCategory } from "../models/firestore-category";
+import { FirestorePrompt, FirestoreTag, FirestoreCategory } from "../models";
 import { limit, startAt } from "firebase/firestore";
 
 @Injectable({
@@ -42,27 +40,18 @@ export class FirestoreService {
      * Obtener todos los prompts
      */
     async getPrompts(): Promise<FirestorePrompt[]> {
-        // if (this.currPrompts().length > 0) {
-        //     return this.currPrompts();
-        // }
-
         try {
             this.error.set(null);
 
             const curr = this.currPrompts();
-            const fecha = curr.length === 0 ? new Date() : curr[curr.length - 1].fecha_creacion;
+            const lastId = curr.length === 0 ? 0 : curr[curr.length - 1].old_id;
 
             const querySnapshot = await getDocs(
-                query(
-                    this.promptsCollection,
-                    orderBy("fecha_creacion", "desc"),
-                    startAt(Timestamp.fromDate(fecha)),
-                    limit(12)
-                )
+                query(this.promptsCollection, orderBy("old_id", "asc"), startAt(lastId), limit(10))
             );
             const prompts = this.mapQuerySnapshotToPrompts(querySnapshot);
-
-            this.currPrompts.set([...curr, ...prompts]);
+            console.log("Prompts obtenidos:", prompts, curr);
+            this.currPrompts.set([...curr, ...prompts.slice(1)]);
             return this.currPrompts();
         } catch (error) {
             const errorMessage = `Error al obtener prompts: ${error}`;

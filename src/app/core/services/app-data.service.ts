@@ -1,8 +1,6 @@
 import { Injectable, inject, computed } from "@angular/core";
 import { FirestoreService } from "./firestore.service";
-import { FirestorePrompt } from "../models";
-import { FirestoreCategory } from "../models/firestore-category";
-import { FirestoreTag } from "../models/firestore-tag";
+import { FirestorePrompt, FirestoreCategory, FirestoreTag } from "../models";
 
 @Injectable({
     providedIn: "root",

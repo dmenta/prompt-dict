@@ -1,12 +1,12 @@
 import { Routes } from "@angular/router";
 import { categoryResolve, promptResolve, tagResolve } from "./core";
-import { navItemTypeLabels } from "./features/navigation/navigation-item";
+import { navItemTypeLabels } from "./features";
 
 export const routes: Routes = [
     {
         path: "",
         loadComponent: () => import("./pages/home/home").then((m) => m.Home),
-        title: "Prompter | Inicio",
+        title: "Inicio | Prompter",
     },
     {
         path: "category/:id",
@@ -28,7 +28,7 @@ export const routes: Routes = [
     {
         path: "searching",
         loadComponent: () => import("./pages/searching/searching").then((m) => m.Searching),
-        title: "Prompter | Búsqueda",
+        title: "Búsqueda | Prompter",
     },
     {
         path: "home",

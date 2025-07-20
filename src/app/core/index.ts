@@ -4,3 +4,4 @@ export * from "./directives";
 export * from "./services";
 export * from "./utils/resolvers";
 export * from "./utils/search-utils";
+export * from "./models";

@@ -2,8 +2,7 @@ import { Component, computed, inject, signal } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Observable } from "rxjs";
-import { CopyService, DetailHeader, LabelValueItem } from "../../core";
-import { FirestorePrompt } from "../../core/models";
+import { CopyService, DetailHeader, LabelValueItem, FirestorePrompt } from "../../core";
 import { Title } from "@angular/platform-browser";
 
 @Component({
@@ -47,7 +46,7 @@ export class PromptDetail {
     ];
 
     constructor(title: Title) {
-        title.setTitle(`Prompt | ${this.prompt().titulo}`);
+        title.setTitle(`${this.prompt().titulo} | Prompter`);
     }
 
     onCopyPrompt(event: MouseEvent) {
