@@ -31,11 +31,10 @@ import { InfiniteScrollDirective } from "ngx-infinite-scroll";
         @if (prompts().length > 0) {
         <div
             infiniteScroll
-            [infiniteScrollDistance]="2"
-            [infiniteScrollUpDistance]="1.5"
-            [infiniteScrollThrottle]="50"
-            (scrolled)="onScrollDown()"
-            (scrolledUp)="onScrollUp()">
+            [infiniteScrollDistance]="scrollDistance"
+            [infiniteScrollUpDistance]="scrollUpDistance"
+            [infiniteScrollThrottle]="throttle"
+            (scrolled)="onScrollDown()">
             <div class="flex flex-row  md:ml-72">
                 <ul pd-prompts-list class="px-6 py-6" [prompts]="prompts()"></ul>
             </div>
@@ -110,10 +109,6 @@ export class Home {
         this.persistService.prompts().then((prompts) => {
             this.prompts.set(prompts);
         });
-    }
-
-    onScrollUp() {
-        console.log("scrolled up!!");
     }
 }
 
