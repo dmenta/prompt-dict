@@ -76,3 +76,15 @@ opensearch.xml
 <Url type="text/html" method="get" template="https://developer.mozilla.org/search?q={searchTerms}"/>
 </OpenSearchDescription>
 -->
+
+<meta property="og:url" content="https://dmenta.github.io/prompt-dict/prompt/resumen-de-noticias-diarias" />
+<meta property="og:title" content="Resumen de noticias diarias | Artificialmente" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="es_AR" />
+<meta property="og:description" content="Dame un resumen de las noticias más importantes del día en Argentina, con un enfoque en política, economía y cultura. Quiero estar al tanto de lo que está ocurriendo sin tener que leer varios artículos completos." />
+<meta property="og:image" content="https://dmenta.github.io/prompt-dict/marca.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:height" content="83" />
+<meta property="og:image:width" content="488" />
+<meta property="og:image:alt" content="El logo de Artificialmente con un acento en verde lima, sobre un color azul apgado." />
+<meta property="og:site_name" content="Artificialmente" />
