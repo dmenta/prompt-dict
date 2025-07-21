@@ -9,6 +9,12 @@ export const routes: Routes = [
         title: "Inicio | Prompter",
     },
     {
+        path: "create-prompt",
+        loadComponent: () =>
+            import("./pages/create-prompt/create-prompt.page").then((m) => m.CreatePromptPage),
+        title: "Crear Prompt | Prompter",
+    },
+    {
         path: "category/:id",
         loadComponent: () => import("./pages/prompts/prompts").then((m) => m.Prompts),
         resolve: { item: categoryResolve, type: () => navItemTypeLabels["category"] },

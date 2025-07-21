@@ -14,13 +14,56 @@ import {
     QuerySnapshot,
     Timestamp,
 } from "@angular/fire/firestore";
-import { FirestorePrompt, FirestoreTag, FirestoreCategory } from "../models";
+import { FirestorePrompt, FirestoreTag, FirestoreCategory, AddPrompt } from "../models";
 import { limit, startAt } from "firebase/firestore";
 
 @Injectable({
     providedIn: "root",
 })
 export class FirestoreService {
+    /**
+     * Actualizar el contador de prompts de una categoría
+     */
+    async updateCategoryPromptCount(categoryId: string, increment: number): Promise<void> {
+        const docRef = doc(this.firestore, "categories", categoryId);
+        await updateDoc(docRef, {
+            prompt_count: increment,
+            fecha_edicion: new Date(),
+        });
+    }
+
+    /**
+     * Crear una nueva categoría
+     */
+    async createCategory(data: Partial<FirestoreCategory>): Promise<void> {
+        await addDoc(this.categoriesCollection, {
+            ...data,
+            slug: this.generateSlug(data.name || ""),
+            fecha_creacion: new Date(),
+        });
+    }
+
+    /**
+     * Actualizar el contador de prompts de un tag
+     */
+    async updateTagPromptCount(tagId: string, increment: number): Promise<void> {
+        const docRef = doc(this.firestore, "tags", tagId);
+        await updateDoc(docRef, {
+            prompt_count: increment,
+            fecha_edicion: new Date(),
+        });
+    }
+
+    /**
+     * Crear un nuevo tag
+     */
+    async createTag(data: Partial<FirestoreTag>): Promise<void> {
+        await addDoc(this.tagsCollection, {
+            ...data,
+            slug: this.generateSlug(data.name || ""),
+            fecha_creacion: new Date(),
+        });
+    }
     private firestore = inject(Firestore);
 
     // Collections references
@@ -90,11 +133,13 @@ export class FirestoreService {
     /**
      * Crear un nuevo prompt
      */
-    async createPrompt(prompt: Omit<FirestorePrompt, "id">): Promise<string | null> {
+    async createPrompt(prompt: AddPrompt): Promise<string | null> {
         try {
             this.error.set(null);
             const promptData = {
                 ...prompt,
+                old_id: -1,
+                slug: prompt.titulo ?? this.generateSlug(prompt.titulo),
                 fecha_creacion: new Date(),
             };
 

@@ -26,3 +26,8 @@ export interface FirestorePrompt {
     licencia?: string;
     // Campos adicionales para Firestore
 }
+
+export type AddPrompt = Pick<
+    FirestorePrompt,
+    "titulo" | "descripcion" | "autor" | "categoria" | "tags" | "prompt" | "uso" | "idioma"
+>;

@@ -7,7 +7,7 @@
 
 @theme {
     --font-merri: "Merriweather Sans";
-    --font-merri--font-variation-settings: "wght" 375;
+    --font-merri--font-variation-settings: "wght" 355;
     --font-mont-alt: "Montserrat Alternates";
     --font-sans: "TikTok Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
         "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -27,7 +27,8 @@
     --color-app-back: var(--color-white);
     --color-app-fore: var(--color-neutral-800);
 
-    --color-action: oklch(0.444 0.055 204);
+    --color-action: oklch(0.544 0.055 204);
+    --color-action-hover: oklch(0.494 0.055 204);
     --color-primary: oklch(0.645 0.181 46);
     --color-primary-light: oklch(0.703 0.181 46);
     --color-primary-dark: oklch(0.486 0.181 46);
@@ -59,6 +60,7 @@
     --color-card: var(--color-neutral-50);
     --color-not-found: var(--color-neutral-500);
     --color-item-hover: var(--color-neutral-200);
+    --color-drop-back: var(--color-neutral-100);
 
     --color-resaltador: #ffff00;
 }
@@ -68,6 +70,7 @@
     --color-app-fore: var(--color-neutral-50);
 
     --color-action: oklch(0.695 0.181 46);
+    --color-action-hover: oklch(0.735 0.181 46);
     --color-primary: oklch(0.604 0.055 204);
     --color-primary-light: oklch(0.544 0.055 204);
     --color-primary-dark: oklch(0.794 0.055 204);
@@ -86,6 +89,7 @@
     --color-drawer-header: var(--color-neutral-800);
     --color-card: var(--color-neutral-800);
     --color-item-hover: var(--color-neutral-700);
+    --color-drop-back: var(--color-neutral-700);
 
     --color-resaltador: #ff900090;
 }
@@ -115,5 +119,59 @@
 
     .search-chip.activa {
         @apply border-action border-2;
+    }
+
+    select,
+    ::picker(select) {
+        appearance: base-select;
+    }
+
+    ::picker(select) {
+        @apply border-neutral-500/30;
+        opacity: 0;
+        transition: all 0.25s allow-discrete;
+        background-color: var(--color-drop-back);
+    }
+
+    ::picker(select):popover-open {
+        opacity: 1;
+    }
+
+    @starting-style {
+        ::picker(select):popover-open {
+            opacity: 0;
+        }
+    }
+
+    select::picker-icon {
+        color: #999;
+        transition: 0.4s rotate;
+    }
+
+    select:open::picker-icon {
+        rotate: 180deg;
+    }
+
+    option::checkmark {
+        display: none;
+    }
+
+    option {
+        padding-inline: 1rem;
+        padding-block: 0.5rem;
+    }
+
+    .spinner {
+        @apply animate-spin  border-4  transition-discrete transition-all duration-300 opacity-0  hidden border-t-neutral-100/50 border-r-neutral-100/50 border-b-neutral-100/50 border-l-white min-w-8 h-8 rounded-full;
+    }
+
+    .spinner-show {
+        @apply opacity-100 inline-block;
+    }
+
+    @starting-style {
+        .spinner-show {
+            opacity: 0;
+        }
     }
 }

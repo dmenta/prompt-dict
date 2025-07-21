@@ -1,6 +1,6 @@
 import { Injectable, inject, computed } from "@angular/core";
 import { FirestoreService } from "./firestore.service";
-import { FirestorePrompt, FirestoreCategory, FirestoreTag } from "../models";
+import { FirestorePrompt, FirestoreCategory, FirestoreTag, AddPrompt } from "../models";
 
 @Injectable({
     providedIn: "root",
@@ -54,16 +54,54 @@ export class AppDataService {
     }
 
     async byTag(slug: string): Promise<{ name: string; prompts: FirestorePrompt[] }> {
-        const tag = this.firestoreService.getTagBySlug(slug);
+        const tag = await this.firestoreService.getTagBySlug(slug);
+        if (!tag) {
+            throw new Error(`No se encontró el tag '${slug}'.`);
+        }
+        const prompts = await this.firestoreService.getPromptsByTag(tag.name);
+        return { name: this.titleCase(tag.name), prompts };
+    }
 
-        return tag.then(async (tag) => {
-            if (!tag) {
-                throw new Error(`No se encontró la categoría '${slug}'.`);
+    /**
+     * Crear un nuevo prompt y actualizar tags/categoría
+     */
+    async createPrompt(prompt: AddPrompt): Promise<string | null> {
+        const id = await this.firestoreService.createPrompt(prompt);
+        return id;
+    }
+
+    /**
+     * Actualizar o crear tags/categoría con prompt_count
+     */
+    async updateTagsAndCategory(tags: string[], categoria: string): Promise<void> {
+        // Buscar y actualizar categoría
+        const cats = await this.categories();
+        const cat = cats.find((c) => c.name.toLowerCase() === categoria);
+        if (cat) {
+            const newCount = (cat.prompt_count ?? 0) + 1;
+            await this.firestoreService.updateCategoryPromptCount(cat.id!, newCount);
+        } else {
+            await this.firestoreService.createCategory({
+                name: categoria,
+                prompt_count: 1,
+                slug: "",
+            });
+        }
+        // Buscar y actualizar tags
+        const allTags = await this.tags();
+        for (const tag of tags) {
+            const t = allTags.find((x) => x.name.toLowerCase() === tag);
+            if (t) {
+                const newCount = (t.prompt_count ?? 0) + 1;
+                await this.firestoreService.updateTagPromptCount(t.id!, newCount);
+            } else {
+                await this.firestoreService.createTag({
+                    name: tag,
+                    prompt_count: 1,
+                    slug: "",
+                });
             }
-
-            const prompts = await this.firestoreService.getPromptsByTag(tag.name);
-            return { name: this.titleCase(tag.name), prompts };
-        });
+        }
     }
 
     /**
