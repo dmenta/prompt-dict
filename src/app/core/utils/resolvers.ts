@@ -3,7 +3,7 @@ import type { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/route
 import { AppDataService } from "../services";
 
 const promptResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
-    inject(AppDataService).byId(getId(route));
+    inject(AppDataService).bySlug(getId(route));
 
 const categoryResolve = (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) =>
     inject(AppDataService).byCategory(getId(route));

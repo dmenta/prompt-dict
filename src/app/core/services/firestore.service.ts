@@ -15,7 +15,7 @@ import {
     Timestamp,
 } from "@angular/fire/firestore";
 import { FirestorePrompt, FirestoreTag, FirestoreCategory, AddPrompt } from "../models";
-import { limit, startAt } from "firebase/firestore";
+import { getDoc, limit, startAt } from "firebase/firestore";
 
 @Injectable({
     providedIn: "root",
@@ -107,7 +107,7 @@ export class FirestoreService {
     /**
      * Obtener un prompt por ID
      */
-    async getPromptById(id: string): Promise<FirestorePrompt | null> {
+    async getPromptBySlug(id: string): Promise<FirestorePrompt | null> {
         try {
             this.error.set(null);
             const q = query(this.promptsCollection, where("slug", "==", id));
@@ -122,6 +122,24 @@ export class FirestoreService {
                 return null;
             }
             return this.mapDocumentToPrompt(docSnap.id, docSnap.data());
+        } catch (error) {
+            const errorMessage = `Error al obtener prompt ${id}: ${error}`;
+            this.error.set(errorMessage);
+            console.error(errorMessage);
+            return null;
+        }
+    }
+
+    async getPromptById(id: string): Promise<FirestorePrompt | null> {
+        try {
+            const docRef = doc(this.firestore, "prompts", id);
+            const docSnap = await getDoc(docRef);
+
+            if (!docSnap.exists()) {
+                return null;
+            }
+
+            return this.mapDocumentToPrompt(docRef.id, docSnap.data());
         } catch (error) {
             const errorMessage = `Error al obtener prompt ${id}: ${error}`;
             this.error.set(errorMessage);
@@ -184,6 +202,40 @@ export class FirestoreService {
             return true;
         } catch (error) {
             const errorMessage = `Error al eliminar prompt ${id}: ${error}`;
+            this.error.set(errorMessage);
+            console.error(errorMessage);
+            return false;
+        }
+    }
+
+    /**
+     * Eliminar una categoria
+     */
+    async deleteCategory(id: string): Promise<boolean> {
+        try {
+            this.error.set(null);
+            const docRef = doc(this.firestore, "categories", id);
+            await deleteDoc(docRef);
+            return true;
+        } catch (error) {
+            const errorMessage = `Error al eliminar la categoría ${id}: ${error}`;
+            this.error.set(errorMessage);
+            console.error(errorMessage);
+            return false;
+        }
+    }
+
+    /**
+     * Eliminar una etiqueta
+     */
+    async deleteTag(id: string): Promise<boolean> {
+        try {
+            this.error.set(null);
+            const docRef = doc(this.firestore, "tags", id);
+            await deleteDoc(docRef);
+            return true;
+        } catch (error) {
+            const errorMessage = `Error al eliminar la etiqueta ${id}: ${error}`;
             this.error.set(errorMessage);
             console.error(errorMessage);
             return false;

@@ -1,4 +1,4 @@
-import { Component, inject, input } from "@angular/core";
+import { Component, inject, input, output } from "@angular/core";
 import { Router } from "@angular/router";
 import { HeaderBackButton } from "./buttons/header-back-button";
 import {
@@ -6,11 +6,19 @@ import {
     HeaderLayoutDirective,
     HeaderRowDirective,
 } from "./header-layout.directive";
-import { TruncateDirective } from "../../directives";
+import { IconDirective, TruncateDirective } from "../../directives";
+import { HeaderButton } from "./buttons/header-button";
 
 @Component({
     selector: "pd-section-header, [pd-section-header]",
-    imports: [HeaderBackButton, HeaderContentDirective, HeaderRowDirective, TruncateDirective],
+    imports: [
+        HeaderButton,
+        HeaderBackButton,
+        HeaderContentDirective,
+        HeaderRowDirective,
+        TruncateDirective,
+        IconDirective,
+    ],
     template: `<div pdHeaderContent>
         <div pdHeaderRow>
             <button pdHeaderBackButton (back)="onBack($event)"></button>
@@ -22,6 +30,15 @@ import { TruncateDirective } from "../../directives";
                     {{ subtitulo() }}
                 </div>
             </div>
+            <button
+                pdHeaderButton
+                [disabled]="!enabled()"
+                title="Eliminar"
+                aria-label="Eliminar"
+                (click)="onDelete($event)"
+                class="ml-4 disabled:pointer-events-none disabled:opacity-50">
+                <span pdIcon="delete"></span>
+            </button>
         </div>
     </div>`,
     hostDirectives: [
@@ -31,6 +48,8 @@ import { TruncateDirective } from "../../directives";
     ],
 })
 export class SectionHeader {
+    enabled = input<boolean>(false);
+    erase = output<MouseEvent>();
     router = inject(Router);
     titulo = input<string>("");
     subtitulo = input<string>("");
@@ -38,5 +57,9 @@ export class SectionHeader {
     onBack(event: MouseEvent) {
         event.stopPropagation();
         this.router.navigate(["/"]);
+    }
+
+    onDelete(event: MouseEvent) {
+        this.erase.emit(event);
     }
 }

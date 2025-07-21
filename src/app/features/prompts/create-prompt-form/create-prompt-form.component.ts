@@ -89,9 +89,9 @@ export class CreatePromptFormComponent {
                 idioma: raw.idioma,
             };
             const id = await this.appData.createPrompt(promptData);
-            await this.appData.updateTagsAndCategory(tags, categoria);
+            await this.appData.updateTagsAndCategory(tags, categoria, false);
             this.form.reset();
-            this.notificationService.success("¡Prompt creado exitosamente!");
+            this.notificationService.success("Prompt creado");
         } finally {
             this.isSubmitting.set(false);
         }

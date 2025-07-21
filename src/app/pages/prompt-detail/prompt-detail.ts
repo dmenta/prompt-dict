@@ -1,8 +1,15 @@
 import { Component, computed, inject, signal } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Observable } from "rxjs";
-import { CopyService, DetailHeader, LabelValueItem, FirestorePrompt } from "../../core";
+import {
+    CopyService,
+    DetailHeader,
+    LabelValueItem,
+    FirestorePrompt,
+    AppDataService,
+    NotificationService,
+} from "../../core";
 import { Title } from "@angular/platform-browser";
 
 @Component({
@@ -11,6 +18,7 @@ import { Title } from "@angular/platform-browser";
     template: `<header
             pd-detail-header
             [titulo]="prompt().titulo"
+            (delete)="onDelete($event)"
             (copyPrompt)="onCopyPrompt($event)"
             (share)="onShare($event)"></header>
         <div class="px-6 py-6 w-full">
@@ -28,8 +36,11 @@ import { Title } from "@angular/platform-browser";
     },
 })
 export class PromptDetail {
+    notificationService = inject(NotificationService);
+    private persistService = inject(AppDataService);
     private url = signal<string>(window.location.href);
     private route = inject(ActivatedRoute);
+    private router = inject(Router);
     private data = toSignal(this.route.data as Observable<{ prompt: FirestorePrompt }>);
     private copyService = inject(CopyService);
     prompt = computed(() => <FirestorePrompt>this.data()!.prompt);
@@ -47,6 +58,20 @@ export class PromptDetail {
 
     constructor(title: Title) {
         title.setTitle(`${this.prompt().titulo} | Prompter`);
+    }
+
+    onDelete(event: MouseEvent) {
+        event.stopPropagation();
+
+        this.persistService
+            .deletePrompt(this.prompt().id)
+            .then(() => {
+                this.notificationService.success("Prompt eliminado");
+                this.router.navigate(["/"]);
+            })
+            .catch((error) => {
+                this.notificationService.warn("Error al eliminar el prompt: " + error.message);
+            });
     }
 
     onCopyPrompt(event: MouseEvent) {

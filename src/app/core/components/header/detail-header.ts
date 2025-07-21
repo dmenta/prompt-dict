@@ -42,6 +42,14 @@ import { HeaderActionButton } from "./buttons/header-action-button";
                     <span pdIcon="share"></span>
                 </button>
                 <button
+                    pdHeaderButton
+                    title="Compartir el prompt"
+                    aria-label="Compartir el prompt"
+                    (click)="onDelete($event)"
+                    class="ml-4">
+                    <span pdIcon="delete"></span>
+                </button>
+                <button
                     [routerLink]="['/prompts/create']"
                     pdHeaderActionButton
                     title="Agregar"
@@ -74,6 +82,8 @@ export class DetailHeader {
     copyPrompt = output<MouseEvent>();
     share = output<MouseEvent>();
 
+    delete = output<MouseEvent>();
+
     constructor(private router: Router) {
         const lastUrl = this.router.parseUrl(
             this.router.lastSuccessfulNavigation?.initialUrl?.toString() || "/"
@@ -94,5 +104,9 @@ export class DetailHeader {
 
     onShare(event: MouseEvent) {
         this.share.emit(event);
+    }
+
+    onDelete(event: MouseEvent) {
+        this.delete.emit(event);
     }
 }
