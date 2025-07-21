@@ -9,7 +9,7 @@ export const routes: Routes = [
         title: "Inicio | Prompter",
     },
     {
-        path: "create-prompt",
+        path: "prompts/create",
         loadComponent: () =>
             import("./pages/create-prompt/create-prompt.page").then((m) => m.CreatePromptPage),
         title: "Crear Prompt | Prompter",

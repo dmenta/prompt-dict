@@ -1,5 +1,5 @@
 import { Component, input, output } from "@angular/core";
-import { Params, Router } from "@angular/router";
+import { Params, Router, RouterLink } from "@angular/router";
 import { HeaderButton } from "./buttons/header-button";
 import { IconDirective, TruncateDirective } from "../../directives";
 import { HeaderBackButton } from "./buttons/header-back-button";
@@ -8,6 +8,7 @@ import {
     HeaderContentDirective,
     HeaderRowDirective,
 } from "./header-layout.directive";
+import { HeaderActionButton } from "./buttons/header-action-button";
 
 @Component({
     selector: "pd-detail-header, [pd-detail-header]",
@@ -18,6 +19,8 @@ import {
         HeaderContentDirective,
         HeaderRowDirective,
         TruncateDirective,
+        HeaderActionButton,
+        RouterLink,
     ],
     template: ` <div pdHeaderContent>
         <div pdHeaderRow class="-mb-2">
@@ -38,6 +41,13 @@ import {
                     (click)="onShare($event)">
                     <span pdIcon="share"></span>
                 </button>
+                <button
+                    [routerLink]="['/prompts/create']"
+                    pdHeaderActionButton
+                    title="Agregar"
+                    aria-label="Agregar"
+                    class="ml-4"
+                    pdIcon="check"></button>
             </div>
         </div>
         <div class="overflow-hidden w-full px-3">
