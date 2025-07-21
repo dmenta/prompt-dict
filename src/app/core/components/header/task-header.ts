@@ -20,7 +20,7 @@ import { HeaderActionButton } from "./buttons/header-action-button";
         TruncateDirective,
     ],
     template: `<div pdHeaderContent>
-        <div pdHeaderRow class="pr-2">
+        <div pdHeaderRow class="">
             <button pdHeaderBackButton (back)="onBack($event)"></button>
             <h1 pdTruncate class="text-header-contrast text-2xl" [title]="titulo()">
                 {{ titulo() }}
@@ -32,7 +32,7 @@ import { HeaderActionButton } from "./buttons/header-action-button";
                 aria-label="Aceptar"
                 [disabled]="!enabled() || waiting()"
                 (click)="onTaskButtonClicked($event)"
-                class="disabled:pointer-events-none md:hidden disabled:bg-neutral-500 dark:disabled:bg-neutral-600 transition-colors duration-300"
+                class="mr-2 disabled:pointer-events-none md:hidden disabled:bg-neutral-500 dark:disabled:bg-neutral-600 transition-colors duration-300"
                 pdIcon="check"></button>
         </div>
     </div>`,

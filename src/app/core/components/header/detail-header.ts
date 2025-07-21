@@ -46,8 +46,8 @@ import { HeaderActionButton } from "./buttons/header-action-button";
                     pdHeaderActionButton
                     title="Agregar"
                     aria-label="Agregar"
-                    class="ml-4"
-                    pdIcon="check"></button>
+                    class="ml-4 mr-2"
+                    pdIcon="add"></button>
             </div>
         </div>
         <div class="overflow-hidden w-full px-3">

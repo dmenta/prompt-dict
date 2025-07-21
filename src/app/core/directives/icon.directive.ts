@@ -11,7 +11,8 @@ type IconType =
     | "close"
     | "link"
     | "terminal"
-    | "check";
+    | "check"
+    | "add";
 
 const ICON_PATHS: Record<IconType, string> = {
     menu: "M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z",
@@ -28,6 +29,7 @@ const ICON_PATHS: Record<IconType, string> = {
     terminal:
         "M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H160v400Zm140-40-56-56 103-104-104-104 57-56 160 160-160 160Zm180 0v-80h240v80H480Z",
     check: "M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z",
+    add: "M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z",
 };
 
 @Directive({
