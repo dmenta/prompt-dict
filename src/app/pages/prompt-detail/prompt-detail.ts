@@ -22,7 +22,7 @@ import { Title } from "@angular/platform-browser";
             (copyPrompt)="onCopyPrompt($event)"
             (share)="onShare($event)"></header>
         <div class="px-6 py-6 w-full">
-            <ul class="divide-y-[0.5px] space-y-2">
+            <ul class="divide-y-[0.5px] divide-gray-500/50 space-y-2">
                 @for( property of displayProperties; track property.key) {
                 <li
                     pd-key-value-item

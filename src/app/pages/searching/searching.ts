@@ -20,7 +20,7 @@ import { filter, map } from "rxjs";
                     class="opacity-90 group-hover:opacity-100 transition-opacity">
                     <pd-highlighted-text
                         [textData]="prompt.titulo"
-                        class="text-primary-dark uppercase font-semibold text-sm/5"></pd-highlighted-text>
+                        class="text-primary-dark font-titulo text-sm/5"></pd-highlighted-text>
                     <pd-highlighted-text
                         [textData]="prompt.prompt"
                         class="font-merri italic"></pd-highlighted-text>

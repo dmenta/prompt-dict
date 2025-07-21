@@ -9,6 +9,7 @@ import {
     HeaderRowDirective,
 } from "./header-layout.directive";
 import { HeaderActionButton } from "./buttons/header-action-button";
+import { DialogComponent } from "../dialog/confirm";
 
 @Component({
     selector: "pd-detail-header, [pd-detail-header]",
@@ -21,52 +22,58 @@ import { HeaderActionButton } from "./buttons/header-action-button";
         TruncateDirective,
         HeaderActionButton,
         RouterLink,
+        DialogComponent,
     ],
-    template: ` <div pdHeaderContent>
-        <div pdHeaderRow class="-mb-2">
-            <button pdHeaderBackButton (back)="onBack($event)"></button>
-            <div class="w-full"></div>
-            <div class="flex items-center ">
-                <button
-                    pdHeaderButton
-                    title="Copiar el prompt"
-                    aria-label="Copiar el prompt"
-                    (click)="onCopyPrompt($event)">
-                    <span pdIcon="copy"></span>
-                </button>
-                <button
-                    pdHeaderButton
-                    title="Compartir el prompt"
-                    aria-label="Compartir el prompt"
-                    (click)="onShare($event)">
-                    <span pdIcon="share"></span>
-                </button>
-                <button
-                    pdHeaderButton
-                    title="Compartir el prompt"
-                    aria-label="Compartir el prompt"
-                    (click)="onDelete($event)"
-                    class="ml-4">
-                    <span pdIcon="delete"></span>
-                </button>
-                <button
-                    [routerLink]="['/prompts/create']"
-                    pdHeaderActionButton
-                    title="Agregar"
-                    aria-label="Agregar"
-                    class="ml-4 mr-2"
-                    pdIcon="add"></button>
+    template: `
+        <div pdHeaderContent>
+            <div pdHeaderRow class="-mb-2">
+                <button pdHeaderBackButton (back)="onBack($event)"></button>
+                <div class="w-full"></div>
+                <div class="flex items-center ">
+                    <button
+                        pdHeaderButton
+                        title="Copiar el prompt"
+                        aria-label="Copiar el prompt"
+                        (click)="onCopyPrompt($event)">
+                        <span pdIcon="copy"></span>
+                    </button>
+                    <button
+                        pdHeaderButton
+                        title="Compartir el prompt"
+                        aria-label="Compartir el prompt"
+                        (click)="onShare($event)">
+                        <span pdIcon="share"></span>
+                    </button>
+                    <button
+                        pdHeaderButton
+                        title="Eliminar el prompt"
+                        aria-label="Eliminar el prompt"
+                        (click)="confirmar.show()"
+                        class="ml-4">
+                        <span pdIcon="delete"></span>
+                    </button>
+                    <button
+                        [routerLink]="['/prompts/create']"
+                        pdHeaderActionButton
+                        title="Agregar"
+                        aria-label="Agregar"
+                        class="ml-4 mr-2"
+                        pdIcon="add"></button>
+                </div>
+            </div>
+            <div class="overflow-hidden w-full px-3">
+                <h1 pdTruncate class="text-header-contrast text-[1.75rem]/9" [title]="titulo()">
+                    {{ titulo() }}
+                </h1>
+                <div pdTruncate class="text-header-low-contrast text-sm" [title]="subtitulo()">
+                    {{ subtitulo() }}
+                </div>
             </div>
         </div>
-        <div class="overflow-hidden w-full px-3">
-            <h1 pdTruncate class="text-header-contrast text-[1.75rem]/9" [title]="titulo()">
-                {{ titulo() }}
-            </h1>
-            <div pdTruncate class="text-header-low-contrast text-sm" [title]="subtitulo()">
-                {{ subtitulo() }}
-            </div>
-        </div>
-    </div>`,
+        <pd-dialog #confirmar dialogTitle="Eliminar" (confirm)="onDelete($event)">
+            Eliminará definitivamente el elemento, desea continuar?
+        </pd-dialog>
+    `,
     hostDirectives: [
         {
             directive: DoubleHeaderLayoutDirective,
@@ -107,6 +114,7 @@ export class DetailHeader {
     }
 
     onDelete(event: MouseEvent) {
+        event.stopPropagation();
         this.delete.emit(event);
     }
 }

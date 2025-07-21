@@ -1,9 +1,11 @@
 import { Directive } from "@angular/core";
+import { SimpleButton } from "../../../directives";
 
 @Directive({
     selector: "button[pdHeaderActionButton]",
     host: {
-        class: "hover:shadow-md active:scale-95 hover:shadow-black/20 shadow-black/40 h-10 min-w-10 flex items-center justify-center rounded-full bg-action hover:bg-action-hover transition-colors text-header-contrast",
+        class: "hover:shadow-md  hover:shadow-black/20 shadow-black/40 rounded-full bg-action hover:bg-action-hover  text-header-contrast",
     },
+    hostDirectives: [{ directive: SimpleButton }],
 })
 export class HeaderActionButton {}

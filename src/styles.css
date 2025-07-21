@@ -9,9 +9,8 @@
     --font-merri: "Merriweather Sans";
     --font-merri--font-variation-settings: "wght" 355;
     --font-mont-alt: "Montserrat Alternates";
-    --font-sans: "TikTok Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --font-sans--font-variation-settings: "wdth" 90, "wght" 420;
+    --font-sans: "TikTok Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-sans--font-variation-settings: "wdth" 90, "wght" 370;
 
     --color-azul-50: oklch(0.855 0.08 212);
     --color-azul-100: oklch(0.771 0.08 212);
@@ -92,6 +91,14 @@
     --color-drop-back: var(--color-neutral-700);
 
     --color-resaltador: #ff900090;
+}
+
+@layer base {
+    .font-titulo {
+        font-family: var(--font-sans);
+        font-variation-settings: "wdth" 85, "wght" 540;
+        text-transform: uppercase;
+    }
 }
 
 @layer components {

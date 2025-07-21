@@ -11,7 +11,6 @@ import {
     NotificationService,
 } from "../../core";
 import { Title } from "@angular/platform-browser";
-import { App } from "../../app";
 
 @Component({
     selector: "pd-prompts",
@@ -22,7 +21,7 @@ import { App } from "../../app";
             [titulo]="titulo()"
             [subtitulo]="subtitulo()"
             [enabled]="borrable()"
-            (erase)="onErase($event)"></header>
+            (delete)="onDelete($event)"></header>
         <div class="flex flex-row w-full">
             <ul pd-prompts-list class="p-4 " [prompts]="prompts()"></ul>
         </div>
@@ -55,7 +54,7 @@ export class Prompts {
         title.setTitle(`${this.data()?.item.name} | ${this.data()?.type.title} | Prompter`);
     }
 
-    onErase(event: MouseEvent) {
+    onDelete(event: MouseEvent) {
         event.stopPropagation();
         if (!this.borrable()) {
             return;

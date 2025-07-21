@@ -1,11 +1,13 @@
 import { Directive, output } from "@angular/core";
+import { SimpleButton } from "./simple-button";
 
 @Directive({
     selector: "button[pd-action-button]",
     host: {
-        class: `shadow-md/80 rounded-full shadow-black/60  text-action-contrast bg-action active:scale-95 transition-transform duration-100 w-10 h-10 flex items-center  justify-center `,
+        class: `shadow-md/80 rounded-full shadow-black/60  text-action-contrast bg-action`,
         "(click)": "onClick($event)",
     },
+    hostDirectives: [{ directive: SimpleButton }],
 })
 export class ActionButton {
     clicked = output<MouseEvent | TouchEvent>();
