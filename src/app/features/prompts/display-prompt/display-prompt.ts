@@ -12,7 +12,7 @@ import { FirestorePrompt } from "../../../core/models";
     template: `
         @if(prompt(); as promptOk) {
         <pd-promp-info [prompt]="promptOk" class="pb-4 px-2 text-xs"></pd-promp-info>
-        <a [routerLink]="['/', promptUrl, promptOk.slug]">
+        <a [routerLink]="['/', promptUrl, promptOk.slug]" [state]="{ id: promptOk.id }">
             <div
                 class="text-primary-dark  px-2 text-lg/6 font-titulo opacity-85 group-hover:opacity-100"
                 style="text-wrap: balance">

@@ -159,12 +159,23 @@ export class AppDataService {
     }
 
     /**
-     * Obtener prompt por slug/ID
+     * Obtener prompt por slug
      */
     async bySlug(slug: string): Promise<FirestorePrompt> {
         const prompt = await this.firestoreService.getPromptBySlug(slug);
         if (!prompt) {
             throw new Error(`No se encontró un prompt '${slug}'.`);
+        }
+        return prompt;
+    }
+
+    /**
+     * Obtener prompt por ID
+     */
+    async byId(id: string): Promise<FirestorePrompt> {
+        const prompt = await this.firestoreService.getPromptById(id);
+        if (!prompt) {
+            throw new Error(`No se encontró un prompt con id'${id}'.`);
         }
         return prompt;
     }
