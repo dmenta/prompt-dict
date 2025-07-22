@@ -54,7 +54,7 @@ export class AdminService {
                 if (!uid) return of(false);
                 const ref = doc(this.firestore, "admins", uid);
                 return from(getDocs(collection(this.firestore, "admins"))).pipe(
-                    map((snap) => snap.docs.some((d) => d.data()["uid"] === uid))
+                    map((snap) => snap.docs.some((d) => d.id === uid))
                 );
             })
         );
