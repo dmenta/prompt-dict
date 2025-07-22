@@ -11,11 +11,17 @@ import {
     where,
     orderBy,
     DocumentData,
-    QuerySnapshot,
     Timestamp,
 } from "@angular/fire/firestore";
 import { FirestorePrompt, FirestoreTag, FirestoreCategory, AddPrompt } from "../models";
-import { getDoc, limit, startAt } from "firebase/firestore";
+import {
+    getDoc,
+    limit,
+    Query,
+    QueryDocumentSnapshot,
+    SnapshotOptions,
+    startAt,
+} from "firebase/firestore";
 
 @Injectable({
     providedIn: "root",
@@ -77,73 +83,84 @@ export class FirestoreService {
 
     public error = signal<string | null>(null);
 
-    // ==================== PROMPTS ====================
-
     /**
      * Obtener todos los prompts
      */
     async getPrompts(): Promise<FirestorePrompt[]> {
-        try {
-            this.error.set(null);
+        const curr = this.currPrompts();
+        const lastId = curr.length === 0 ? 0 : curr[curr.length - 1].old_id;
 
-            const curr = this.currPrompts();
-            const lastId = curr.length === 0 ? 0 : curr[curr.length - 1].old_id;
-
-            const querySnapshot = await getDocs(
-                query(this.promptsCollection, orderBy("old_id", "asc"), startAt(lastId), limit(10))
-            );
-            const prompts = this.mapQuerySnapshotToPrompts(querySnapshot);
+        return this.getPromptsQuery(
+            query(this.promptsCollection, orderBy("old_id", "asc"), startAt(lastId), limit(10))
+        ).then((prompts) => {
             this.currPrompts.set([...curr, ...prompts.slice(1)]);
             return this.currPrompts();
-        } catch (error) {
-            const errorMessage = `Error al obtener prompts: ${error}`;
-            this.error.set(errorMessage);
-            console.error(errorMessage);
-            return [];
-        }
+        });
     }
 
     /**
      * Obtener un prompt por ID
      */
-    async getPromptBySlug(id: string): Promise<FirestorePrompt | null> {
-        try {
-            this.error.set(null);
-            const q = query(this.promptsCollection, where("slug", "==", id));
-            const querySnapshot = await getDocs(q);
-
-            if (querySnapshot.empty) {
+    async getPromptBySlug(slug: string): Promise<FirestorePrompt | null> {
+        return this.getPromptsQuery(
+            query(this.promptsCollection, where("slug", "==", slug), limit(1))
+        ).then((prompts) => {
+            if (prompts.length === 0) {
                 return null;
             }
-            const docSnap = querySnapshot.docs[0];
-
-            if (!docSnap.exists()) {
-                return null;
-            }
-            return this.mapDocumentToPrompt(docSnap.id, docSnap.data());
-        } catch (error) {
-            const errorMessage = `Error al obtener prompt ${id}: ${error}`;
-            this.error.set(errorMessage);
-            console.error(errorMessage);
-            return null;
-        }
+            return prompts[0];
+        });
     }
 
     async getPromptById(id: string): Promise<FirestorePrompt | null> {
         try {
-            const docRef = doc(this.firestore, "prompts", id);
+            const docRef = doc(this.firestore, "prompts", id).withConverter(promptConverter);
             const docSnap = await getDoc(docRef);
 
             if (!docSnap.exists()) {
                 return null;
             }
 
-            return this.mapDocumentToPrompt(docRef.id, docSnap.data());
+            return docSnap.data();
         } catch (error) {
             const errorMessage = `Error al obtener prompt ${id}: ${error}`;
             this.error.set(errorMessage);
             console.error(errorMessage);
             return null;
+        }
+    }
+
+    /**
+     * Obtener prompts por categoría
+     */
+    async getPromptsByCategory(category: string): Promise<FirestorePrompt[]> {
+        return this.getPromptsQuery(
+            query(this.promptsCollection, where("categoria", "==", category))
+        );
+    }
+
+    /**
+     * Obtener prompts por tag
+     */
+    async getPromptsByTag(tag: string): Promise<FirestorePrompt[]> {
+        return this.getPromptsQuery(
+            query(this.promptsCollection, where("tags", "array-contains", tag))
+        );
+    }
+
+    private async getPromptsQuery(
+        query: Query<DocumentData, DocumentData>
+    ): Promise<FirestorePrompt[]> {
+        try {
+            this.error.set(null);
+            const q = query.withConverter(promptConverter);
+            const querySnapshot = await getDocs(q);
+            return querySnapshot.docs.map((doc) => doc.data());
+        } catch (error) {
+            const errorMessage = `Error al obtener prompts: ${error}`;
+            this.error.set(errorMessage);
+            console.error(errorMessage);
+            return [];
         }
     }
 
@@ -270,40 +287,6 @@ export class FirestoreService {
     }
 
     /**
-     * Obtener prompts por categoría
-     */
-    async getPromptsByCategory(category: string): Promise<FirestorePrompt[]> {
-        try {
-            this.error.set(null);
-            const q = query(this.promptsCollection, where("categoria", "==", category));
-            const querySnapshot = await getDocs(q);
-            return this.mapQuerySnapshotToPrompts(querySnapshot);
-        } catch (error) {
-            const errorMessage = `Error al obtener prompts por categoría: ${error}`;
-            this.error.set(errorMessage);
-            console.error(errorMessage);
-            return [];
-        }
-    }
-
-    /**
-     * Obtener prompts por tag
-     */
-    async getPromptsByTag(tag: string): Promise<FirestorePrompt[]> {
-        try {
-            this.error.set(null);
-            const q = query(this.promptsCollection, where("tags", "array-contains", tag));
-            const querySnapshot = await getDocs(q);
-            return this.mapQuerySnapshotToPrompts(querySnapshot);
-        } catch (error) {
-            const errorMessage = `Error al obtener prompts por tag: ${error}`;
-            this.error.set(errorMessage);
-            console.error(errorMessage);
-            return [];
-        }
-    }
-
-    /**
      * Obtener lista de categorias
      */
     async getCategories(): Promise<FirestoreCategory[]> {
@@ -311,20 +294,13 @@ export class FirestoreService {
             return this.currCategories();
         }
 
-        try {
-            this.error.set(null);
-            const q = query(this.categoriesCollection);
-            const querySnapshot = await getDocs(q);
-            const categories = this.mapQuerySnapshotToCategories(querySnapshot);
+        return this.getElementsQuery(query(this.categoriesCollection)).then((categories) => {
+            if (categories === null) {
+                return [];
+            }
             this.currCategories.set(categories);
-
             return categories;
-        } catch (error) {
-            const errorMessage = `Error al obtener categorís: ${error}`;
-            this.error.set(errorMessage);
-            console.error(errorMessage);
-            return [];
-        }
+        });
     }
 
     /**
@@ -335,104 +311,127 @@ export class FirestoreService {
             return this.currTags();
         }
 
-        try {
-            this.error.set(null);
-            const q = query(this.tagsCollection);
-            const querySnapshot = await getDocs(q);
-            const tags = this.mapQuerySnapshotToTags(querySnapshot);
+        return this.getElementsQuery(query(this.tagsCollection)).then((tags) => {
+            if (tags === null) {
+                return [];
+            }
             this.currTags.set(tags);
-
             return tags;
-        } catch (error) {
-            const errorMessage = `Error al obtener etiquetas: ${error}`;
-            this.error.set(errorMessage);
-            console.error(errorMessage);
-            return [];
-        }
+        });
     }
 
     /**
      * Obtener un prompt por ID
      */
     async getCategoryBySlug(slug: string): Promise<FirestoreCategory | null> {
-        try {
-            this.error.set(null);
-            const q = query(this.categoriesCollection, where("slug", "==", slug));
-            const querySnapshot = await getDocs(q);
-
-            if (querySnapshot.empty) {
+        return this.getElementsQuery(
+            query(this.categoriesCollection, where("slug", "==", slug), limit(1))
+        ).then((categories) => {
+            if (categories === null || categories.length === 0) {
                 return null;
             }
-            const docSnap = querySnapshot.docs[0];
-
-            if (!docSnap.exists()) {
-                return null;
-            }
-            return this.mapDocumentToCategory(docSnap.id, docSnap.data());
-        } catch (error) {
-            const errorMessage = `Error al obtener category ${slug}: ${error}`;
-            this.error.set(errorMessage);
-            console.error(errorMessage);
-            return null;
-        }
+            return categories[0];
+        });
     }
 
     async getTagBySlug(slug: string): Promise<FirestoreTag | null> {
+        return this.getElementsQuery(
+            query(this.tagsCollection, where("slug", "==", slug), limit(1))
+        ).then((tags) => {
+            if (tags === null || tags.length === 0) {
+                return null;
+            }
+            return tags[0];
+        });
+    }
+
+    private async getElementsQuery(
+        query: Query<DocumentData, DocumentData>
+    ): Promise<(FirestoreCategory | FirestoreTag)[] | null> {
         try {
             this.error.set(null);
-            const q = query(this.tagsCollection, where("slug", "==", slug));
+            const q = query.withConverter(elementConverter);
             const querySnapshot = await getDocs(q);
 
             if (querySnapshot.empty) {
                 return null;
             }
-            const docSnap = querySnapshot.docs[0];
-
-            if (!docSnap.exists()) {
-                return null;
-            }
-            return this.mapDocumentToTag(docSnap.id, docSnap.data());
+            return querySnapshot.docs.map((doc) => doc.data());
         } catch (error) {
-            const errorMessage = `Error al obtener tag ${slug}: ${error}`;
+            const errorMessage = `Error al obtener elementos: ${error}`;
             this.error.set(errorMessage);
             console.error(errorMessage);
             return null;
         }
     }
-
-    // ==================== PRIVATE METHODS ====================
-
     /**
-     * Mapear QuerySnapshot a array de Prompts
+     * Generar slug a partir de un título
      */
-    private mapQuerySnapshotToPrompts(
-        querySnapshot: QuerySnapshot<DocumentData>
-    ): FirestorePrompt[] {
-        return querySnapshot.docs.map((doc) => this.mapDocumentToPrompt(doc.id, doc.data()));
+    private generateSlug(title: string): string {
+        return title
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^\w\s-]/g, "")
+            .replace(/\s+/g, "-")
+            .trim();
     }
+}
 
-    /**
-     * Mapear QuerySnapshot a array de Categories
-     */
-    private mapQuerySnapshotToCategories(
-        querySnapshot: QuerySnapshot<DocumentData>
-    ): FirestoreCategory[] {
-        return querySnapshot.docs.map((doc) => this.mapDocumentToCategory(doc.id, doc.data()));
-    }
-
-    /**
-     * Mapear QuerySnapshot a array de Tags
-     */
-    private mapQuerySnapshotToTags(querySnapshot: QuerySnapshot<DocumentData>): FirestoreTag[] {
-        return querySnapshot.docs.map((doc) => this.mapDocumentToTag(doc.id, doc.data()));
-    }
-
-    /**
-     * Mapear documento a Prompt
-     */
-    private mapDocumentToPrompt(id: string, data: DocumentData): FirestorePrompt {
+const elementConverter = {
+    toFirestore: (element: FirestoreCategory | FirestoreTag): DocumentData => {
         return {
-            id: id,
+            name: element.name,
+            slug: element.slug,
+            prompt_count: element.prompt_count,
+            fecha_creacion: new Date(),
+        };
+    },
+    fromFirestore: (snapshot: QueryDocumentSnapshot, options: SnapshotOptions) => {
+        const data = snapshot.data(options);
+        return {
+            id: data["id"] || (snapshot.id as string),
+            name: data["name"] as string,
+            slug: data["slug"] as string,
+            prompt_count: Number(data["prompt_count"]) || (0 as number),
+            fecha_creacion: (<Timestamp>data["fecha_creacion"])?.toDate() || new Date(),
+        };
+    },
+};
+
+const promptConverter = {
+    toFirestore: (element: FirestorePrompt): DocumentData => {
+        return {
+            old_id: element.old_id,
+            titulo: element.titulo,
+            prompt: element.prompt,
+            descripcion: element.descripcion,
+            autor: element.autor,
+            categoria: element.categoria,
+            tags: element.tags,
+            uso: element.uso,
+            idioma: element.idioma,
+            fecha_creacion: element.fecha_creacion,
+            slug: element.slug,
+            fecha_edicion: element.fecha_edicion,
+            modelo: element.modelo,
+            ejemplo: element.ejemplo,
+            fuente: element.fuente,
+            referencias: element.referencias,
+            notas: element.notas,
+            estado: element.estado,
+            version: element.version,
+            comentarios: element.comentarios,
+            feedback: element.feedback,
+            rating: element.rating,
+            visibilidad: element.visibilidad,
+            licencia: element.licencia,
+        };
+    },
+    fromFirestore: (snapshot: QueryDocumentSnapshot, options: SnapshotOptions) => {
+        const data = snapshot.data(options);
+        return {
+            id: data["id"] || (snapshot.id as string),
             old_id: data["old_id"] ? parseInt(data["old_id"]) : undefined,
             titulo: data["titulo"] || "",
             prompt: data["prompt"] || "",
@@ -443,7 +442,7 @@ export class FirestoreService {
             uso: data["uso"] || "texto",
             idioma: data["idioma"] || "es-AR",
             fecha_creacion: (<Timestamp>data["fecha_creacion"])?.toDate() || new Date(),
-            slug: data["slug"] || this.generateSlug(data["titulo"] || ""),
+            slug: data["slug"],
             fecha_edicion: (<Timestamp>data["fecha_edicion"])?.toDate() || new Date(),
             modelo: data["modelo"],
             ejemplo: data["ejemplo"],
@@ -458,38 +457,5 @@ export class FirestoreService {
             visibilidad: data["visibilidad"],
             licencia: data["licencia"],
         };
-    }
-
-    private mapDocumentToCategory(id: string, data: DocumentData): FirestoreCategory {
-        return {
-            id: id,
-            name: data["name"] || "",
-            slug: data["slug"] || this.generateSlug(data["name"] || ""),
-            prompt_count: Number(data["prompt_count"]) || 0,
-            fecha_creacion: (<Timestamp>data["fecha_creacion"])?.toDate() || new Date(),
-        };
-    }
-
-    private mapDocumentToTag(id: string, data: DocumentData): FirestoreTag {
-        return {
-            id: id,
-            name: data["name"] || "",
-            slug: data["slug"] || this.generateSlug(data["name"] || ""),
-            prompt_count: Number(data["prompt_count"]) || 0,
-            fecha_creacion: (<Timestamp>data["fecha_creacion"])?.toDate() || new Date(),
-        };
-    }
-
-    /**
-     * Generar slug a partir de un título
-     */
-    private generateSlug(title: string): string {
-        return title
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/[^\w\s-]/g, "")
-            .replace(/\s+/g, "-")
-            .trim();
-    }
-}
+    },
+};
