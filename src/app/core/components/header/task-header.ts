@@ -44,7 +44,6 @@ import { HeaderActionButton } from "./buttons/header-action-button";
 })
 export class TaskHeader {
     apply = output<void>();
-
     waiting = input<boolean>(false);
     enabled = input<boolean>(true);
     router = inject(Router);

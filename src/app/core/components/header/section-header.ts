@@ -9,6 +9,8 @@ import {
 import { IconDirective, TruncateDirective } from "../../directives";
 import { HeaderButton } from "./buttons/header-button";
 import { DialogComponent } from "../dialog/confirm";
+import { AdminService } from "../../services/admin.service";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
     selector: "pd-section-header, [pd-section-header]",
@@ -20,6 +22,7 @@ import { DialogComponent } from "../dialog/confirm";
         TruncateDirective,
         IconDirective,
         DialogComponent,
+        AsyncPipe,
     ],
     template: `<div pdHeaderContent>
             <div pdHeaderRow>
@@ -32,6 +35,7 @@ import { DialogComponent } from "../dialog/confirm";
                         {{ subtitulo() }}
                     </div>
                 </div>
+                @if(isAdmin$ | async) {
                 <button
                     pdHeaderButton
                     [disabled]="!enabled()"
@@ -41,6 +45,7 @@ import { DialogComponent } from "../dialog/confirm";
                     class="ml-4 disabled:pointer-events-none disabled:opacity-50">
                     <span pdIcon="delete"></span>
                 </button>
+                }
             </div>
         </div>
         <pd-dialog #confirmar dialogTitle="Eliminar" (confirm)="onDelete($event)">
@@ -53,6 +58,8 @@ import { DialogComponent } from "../dialog/confirm";
     ],
 })
 export class SectionHeader {
+    adminService = inject(AdminService);
+    isAdmin$ = this.adminService.isCurrentUserAdmin();
     enabled = input<boolean>(false);
     delete = output<MouseEvent>();
     router = inject(Router);

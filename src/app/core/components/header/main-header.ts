@@ -1,4 +1,4 @@
-import { Component, output } from "@angular/core";
+import { Component, output, inject } from "@angular/core";
 import { ModeToggle } from "../mode-toggle/mode-toggle";
 import { PlaceholderSearcher } from "../searcher/placeholder-searcher";
 import { HeaderButton } from "./buttons/header-button";
@@ -8,6 +8,8 @@ import {
     HeaderLayoutDirective,
     HeaderRowDirective,
 } from "./header-layout.directive";
+import { AuthService } from "../../services/auth.service";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
     selector: "pd-main-header, [pd-main-header]",
@@ -18,6 +20,7 @@ import {
         HeaderContentDirective,
         HeaderRowDirective,
         HeaderButton,
+        AsyncPipe,
     ],
     template: ` <div pdHeaderContent>
         <div pdHeaderRow>
@@ -35,7 +38,25 @@ import {
                 ARTIFICIALMENTE
             </div>
             <pd-placeholder-searcher class="w-full max-w-[500px]"></pd-placeholder-searcher>
-            <pd-mode-toggle></pd-mode-toggle>
+            <div class="flex items-center gap-2">
+                @if(currentUser$ | async; as user){
+                <span class="text-contrast"> {{ user.email }}</span>
+                <button
+                    pdHeaderButton
+                    (click)="logout()"
+                    title="Cerrar sesión"
+                    aria-label="Cerrar sesión"
+                    pdIcon="logout"></button>
+                }@else {
+                <button
+                    pdHeaderButton
+                    (click)="login()"
+                    title="Iniciar sesión"
+                    aria-label="Iniciar sesión"
+                    pdIcon="login"></button>
+                }
+                <pd-mode-toggle></pd-mode-toggle>
+            </div>
         </div>
     </div>`,
     hostDirectives: [
@@ -46,9 +67,19 @@ import {
 })
 export class MainHeader {
     open = output<void>();
+    authService = inject(AuthService);
+    currentUser$ = this.authService.currentUser$;
 
     onMainButtonClick(event: MouseEvent) {
         event.stopPropagation();
         this.open.emit();
+    }
+
+    login() {
+        this.authService.loginWithGoogle();
+    }
+
+    logout() {
+        this.authService.logout();
     }
 }

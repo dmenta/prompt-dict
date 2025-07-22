@@ -2,6 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import { Firestore, collection, getDocs, doc, setDoc, deleteDoc } from "@angular/fire/firestore";
 import { Auth } from "@angular/fire/auth";
 import { Functions, httpsCallable } from "@angular/fire/functions";
+import { Observable, from, map, of, switchMap, tap } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class AdminService {
@@ -37,5 +38,25 @@ export class AdminService {
     async removeAdmin(uid: string) {
         const ref = doc(this.firestore, "admins", uid);
         await deleteDoc(ref);
+    }
+
+    /**
+     * Devuelve un observable que emite true si el usuario actual es admin, false si no.
+     */
+    isCurrentUserAdmin(): Observable<boolean> {
+        if (!this.auth.currentUser) {
+            return of(false);
+        }
+
+        return from(this.auth.currentUser.getIdToken()).pipe(
+            switchMap(() => {
+                const uid = this.auth.currentUser?.uid;
+                if (!uid) return of(false);
+                const ref = doc(this.firestore, "admins", uid);
+                return from(getDocs(collection(this.firestore, "admins"))).pipe(
+                    map((snap) => snap.docs.some((d) => d.data()["uid"] === uid))
+                );
+            })
+        );
     }
 }

@@ -20,8 +20,11 @@
             Agregar
         </button>
     </form>
-    <div *ngIf="error()" class="text-red-600 mb-2">{{ error() }}</div>
-    <div *ngIf="isLoading()">Cargando...</div>
+    @if(error()){
+    <div class="text-red-600 mb-2">{{ error() }}</div>
+    } @if(isLoading()){
+    <div>Cargando...</div>
+    }
     <table class="w-full text-sm">
         <thead>
             <tr class="text-left border-b border-neutral-200 dark:border-neutral-700">

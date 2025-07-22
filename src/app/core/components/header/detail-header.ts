@@ -1,4 +1,4 @@
-import { Component, input, output } from "@angular/core";
+import { Component, inject, input, output } from "@angular/core";
 import { Params, Router, RouterLink } from "@angular/router";
 import { HeaderButton } from "./buttons/header-button";
 import { IconDirective, TruncateDirective } from "../../directives";
@@ -10,6 +10,8 @@ import {
 } from "./header-layout.directive";
 import { HeaderActionButton } from "./buttons/header-action-button";
 import { DialogComponent } from "../dialog/confirm";
+import { AdminService } from "../../services/admin.service";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
     selector: "pd-detail-header, [pd-detail-header]",
@@ -23,6 +25,7 @@ import { DialogComponent } from "../dialog/confirm";
         HeaderActionButton,
         RouterLink,
         DialogComponent,
+        AsyncPipe,
     ],
     template: `
         <div pdHeaderContent>
@@ -44,6 +47,7 @@ import { DialogComponent } from "../dialog/confirm";
                         (click)="onShare($event)">
                         <span pdIcon="share"></span>
                     </button>
+                    @if(isAdmin$ | async) {
                     <button
                         pdHeaderButton
                         title="Eliminar el prompt"
@@ -59,6 +63,7 @@ import { DialogComponent } from "../dialog/confirm";
                         aria-label="Agregar"
                         class="ml-4 mr-2"
                         pdIcon="add"></button>
+                    }
                 </div>
             </div>
             <div class="overflow-hidden w-full px-3">
@@ -81,6 +86,8 @@ import { DialogComponent } from "../dialog/confirm";
     ],
 })
 export class DetailHeader {
+    adminService = inject(AdminService);
+    isAdmin$ = this.adminService.isCurrentUserAdmin();
     lastUrl: string;
     lastParams: Params;
 
