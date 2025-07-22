@@ -34,7 +34,7 @@ import { DialogComponent } from "../dialog/confirm";
                 </div>
                 <button
                     pdHeaderButton
-                    [disabled]="enabled()"
+                    [disabled]="!enabled()"
                     title="Eliminar"
                     aria-label="Eliminar"
                     (click)="confirmar.show()"

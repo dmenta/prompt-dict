@@ -1,10 +1,9 @@
-import { Component, effect, inject, Output, output, signal } from "@angular/core";
+import { Component, inject, Output, output, signal } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { AppDataService } from "../../../core/services/app-data.service";
 import { NotificationService } from "../../../core/services/notification.service";
 import { TitleCasePipe } from "@angular/common";
 import { map } from "rxjs";
-import { FirestorePrompt } from "../../../core";
 
 @Component({
     selector: "pd-create-prompt-form",

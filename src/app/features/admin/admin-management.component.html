@@ -1,0 +1,45 @@
+<div
+    class="max-w-xl mx-auto p-6 bg-white dark:bg-neutral-900 rounded-xl shadow border border-neutral-200 dark:border-neutral-800 mt-8">
+    <h2 class="text-lg font-semibold mb-4">Administradores</h2>
+    <form [formGroup]="form" (ngSubmit)="addAdmin()" class="flex gap-2 mb-6">
+        <input
+            formControlName="uid"
+            type="text"
+            placeholder="UID del nuevo admin"
+            class="flex-1 px-3 py-2 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800"
+            required />
+        <input
+            formControlName="email"
+            type="email"
+            placeholder="Email (opcional, solo referencia)"
+            class="flex-1 px-3 py-2 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800" />
+        <button
+            type="submit"
+            [disabled]="form.invalid || isLoading()"
+            class="bg-primary text-white px-4 py-2 rounded disabled:opacity-60">
+            Agregar
+        </button>
+    </form>
+    <div *ngIf="error()" class="text-red-600 mb-2">{{ error() }}</div>
+    <div *ngIf="isLoading()">Cargando...</div>
+    <table class="w-full text-sm">
+        <thead>
+            <tr class="text-left border-b border-neutral-200 dark:border-neutral-700">
+                <th>Email</th>
+                <th>UID</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let admin of admins()">
+                <td>{{ admin.email || "(sin email)" }}</td>
+                <td class="font-mono text-xs">{{ admin.uid }}</td>
+                <td>
+                    <button (click)="removeAdmin(admin.uid)" class="text-red-600 hover:underline">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

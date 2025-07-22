@@ -93,7 +93,6 @@ export class FirestoreService {
                 query(this.promptsCollection, orderBy("old_id", "asc"), startAt(lastId), limit(10))
             );
             const prompts = this.mapQuerySnapshotToPrompts(querySnapshot);
-            console.log("Prompts obtenidos:", prompts, curr);
             this.currPrompts.set([...curr, ...prompts.slice(1)]);
             return this.currPrompts();
         } catch (error) {

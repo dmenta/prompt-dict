@@ -80,7 +80,6 @@ export class AppDataService {
         if (cat) {
             const newCount = (cat.prompt_count ?? 0) + (erase ? -1 : 1);
             if (newCount <= 0) {
-                console.log(`Eliminando categoría '${cat.name}' porque su prompt_count es 0`);
                 await this.firestoreService.deleteCategory(cat.id!);
             } else {
                 await this.firestoreService.updateCategoryPromptCount(cat.id!, newCount);
@@ -121,11 +120,6 @@ export class AppDataService {
             throw new Error(`No se encontró el prompt con ID '${id}'.`);
         }
 
-        console.log(
-            `Eliminando prompt con ID '${id}' y actualizando tags/categoría...`,
-            prompt.tags,
-            prompt.categoria
-        );
         const tags = [...prompt.tags];
         const category = prompt.categoria;
 

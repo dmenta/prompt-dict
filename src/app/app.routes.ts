@@ -30,11 +30,15 @@ export const routes: Routes = [
             import("./pages/prompt-detail/prompt-detail").then((m) => m.PromptDetail),
         resolve: { prompt: promptResolve },
     },
-
     {
         path: "searching",
         loadComponent: () => import("./pages/searching/searching").then((m) => m.Searching),
         title: "Búsqueda | Prompter",
+    },
+    {
+        path: "admin",
+        loadComponent: () => import("./pages/admin/admin.page").then((m) => m.AdminPage),
+        title: "Administración | Prompter",
     },
     {
         path: "home",

@@ -1,0 +1,27 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Colección de administradores
+    match /admins/{userId} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if isAdmin(request.auth.uid);
+    }
+
+    // Prompts solo pueden ser creados/eliminados por admins
+    match /prompts/{promptId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin(request.auth.uid);
+    }
+
+    // Helper function para verificar admin
+    function isAdmin(uid) {
+      return exists(/databases/$(database)/documents/admins/$(uid));
+    }
+
+    // Otras colecciones (lectura pública, escritura restringida)
+    match /{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}

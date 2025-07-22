@@ -12,11 +12,16 @@ import { APP_BASE_HREF, PlatformLocation } from "@angular/common";
 import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
 import { provideFirestore, getFirestore } from "@angular/fire/firestore";
 import { environment } from "../environments/environment";
+import { getAuth, provideAuth } from "@angular/fire/auth";
+import { getFunctions } from "firebase/functions";
+import { provideFunctions } from "@angular/fire/functions";
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideBrowserGlobalErrorListeners(),
         provideZonelessChangeDetection(),
+        provideFirebaseApp(() => initializeApp(environment.firebase)),
+        provideAuth(() => getAuth()),
         provideRouter(
             routes,
             withNavigationErrorHandler((error) => {
@@ -35,8 +40,8 @@ export const appConfig: ApplicationConfig = {
             useFactory: getBaseHref,
         },
         // Firebase providers
-        provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideFirestore(() => getFirestore()),
+        provideFunctions(() => getFunctions()),
     ],
 };
 
