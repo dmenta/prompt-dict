@@ -40,26 +40,34 @@ export class AppDataService {
     /**
      * Obtener prompts por categoría
      */
-    async byCategory(slug: string): Promise<{ name: string; prompts: FirestorePrompt[] }> {
-        const category = this.firestoreService.getCategoryBySlug(slug);
+    async byCategorySlug(slug: string): Promise<{ name: string; prompts: FirestorePrompt[] }> {
+        const category = await this.firestoreService.getCategoryBySlug(slug);
 
-        return category.then(async (category) => {
-            if (!category) {
-                throw new Error(`No se encontró la categoría '${slug}'.`);
-            }
+        if (!category) {
+            throw new Error(`No se encontró la categoría '${slug}'.`);
+        }
 
-            const prompts = await this.firestoreService.getPromptsByCategory(category.name);
-            return { name: this.titleCase(category.name), prompts };
-        });
+        return this.byCategoryName(category.name);
     }
 
-    async byTag(slug: string): Promise<{ name: string; prompts: FirestorePrompt[] }> {
+    async byCategoryName(name: string): Promise<{ name: string; prompts: FirestorePrompt[] }> {
+        const prompts = await this.firestoreService.getPromptsByCategory(name);
+        return { name: this.titleCase(name), prompts };
+    }
+
+    async byTagSlug(slug: string): Promise<{ name: string; prompts: FirestorePrompt[] }> {
         const tag = await this.firestoreService.getTagBySlug(slug);
+
         if (!tag) {
             throw new Error(`No se encontró el tag '${slug}'.`);
         }
-        const prompts = await this.firestoreService.getPromptsByTag(tag.name);
-        return { name: this.titleCase(tag.name), prompts };
+
+        return this.byTagName(tag.name);
+    }
+
+    async byTagName(name: string): Promise<{ name: string; prompts: FirestorePrompt[] }> {
+        const prompts = await this.firestoreService.getPromptsByTag(name);
+        return { name: this.titleCase(name), prompts };
     }
 
     /**

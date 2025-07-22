@@ -11,7 +11,7 @@ import { NavigationItem, NavItemType } from "../navigation-item";
         <li
             pd-nav-item
             [slug]="item.slug"
-            [text]="item.name"
+            [name]="item.name"
             [paramName]="list()"
             [cantidad]="item.prompt_count"></li>
         }

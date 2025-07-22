@@ -90,6 +90,7 @@ export class DetailHeader {
     isAdmin$ = this.adminService.isCurrentUserAdmin();
     lastUrl: string;
     lastParams: Params;
+    lastName: string;
 
     titulo = input<string>("Elemento");
     subtitulo = input<string>("Información detallada del elemento");
@@ -102,6 +103,9 @@ export class DetailHeader {
         const lastUrl = this.router.parseUrl(
             this.router.lastSuccessfulNavigation?.initialUrl?.toString() || "/"
         );
+
+        this.lastName = this.router.lastSuccessfulNavigation?.extras.state?.["name"] || "";
+
         this.lastParams = lastUrl.queryParams;
 
         this.lastUrl = lastUrl.toString().split("?")[0] || "/";
@@ -113,7 +117,15 @@ export class DetailHeader {
 
     onBack(event: MouseEvent) {
         event.stopPropagation();
-        this.router.navigate([this.lastUrl], { queryParams: this.lastParams });
+        if (this.lastName) {
+            this.router.navigate([this.lastUrl], {
+                queryParams: this.lastParams,
+                state: { name: this.lastName },
+            });
+            return;
+        } else {
+            this.router.navigate([this.lastUrl], { queryParams: this.lastParams });
+        }
     }
 
     onShare(event: MouseEvent) {

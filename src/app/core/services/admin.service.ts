@@ -52,10 +52,7 @@ export class AdminService {
             switchMap(() => {
                 const uid = this.auth.currentUser?.uid;
                 if (!uid) return of(false);
-                const ref = doc(this.firestore, "admins", uid);
-                return from(getDocs(collection(this.firestore, "admins"))).pipe(
-                    map((snap) => snap.docs.some((d) => d.id === uid))
-                );
+                return of(doc(this.firestore, "admins", uid)).pipe(map((ref) => ref.id === uid));
             })
         );
     }
