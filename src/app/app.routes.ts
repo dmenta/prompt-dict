@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
 import { categoryResolve, promptResolve, tagResolve } from "./core";
 import { navItemTypeLabels } from "./features";
+import { AuthGuard } from "./core/utils/auth.activate";
 
 export const routes: Routes = [
     {
@@ -39,6 +40,7 @@ export const routes: Routes = [
         path: "admin",
         loadComponent: () => import("./pages/admin/admin.page").then((m) => m.AdminPage),
         title: "Administración | Prompter",
+        canActivate: [AuthGuard],
     },
     {
         path: "home",

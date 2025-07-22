@@ -2,7 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import { Firestore, collection, getDocs, doc, setDoc, deleteDoc } from "@angular/fire/firestore";
 import { Auth } from "@angular/fire/auth";
 import { Functions, httpsCallable } from "@angular/fire/functions";
-import { Observable, from, map, of, switchMap, tap } from "rxjs";
+import { Observable, from, map, of, switchMap } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class AdminService {

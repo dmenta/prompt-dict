@@ -10,6 +10,8 @@ import {
 } from "./header-layout.directive";
 import { AuthService } from "../../services/auth.service";
 import { AsyncPipe } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { AdminService } from "../../services/admin.service";
 
 @Component({
     selector: "pd-main-header, [pd-main-header]",
@@ -21,6 +23,7 @@ import { AsyncPipe } from "@angular/common";
         HeaderRowDirective,
         HeaderButton,
         AsyncPipe,
+        RouterLink,
     ],
     template: ` <div pdHeaderContent>
         <div pdHeaderRow>
@@ -47,6 +50,13 @@ import { AsyncPipe } from "@angular/common";
                     title="Cerrar sesión"
                     aria-label="Cerrar sesión"
                     pdIcon="logout"></button>
+                <button
+                    [routerLink]="['/admin']"
+                    pdHeaderButton
+                    title="Admin"
+                    aria-label="Admin"
+                    class="ml-4 mr-2"
+                    pdIcon="terminal"></button>
                 }@else {
                 <button
                     pdHeaderButton
