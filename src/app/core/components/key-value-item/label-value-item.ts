@@ -1,6 +1,7 @@
 import { Component, input } from "@angular/core";
 import { ValueItem } from "./value-item";
 import { LabelItem } from "./label-item";
+import { Timestamp } from "firebase/firestore";
 
 @Component({
     selector: "[pd-key-value-item] ",
@@ -13,5 +14,5 @@ import { LabelItem } from "./label-item";
 })
 export class LabelValueItem {
     label = input<string>("");
-    value = input<string | number | boolean | Date | undefined | string[] | null>(undefined);
+    value = input<string | number | boolean | Timestamp | undefined | string[] | null>(undefined);
 }

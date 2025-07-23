@@ -42,11 +42,11 @@ export class NavList {
     constructor() {
         effect(() => {
             if (this.list() === "category") {
-                this.persistService.categories().then((categories) => {
+                this.persistService.categories().subscribe((categories) => {
                     this.items.set(categories);
                 });
             } else {
-                this.persistService.tags().then((tags) => {
+                this.persistService.tags().subscribe((tags) => {
                     this.items.set(tags);
                 });
             }

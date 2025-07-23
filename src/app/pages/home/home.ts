@@ -74,7 +74,7 @@ export class Home {
     sort = computed<NavListSort>(() => this.listData()[this.list()] ?? "qty");
 
     constructor() {
-        this.persistService.prompts().then((prompts) => {
+        this.persistService.prompts().subscribe((prompts) => {
             this.prompts.set(prompts);
         });
     }
@@ -106,7 +106,7 @@ export class Home {
     });
 
     onScrollDown() {
-        this.persistService.prompts().then((prompts) => {
+        this.persistService.prompts().subscribe((prompts) => {
             this.prompts.set(prompts);
         });
     }

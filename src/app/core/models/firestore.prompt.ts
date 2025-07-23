@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface FirestorePrompt {
     id: string;
     old_id?: number; // Para compatibilidad con IDs antiguos
@@ -9,9 +11,9 @@ export interface FirestorePrompt {
     prompt: string;
     uso: "texto" | "código" | "imagen" | "video" | "audio" | "otro";
     idioma: string;
-    fecha_creacion: Date;
+    fecha_creacion: Timestamp;
     slug: string;
-    fecha_edicion?: Date;
+    fecha_edicion?: Timestamp;
     modelo?: string;
     ejemplo?: string;
     fuente?: string;

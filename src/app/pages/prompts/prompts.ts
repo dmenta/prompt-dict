@@ -60,12 +60,12 @@ export class Prompts {
             return;
         }
         if (this.data()?.type.lowercase === "etiqueta") {
-            this.persist.deleteTag(this.data()?.item.name!).then(() => {
+            this.persist.deleteTag(this.data()?.item.name!).subscribe(() => {
                 this.notificationService.success("Etiqueta eliminada.");
                 this.router.navigate(["/"]);
             });
         } else {
-            this.persist.deleteCategory(this.data()?.item.name!).then(() => {
+            this.persist.deleteCategory(this.data()?.item.name!).subscribe(() => {
                 this.notificationService.success("Categoría eliminada.");
                 this.router.navigate(["/"]);
             });

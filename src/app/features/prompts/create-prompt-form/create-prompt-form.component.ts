@@ -49,8 +49,10 @@ export class CreatePromptFormComponent {
     }
 
     constructor() {
-        this.appData.categories().then((cats) => this.categorias.set([...cats.map((c) => c.name)]));
-        this.appData.tags().then((tags) => this.tags.set([...tags.map((t) => t.name)]));
+        this.appData
+            .categories()
+            .subscribe((cats) => this.categorias.set([...cats.map((c) => c.name)]));
+        this.appData.tags().subscribe((tags) => this.tags.set([...tags.map((t) => t.name)]));
     }
 
     async submit() {

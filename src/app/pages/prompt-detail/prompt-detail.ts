@@ -63,15 +63,10 @@ export class PromptDetail {
     onDelete(event: MouseEvent) {
         event.stopPropagation();
 
-        this.persistService
-            .deletePrompt(this.prompt().id)
-            .then(() => {
-                this.notificationService.success("Prompt eliminado");
-                this.router.navigate(["/"]);
-            })
-            .catch((error) => {
-                this.notificationService.warn("Error al eliminar el prompt: " + error.message);
-            });
+        this.persistService.deletePrompt(this.prompt().id);
+
+        this.notificationService.success("Prompt eliminado");
+        this.router.navigate(["/"]);
     }
 
     onCopyPrompt(event: MouseEvent) {

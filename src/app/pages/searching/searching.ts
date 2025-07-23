@@ -4,6 +4,7 @@ import {
     HighlightedTextComponent,
     SearchHeader,
     AppDataService,
+    ResultadoBusqueda,
 } from "../../core";
 import { ActivatedRoute, Params, Router, RouterLink } from "@angular/router";
 import { filter, map } from "rxjs";
@@ -89,9 +90,7 @@ export class Searching {
         }
 
         this.currentSearchTerm.set(searchTerm);
-        const resultado = this.persistService.search(searchTerm!, true);
-
-        resultado.then((res) => {
+        this.persistService.search(searchTerm!).subscribe((res: ResultadoBusqueda) => {
             if (res.found.length === 0) {
                 this.allSearchResults.set([]);
                 return;
