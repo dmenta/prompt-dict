@@ -82,47 +82,43 @@ export class AppDataService {
     /**
      * Crear un nuevo prompt y actualizar tags/categoría
      */
-    async createPrompt(prompt: AddPrompt): Promise<string | null> {
-        const id = await this.firestoreService.createPrompt(prompt);
-        return id;
+    async createPrompt(prompt: AddPrompt) {
+        await this.firestoreService.createPrompt(prompt).then((id) => {
+            this.addOrUpdateCategory(prompt.categoria);
+            this.addOrUpdateTags(prompt.tags);
+        });
     }
 
     /**
      * Actualizar o crear tags/categoría con prompt_count
      */
-    async updateTagsAndCategory(tags: string[], categoria: string, erase: boolean): Promise<void> {
-        // Buscar y actualizar categoría
-        this.categories().subscribe((cats) => {
+    addOrUpdateCategory(categoria: string) {
+        this.categories().subscribe(async (cats) => {
             const cat = cats.find((c) => c.name.toLowerCase() === categoria);
             if (cat) {
-                const newCount = (cat.prompt_count ?? 0) + (erase ? -1 : 1);
-                if (newCount <= 0) {
-                    this.firestoreService.deleteCategory(cat.id!);
-                } else {
-                    this.firestoreService.updateCategoryPromptCount(cat.id!, newCount);
-                }
+                const newCount = cat.prompt_count + 1;
+                await this.firestoreService.updateCategoryPromptCount(cat.id!, newCount);
+                cat.prompt_count = newCount;
             } else {
-                this.firestoreService.createCategory({
+                await this.firestoreService.createCategory({
                     name: categoria,
                     prompt_count: 1,
                     slug: "",
                 });
             }
         });
+    }
 
-        // Buscar y actualizar tags
-        this.tags().subscribe((allTags) => {
+    addOrUpdateTags(tags: string[]) {
+        this.tags().subscribe(async (allTags) => {
             for (const tag of tags) {
-                const t = allTags.find((x) => x.name.toLowerCase() === tag);
-                if (t) {
-                    const newCount = (t.prompt_count ?? 0) + (erase ? -1 : 1);
-                    if (newCount <= 0) {
-                        this.firestoreService.deleteCategory(t.id!);
-                    } else {
-                        this.firestoreService.updateTagPromptCount(t.id!, newCount);
-                    }
+                const currTag = allTags.find((x) => x.name.toLowerCase() === tag);
+                if (currTag) {
+                    const newCount = (currTag.prompt_count ?? 0) + 1;
+                    await this.firestoreService.updateTagPromptCount(currTag.id!, newCount);
+                    currTag.prompt_count = newCount;
                 } else {
-                    this.firestoreService.createTag({
+                    await this.firestoreService.createTag({
                         name: tag,
                         prompt_count: 1,
                         slug: "",
@@ -132,9 +128,41 @@ export class AppDataService {
         });
     }
 
+    async updateOrDeleteCategory(categoria: string) {
+        this.categories().subscribe((cats) => {
+            const cat = cats.find((c) => c.name.toLowerCase() === categoria);
+            if (cat) {
+                const newCount = cat.prompt_count - 1;
+                if (newCount <= 0) {
+                    this.firestoreService.deleteCategory(cat.id!);
+                } else {
+                    this.firestoreService.updateCategoryPromptCount(cat.id!, newCount);
+                    cat.prompt_count = newCount;
+                }
+            }
+        });
+    }
+
+    async updateOrDeleteTags(tags: string[]) {
+        this.tags().subscribe((allTags) => {
+            for (const tag of tags) {
+                const currTag = allTags.find((x) => x.name.toLowerCase() === tag);
+                if (currTag) {
+                    const newCount = currTag.prompt_count - 1;
+                    if (newCount <= 0) {
+                        this.firestoreService.daleteTag(currTag.id!);
+                    } else {
+                        this.firestoreService.updateTagPromptCount(currTag.id!, newCount);
+                        currTag.prompt_count = newCount;
+                    }
+                }
+            }
+        });
+    }
+
     /** Eliminar prompt */
     deletePrompt(id: string) {
-        this.firestoreService.getPromptById(id)?.subscribe((prompt) => {
+        this.firestoreService.getPromptById(id)?.subscribe(async (prompt) => {
             if (!prompt) {
                 return;
             }
@@ -142,8 +170,9 @@ export class AppDataService {
             const tags = [...prompt.tags];
             const category = prompt.categoria;
 
-            this.firestoreService.deletePrompt(id).then(() => {
-                this.updateTagsAndCategory(tags, category, true);
+            await this.firestoreService.deletePrompt(id).then(() => {
+                this.updateOrDeleteCategory(category);
+                this.updateOrDeleteTags(tags);
             });
         });
     }
@@ -155,8 +184,9 @@ export class AppDataService {
                 if (!tag) {
                     throw new Error(`No se encontró el tag '${name}'.`);
                 }
+
                 // Eliminar el tag
-                this.firestoreService.deleteCategory(tag.id!);
+                this.firestoreService.daleteTag(tag.id!);
             })
         );
     }

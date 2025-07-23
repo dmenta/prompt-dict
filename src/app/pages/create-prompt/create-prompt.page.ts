@@ -9,7 +9,7 @@ import { CreatePromptFormComponent } from "../../features/prompts/create-prompt-
             titulo="Nuevo Prompt"
             [enabled]="enabled()"
             [waiting]="this.submitting()"
-            (apply)="form.submit()"></pd-task-header>
+            (apply)="form.onSubmit($event)"></pd-task-header>
         <pd-create-prompt-form
             (valid)="this.enabled.set($event)"
             (submiting)="this.submitting.set($event)"

@@ -55,15 +55,12 @@ export class CreatePromptFormComponent {
         this.appData.tags().subscribe((tags) => this.tags.set([...tags.map((t) => t.name)]));
     }
 
-    async submit() {
+    async onSubmit(event: Event) {
+        event.stopPropagation();
+        if (this.form.invalid || this.isSubmitting()) {
+            return;
+        }
         this.submiting.emit(true);
-        await this.onSubmit().then(() => {
-            this.submiting.emit(false);
-        });
-    }
-
-    async onSubmit() {
-        if (this.form.invalid || this.isSubmitting()) return;
         this.isSubmitting.set(true);
 
         try {
@@ -89,12 +86,14 @@ export class CreatePromptFormComponent {
                 uso: raw.uso,
                 idioma: raw.idioma,
             };
-            const id = await this.appData.createPrompt(promptData);
-            await this.appData.updateTagsAndCategory(tags, categoria, false);
+
+            await this.appData.createPrompt(promptData);
+
             this.form.reset();
             this.notificationService.success("Prompt creado");
         } finally {
             this.isSubmitting.set(false);
+            this.submiting.emit(false);
         }
     }
 }

@@ -18,9 +18,10 @@ import {
     DocumentData,
     limit,
     QueryConstraint,
-    startAt,
+    startAfter,
+    Timestamp,
 } from "firebase/firestore";
-import { map, Observable, of, tap } from "rxjs";
+import { map, Observable, of, take, tap } from "rxjs";
 
 @Injectable({
     providedIn: "root",
@@ -36,12 +37,30 @@ export class FirestoreService {
     private currTags = signal([] as FirestoreTag[]);
     private currPrompts = signal<FirestorePrompt[]>([]);
 
+    private promptsLoaded = signal(false);
+
     getPrompts() {
         const curr = this.currPrompts();
-        const lastId = curr.length === 0 ? 0 : curr[curr.length - 1].old_id;
+        if (curr.length > 0 && this.promptsLoaded()) {
+            return of(curr);
+        }
+        const lastValue =
+            curr.length === 0
+                ? [Timestamp.fromDate(new Date()), 1000]
+                : [curr[curr.length - 1].fecha_creacion, curr[curr.length - 1].old_id ?? 999];
 
-        return this.getPromptsQuery([orderBy("old_id", "asc"), startAt(lastId), limit(10)]).pipe(
-            tap((prompts) => this.currPrompts.set([...curr, ...prompts.slice(1)])),
+        return this.getPromptsQuery([
+            orderBy("fecha_creacion", "desc"),
+            orderBy("old_id", "desc"),
+            startAfter(...lastValue),
+            limit(10),
+        ]).pipe(
+            tap((prompts) => {
+                if (prompts.length <= 0) {
+                    this.promptsLoaded.set(true);
+                }
+                this.currPrompts.set([...curr, ...prompts]);
+            }),
             map(() => {
                 return this.currPrompts();
             })
@@ -91,21 +110,28 @@ export class FirestoreService {
         }
     }
 
-    async createPrompt(prompt: AddPrompt): Promise<string | null> {
+    async createPrompt(prompt: AddPrompt) {
         try {
             const promptData = {
                 ...prompt,
-                old_id: -1,
+                old_id: 900,
                 slug: prompt.titulo ?? this.generateSlug(prompt.titulo),
                 fecha_creacion: new Date(),
             };
 
-            const docRef = await addDoc(this.promptsCollection, promptData);
-            return docRef.id;
+            const nuevo = await addDoc(this.promptsCollection, promptData).then((docRef) => {
+                return docData(docRef, { idField: "id" }) as Observable<FirestorePrompt>;
+            });
+
+            return nuevo.pipe(
+                tap((prompt) => this.currPrompts.update((prompts) => [prompt, ...prompts])),
+                map((prompt) => prompt.id)
+            );
         } catch (error) {
             const errorMessage = `Error al crear prompt: ${error}`;
             console.error(errorMessage);
-            return null;
+
+            return of(null);
         }
     }
 
@@ -127,7 +153,10 @@ export class FirestoreService {
     async deletePrompt(id: string): Promise<boolean> {
         try {
             const docRef = doc(this.firestore, "prompts", id);
-            await deleteDoc(docRef);
+            await deleteDoc(docRef).then(() => {
+                this.currPrompts.update((prompts) => prompts.filter((prompt) => prompt.id !== id));
+            });
+
             return true;
         } catch (error) {
             const errorMessage = `Error al eliminar prompt ${id}: ${error}`;
@@ -136,7 +165,7 @@ export class FirestoreService {
         }
     }
 
-    async updateCategoryPromptCount(categoryId: string, increment: number): Promise<void> {
+    async updateCategoryPromptCount(categoryId: string, increment: number) {
         const docRef = doc(this.firestore, "categories", categoryId);
         await updateDoc(docRef, {
             prompt_count: increment,
@@ -144,15 +173,25 @@ export class FirestoreService {
         });
     }
 
-    async createCategory(data: Partial<FirestoreCategory>): Promise<void> {
+    async createCategory(data: Partial<FirestoreCategory>) {
         await addDoc(this.categoriesCollection, {
             ...data,
             slug: this.generateSlug(data.name || ""),
             fecha_creacion: new Date(),
-        });
+        })
+            .then((docRef) => {
+                return docData(docRef, { idField: "id" }) as Observable<FirestoreCategory>;
+            })
+            .then((catNueva) => {
+                catNueva.pipe(take(1)).subscribe((cat) =>
+                    this.currCategories.update((cats) => {
+                        return [...cats, cat];
+                    })
+                );
+            });
     }
 
-    async updateTagPromptCount(tagId: string, increment: number): Promise<void> {
+    async updateTagPromptCount(tagId: string, increment: number) {
         const docRef = doc(this.firestore, "tags", tagId);
         await updateDoc(docRef, {
             prompt_count: increment,
@@ -160,18 +199,29 @@ export class FirestoreService {
         });
     }
 
-    async createTag(data: Partial<FirestoreTag>): Promise<void> {
+    async createTag(data: Partial<FirestoreTag>) {
         await addDoc(this.tagsCollection, {
             ...data,
             slug: this.generateSlug(data.name || ""),
             fecha_creacion: new Date(),
-        });
+        })
+            .then((docRef) => {
+                return docData(docRef, { idField: "id" }) as Observable<FirestoreTag>;
+            })
+            .then((tagNueva) => {
+                return tagNueva
+                    .pipe(take(1))
+                    .subscribe((tag) => this.currTags.update((tags) => [...tags, tag]));
+            });
     }
 
     async deleteCategory(id: string): Promise<boolean> {
         try {
             const docRef = doc(this.firestore, "categories", id);
-            await deleteDoc(docRef);
+            await deleteDoc(docRef).then(() => {
+                this.currCategories.update((cats) => cats.filter((cat) => cat.id !== id));
+            });
+
             return true;
         } catch (error) {
             const errorMessage = `Error al eliminar la categoría ${id}: ${error}`;
@@ -183,7 +233,10 @@ export class FirestoreService {
     async daleteTag(id: string): Promise<boolean> {
         try {
             const docRef = doc(this.firestore, "tags", id);
-            await deleteDoc(docRef);
+            await deleteDoc(docRef).then(() => {
+                this.currTags.update((tags) => tags.filter((tag) => tag.id !== id));
+            });
+
             return true;
         } catch (error) {
             const errorMessage = `Error al eliminar la etiqueta ${id}: ${error}`;

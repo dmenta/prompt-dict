@@ -43,7 +43,7 @@ import { HeaderActionButton } from "./buttons/header-action-button";
     ],
 })
 export class TaskHeader {
-    apply = output<void>();
+    apply = output<Event>();
     waiting = input<boolean>(false);
     enabled = input<boolean>(true);
     router = inject(Router);
@@ -56,6 +56,6 @@ export class TaskHeader {
 
     onTaskButtonClicked(event: MouseEvent) {
         event.stopPropagation();
-        this.apply.emit();
+        this.apply.emit(event);
     }
 }
