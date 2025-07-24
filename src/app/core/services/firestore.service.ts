@@ -2,7 +2,6 @@ import { Injectable, inject, signal } from "@angular/core";
 import { Firestore, collection, doc, addDoc, updateDoc, deleteDoc } from "@angular/fire/firestore";
 import { Prompt, Tag, Category, AddPrompt } from "../models";
 import { getDocs, onSnapshot, query, Unsubscribe, where } from "firebase/firestore";
-import { of } from "rxjs";
 
 @Injectable({
     providedIn: "root",
@@ -143,9 +142,15 @@ export class FirestoreService {
         }
     }
 
-    async updateCategoryPromptCount(categoryId: string, increment: number) {
-        const docRef = doc(this.firestore, "categories", categoryId);
-        await updateDoc(docRef, {
+    async updateCategoryPromptCount(name: string, increment: number) {
+        const snapsshot = await getDocs(
+            query(collection(this.firestore, "categories"), where("name", "==", name))
+        );
+        if (snapsshot.empty) {
+            throw new Error(`No se encontró una categoría con el nombre ${name}`);
+        }
+
+        await updateDoc(snapsshot.docs[0].ref, {
             prompt_count: increment,
             fecha_edicion: new Date(),
         });
@@ -159,9 +164,15 @@ export class FirestoreService {
         });
     }
 
-    async updateTagPromptCount(tagId: string, increment: number) {
-        const docRef = doc(this.firestore, "tags", tagId);
-        await updateDoc(docRef, {
+    async updateTagPromptCount(name: string, increment: number) {
+        const snapsshot = await getDocs(
+            query(collection(this.firestore, "tags"), where("name", "==", name))
+        );
+        if (snapsshot.empty) {
+            throw new Error(`No se encontró una etiqueta con el nombre ${name}`);
+        }
+
+        await updateDoc(snapsshot.docs[0].ref, {
             prompt_count: increment,
             fecha_edicion: new Date(),
         });
@@ -175,22 +186,32 @@ export class FirestoreService {
         });
     }
 
-    async deleteCategory(id: string) {
+    async deleteCategory(name: string) {
         try {
-            const docRef = doc(this.firestore, "categories", id);
-            await deleteDoc(docRef);
+            const snapsshot = await getDocs(
+                query(collection(this.firestore, "categories"), where("name", "==", name))
+            );
+            if (snapsshot.empty) {
+                throw new Error(`No se encontró una etiqueta con el nombre ${name}`);
+            }
+            await deleteDoc(snapsshot.docs[0].ref);
         } catch (error) {
-            const errorMessage = `Error al eliminar la categoría ${id}: ${error}`;
+            const errorMessage = `Error al eliminar la categoría ${name}: ${error}`;
             console.error(errorMessage);
         }
     }
 
-    async deleteTag(id: string) {
+    async deleteTag(name: string) {
         try {
-            const docRef = doc(this.firestore, "tags", id);
-            await deleteDoc(docRef);
+            const snapsshot = await getDocs(
+                query(collection(this.firestore, "tags"), where("name", "==", name))
+            );
+            if (snapsshot.empty) {
+                throw new Error(`No se encontró una etiqueta con el nombre ${name}`);
+            }
+            await deleteDoc(snapsshot.docs[0].ref);
         } catch (error) {
-            const errorMessage = `Error al eliminar la etiqueta ${id}: ${error}`;
+            const errorMessage = `Error al eliminar la etiqueta ${name}: ${error}`;
             console.error(errorMessage);
         }
     }

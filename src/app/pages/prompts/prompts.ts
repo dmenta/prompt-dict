@@ -54,19 +54,21 @@ export class Prompts {
         title.setTitle(`${this.data()?.item.name} | ${this.data()?.type.title} | Prompter`);
     }
 
-    onDelete(event: MouseEvent) {
+    async onDelete(event: MouseEvent) {
         event.stopPropagation();
         if (!this.borrable()) {
             return;
         }
         if (this.data()?.type.lowercase === "etiqueta") {
-            this.persist.deleteTag(this.data()?.item.name!);
-            this.notificationService.success("Etiqueta eliminada.");
-            this.router.navigate(["/"]);
+            this.persist.deleteTag(this.data()?.item.name!).then(() => {
+                this.notificationService.success("Etiqueta eliminada.");
+                this.router.navigate(["/"]);
+            });
         } else {
-            this.persist.deleteCategory(this.data()?.item.name!);
-            this.notificationService.success("Categoría eliminada.");
-            this.router.navigate(["/"]);
+            this.persist.deleteCategory(this.data()?.item.name!).then(() => {
+                this.notificationService.success("Categoría eliminada.");
+                this.router.navigate(["/"]);
+            });
         }
     }
     private resolvedSubtitulo(numItems: number, type: string): string {

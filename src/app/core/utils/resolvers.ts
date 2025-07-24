@@ -21,11 +21,7 @@ function getSlug(route: ActivatedRouteSnapshot): string {
     providedIn: "root",
 })
 class PromptResolver implements Resolve<Prompt> {
-    constructor(
-        private appDataService: AppDataService,
-        private navigationSerivce: DefaultNavigationStore,
-        private router: Router
-    ) {}
+    constructor(private appDataService: AppDataService) {}
 
     async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Prompt> {
         const slug = getSlug(route);

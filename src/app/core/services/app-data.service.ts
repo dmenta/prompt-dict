@@ -1,7 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { FirestoreService } from "./firestore.service";
-import { Prompt, AddPrompt, Category, Tag } from "../models";
-import { map, of, tap } from "rxjs";
+import { Prompt, AddPrompt } from "../models";
 
 @Injectable({
     providedIn: "root",
@@ -21,20 +20,6 @@ export class AppDataService {
      */
     prompts() {
         return this.firestoreService.prompts();
-    }
-
-    /**
-     * Obtener categorías
-     */
-    categories() {
-        return of([] as Category[]); // Placeholder, replace with actual Firestore call if needed
-    }
-
-    /**
-     * Obtener categorías
-     */
-    tags() {
-        return of([] as Tag[]); // Placeholder, replace with actual Firestore call if needed
     }
 
     async byCategoryName(name: string) {
@@ -64,16 +49,32 @@ export class AppDataService {
     /**
      * Actualizar o crear tags/categoría con prompt_count
      */
-    addOrUpdateCategory(categoria: string) {
-        this.categories().subscribe(async (cats) => {
-            const cat = cats.find((c) => c.name.toLowerCase() === categoria);
-            if (cat) {
-                const newCount = cat.prompt_count + 1;
-                await this.firestoreService.updateCategoryPromptCount(cat.id!, newCount);
-                cat.prompt_count = newCount;
+    async addOrUpdateCategory(categoria: string) {
+        const count = this.prompts().filter((p) => p.categoria === categoria.toLowerCase()).length;
+        console.log("Count for category:", categoria.toLowerCase(), count);
+        if (count > 1) {
+            await this.firestoreService.updateCategoryPromptCount(
+                categoria.toLowerCase(),
+                count + 1
+            );
+        } else {
+            await this.firestoreService.createCategory({
+                name: categoria.toLowerCase(),
+                prompt_count: 1,
+                slug: "",
+            });
+        }
+    }
+
+    addOrUpdateTags(tags: string[]) {
+        tags.forEach(async (tag) => {
+            const count = this.prompts().filter((p) => p.tags.includes(tag.toLowerCase())).length;
+            console.log("Count for tag:", tag.toLowerCase(), count);
+            if (count > 1) {
+                await this.firestoreService.updateTagPromptCount(tag.toLowerCase(), count + 1);
             } else {
-                await this.firestoreService.createCategory({
-                    name: categoria,
+                await this.firestoreService.createTag({
+                    name: tag.toLowerCase(),
                     prompt_count: 1,
                     slug: "",
                 });
@@ -81,53 +82,24 @@ export class AppDataService {
         });
     }
 
-    addOrUpdateTags(tags: string[]) {
-        this.tags().subscribe(async (allTags) => {
-            for (const tag of tags) {
-                const currTag = allTags.find((x) => x.name.toLowerCase() === tag);
-                if (currTag) {
-                    const newCount = (currTag.prompt_count ?? 0) + 1;
-                    await this.firestoreService.updateTagPromptCount(currTag.id!, newCount);
-                    currTag.prompt_count = newCount;
-                } else {
-                    await this.firestoreService.createTag({
-                        name: tag,
-                        prompt_count: 1,
-                        slug: "",
-                    });
-                }
-            }
-        });
-    }
-
     async updateOrDeleteCategory(categoria: string) {
-        this.categories().subscribe((cats) => {
-            const cat = cats.find((c) => c.name.toLowerCase() === categoria);
-            if (cat) {
-                const newCount = cat.prompt_count - 1;
-                if (newCount <= 0) {
-                    this.firestoreService.deleteCategory(cat.id!);
-                } else {
-                    this.firestoreService.updateCategoryPromptCount(cat.id!, newCount);
-                    cat.prompt_count = newCount;
-                }
-            }
-        });
+        const count = this.prompts().filter((p) => p.categoria === categoria.toLowerCase()).length;
+        console.log("Count for category:", categoria.toLowerCase(), count);
+        if (count > 0) {
+            await this.firestoreService.updateTagPromptCount(categoria.toLowerCase(), count + 1);
+        } else {
+            await this.firestoreService.deleteCategory(categoria.toLowerCase());
+        }
     }
 
     async updateOrDeleteTags(tags: string[]) {
-        this.tags().subscribe((allTags) => {
-            for (const tag of tags) {
-                const currTag = allTags.find((x) => x.name.toLowerCase() === tag);
-                if (currTag) {
-                    const newCount = currTag.prompt_count - 1;
-                    if (newCount <= 0) {
-                        this.firestoreService.deleteTag(currTag.id!);
-                    } else {
-                        this.firestoreService.updateTagPromptCount(currTag.id!, newCount);
-                        currTag.prompt_count = newCount;
-                    }
-                }
+        tags.forEach(async (tag) => {
+            const count = this.prompts().filter((p) => p.tags.includes(tag.toLowerCase())).length;
+            console.log("Count for tag:", tag.toLowerCase(), count);
+            if (count > 0) {
+                await this.firestoreService.updateTagPromptCount(tag.toLowerCase(), count + 1);
+            } else {
+                await this.firestoreService.deleteTag(tag.toLowerCase());
             }
         });
     }
@@ -145,31 +117,12 @@ export class AppDataService {
         });
     }
 
-    deleteTag(name: string) {
-        this.tags().pipe(
-            map((tags) => tags.find((t) => t.name.toLowerCase() === name.toLowerCase())),
-            tap((tag) => {
-                if (!tag) {
-                    throw new Error(`No se encontró el tag '${name}'.`);
-                }
-
-                // Eliminar el tag
-                this.firestoreService.deleteTag(tag.id!);
-            })
-        );
+    async deleteTag(name: string) {
+        await this.firestoreService.deleteTag(name.toLowerCase());
     }
 
-    deleteCategory(name: string) {
-        this.categories().pipe(
-            map((cats) => cats.find((c) => c.name.toLowerCase() === name.toLowerCase())),
-            tap((cat) => {
-                if (!cat) {
-                    throw new Error(`No se encontró la categoría '${name}'.`);
-                }
-                // Eliminar el tag
-                this.firestoreService.deleteCategory(cat.id!);
-            })
-        );
+    async deleteCategory(name: string) {
+        await this.firestoreService.deleteCategory(name.toLowerCase());
     }
 
     /**

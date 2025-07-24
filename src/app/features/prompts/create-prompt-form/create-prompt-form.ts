@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { AppDataService, NotificationService } from "../../../core";
 import { TitleCasePipe } from "@angular/common";
 import { map } from "rxjs";
+import { DefaultNavigationStore } from "../../../core/services/navigation.service";
 
 @Component({
     selector: "pd-create-prompt-form",
@@ -16,14 +17,16 @@ export class CreatePromptFormComponent {
     private formBuilder = inject(FormBuilder);
     private appData = inject(AppDataService);
 
+    private navigationService = inject(DefaultNavigationStore);
+
     usoOptions = ["texto", "código", "imagen", "video", "audio", "otro"];
     idiomaOptions = [
         { value: "es-AR", label: "Español (Argentina)" },
         { value: "EN", label: "English" },
     ];
 
-    categorias = signal<string[]>([]);
-    tags = signal<string[]>([]);
+    categorias = this.navigationService.categories;
+    tags = this.navigationService.tags;
 
     form: FormGroup = this.formBuilder.nonNullable.group({
         titulo: ["", [Validators.required, this.trimValidator]],
@@ -45,13 +48,6 @@ export class CreatePromptFormComponent {
             return { trim: true };
         }
         return null;
-    }
-
-    constructor() {
-        this.appData
-            .categories()
-            .subscribe((cats) => this.categorias.set([...cats.map((c) => c.name)]));
-        this.appData.tags().subscribe((tags) => this.tags.set([...tags.map((t) => t.name)]));
     }
 
     async onSubmit(event: Event) {
