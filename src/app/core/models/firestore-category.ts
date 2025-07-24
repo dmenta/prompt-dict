@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 
-export interface FirestoreCategory {
+export interface Category {
     id?: string;
     name: string;
     slug: string;

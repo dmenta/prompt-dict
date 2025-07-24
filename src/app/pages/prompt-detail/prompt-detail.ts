@@ -6,7 +6,7 @@ import {
     CopyService,
     DetailHeader,
     LabelValueItem,
-    FirestorePrompt,
+    Prompt,
     AppDataService,
     NotificationService,
 } from "../../core";
@@ -41,11 +41,11 @@ export class PromptDetail {
     private url = signal<string>(window.location.href);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
-    private data = toSignal(this.route.data as Observable<{ prompt: FirestorePrompt }>);
+    private data = toSignal(this.route.data as Observable<{ prompt: Prompt }>);
     private copyService = inject(CopyService);
-    prompt = computed(() => <FirestorePrompt>this.data()!.prompt);
+    prompt = computed(() => <Prompt>this.data()!.prompt);
 
-    displayProperties: { label: string; key: keyof FirestorePrompt }[] = [
+    displayProperties: { label: string; key: keyof Prompt }[] = [
         { label: "Título", key: "titulo" },
         { label: "Texto", key: "prompt" },
         { label: "Descripción", key: "descripcion" },
@@ -63,7 +63,7 @@ export class PromptDetail {
     onDelete(event: MouseEvent) {
         event.stopPropagation();
 
-        this.persistService.deletePrompt(this.prompt().id);
+        this.persistService.deletePrompt(this.prompt().id!);
 
         this.notificationService.success("Prompt eliminado");
         this.router.navigate(["/"]);

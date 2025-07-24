@@ -3,7 +3,7 @@ import { CopyActions } from "../../../core";
 import { RouterLink } from "@angular/router";
 import { APP_BASE_HREF } from "@angular/common";
 import { PromptInfo } from "../prompt-info/prompt-info";
-import { FirestorePrompt } from "../../../core";
+import { Prompt } from "../../../core";
 
 @Component({
     selector: "pd-display-prompt, [pd-display-prompt]",
@@ -47,5 +47,5 @@ export class DisplayPrompt {
     baseUrl = signal(window.location.origin + this.basePath + this.promptUrl + "/");
 
     visible = signal(false);
-    prompt = input<FirestorePrompt | null>(null);
+    prompt = input<Prompt | null>(null);
 }

@@ -1,43 +1,19 @@
-import { Component, computed, inject, signal } from "@angular/core";
-import { PromptsList, NavList, NavListSort, NavItemType, navItemTypeLabels } from "../../features";
-import { Drawer, MainHeader, StorageService, AppDataService, FirestorePrompt } from "../../core";
-import { InfiniteScrollDirective } from "ngx-infinite-scroll";
+import { Component, inject } from "@angular/core";
+import { PromptsList } from "../../features";
+import { Drawer, MainHeader, AppDataService } from "../../core";
+import { NavMenu } from "../../features/navigation/nav-menu/nav-menu";
 
 @Component({
     selector: "pd-home",
-    imports: [PromptsList, MainHeader, Drawer, NavList, InfiniteScrollDirective],
+    imports: [PromptsList, MainHeader, Drawer, NavMenu],
     template: `
         <header pd-main-header (open)="drawer.show()"></header>
         <div pd-drawer class="w-fit  select-none " #drawer>
-            <div
-                drawer-title
-                class="flex items-center justify-between w-full"
-                [class.flex-row]="list() === 'category'"
-                [class.flex-row-reverse]="list() === 'tag'">
-                <div>
-                    <span class="font-semibold text-list-name  pr-1">{{ activo() }}</span>
-                    <button class="cursor-pointer text-xs opacity-85" (click)="onSortChange()">
-                        [{{ sort() === "qty" ? "Num" : "A-Z" }}]
-                    </button>
-                </div>
-                <span
-                    class="opacity-85 font-light hover:opacity-100"
-                    (click)="onClick($event, list() === 'category' ? 'tag' : 'category')"
-                    >{{ inactivo() }}</span
-                >
-            </div>
-            <nav pd-nav-list [list]="list()" [sort]="sort()"></nav>
+            <pd-nav-menu></pd-nav-menu>
         </div>
-        @if (prompts().length > 0) {
-        <div
-            infiniteScroll
-            [infiniteScrollDistance]="scrollDistance"
-            [infiniteScrollUpDistance]="scrollUpDistance"
-            [infiniteScrollThrottle]="throttle"
-            (scrolled)="onScrollDown()">
-            <div class="flex flex-row  md:ml-72">
-                <ul pd-prompts-list class="px-6 py-6" [prompts]="prompts()"></ul>
-            </div>
+        @if (persistService.prompts().length > 0) {
+        <div class="flex flex-row  md:ml-72">
+            <ul pd-prompts-list class="px-6 py-6" [prompts]="persistService.prompts()"></ul>
         </div>
         } @else {
         <div class="flex flex-col  md:ml-72 items-center justify-center h-[80svh]">
@@ -58,58 +34,5 @@ import { InfiniteScrollDirective } from "ngx-infinite-scroll";
     },
 })
 export class Home {
-    throttle = 300;
-    scrollDistance = 1;
-    scrollUpDistance = 2;
-    direction = "";
-    private store = inject(StorageService);
-    private listData = signal<NavListConfig>(
-        this.store.get("navListConfig") ?? { category: "alpha", tag: "qty" }
-    );
     persistService = inject(AppDataService);
-
-    prompts = signal<FirestorePrompt[]>([]);
-
-    list = signal<NavItemType>(this.store.get("navList") ?? "category");
-    sort = computed<NavListSort>(() => this.listData()[this.list()] ?? "qty");
-
-    constructor() {
-        this.persistService.prompts().subscribe((prompts) => {
-            this.prompts.set(prompts);
-        });
-    }
-
-    onClick(event: MouseEvent, list: NavItemType) {
-        event.stopPropagation();
-        this.list.set(list);
-        this.store.save("navList", list);
-    }
-
-    onSortChange() {
-        const currentSort = this.sort();
-        const newSort = currentSort === "qty" ? "alpha" : "qty";
-        this.listData.update((data) => ({
-            ...data,
-            [this.list()]: newSort,
-        }));
-        this.store.save("navListConfig", this.listData());
-    }
-
-    inactivo = computed(() => {
-        return this.list() === "category"
-            ? navItemTypeLabels["tag"].title
-            : navItemTypeLabels["category"].title;
-    });
-
-    activo = computed(() => {
-        return navItemTypeLabels[this.list()].title;
-    });
-
-    onScrollDown() {
-        this.persistService.prompts().subscribe((prompts) => {
-            this.prompts.set(prompts);
-        });
-    }
 }
-
-type NavListConfig = Record<NavItemType, NavListSort>;

@@ -1,6 +1,6 @@
 import { Component, input } from "@angular/core";
 import { DisplayPrompt } from "../display-prompt/display-prompt";
-import { FirestorePrompt } from "../../../core";
+import { Prompt } from "../../../core";
 
 @Component({
     selector: "pd-prompts-list, [pd-prompts-list]",
@@ -18,5 +18,5 @@ import { FirestorePrompt } from "../../../core";
     },
 })
 export class PromptsList {
-    prompts = input<FirestorePrompt[]>([]);
+    prompts = input<Prompt[]>([]);
 }

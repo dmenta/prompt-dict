@@ -1,6 +1,6 @@
 import { Component, input } from "@angular/core";
 import { RelativeDatePipe } from "../../../core";
-import { FirestorePrompt } from "../../../core";
+import { Prompt } from "../../../core";
 import { Timestamp } from "firebase/firestore";
 
 @Component({
@@ -12,5 +12,5 @@ import { Timestamp } from "firebase/firestore";
     },
 })
 export class PromptInfo {
-    prompt = input<{ autor: string; fecha_creacion: Timestamp }>({} as FirestorePrompt);
+    prompt = input<{ autor: string; fecha_creacion: Timestamp }>({} as Prompt);
 }

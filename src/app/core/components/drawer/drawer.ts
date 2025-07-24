@@ -7,17 +7,8 @@ import { Component, OnDestroy, Renderer2, signal } from "@angular/core";
         <div
             class="drawer  shadow-lg/60 dark:shadow-lg/70 md:shadow-sm/40 md:dark:shadow-md/70  fixed md:top-14 top-0  z-14 dark:shadow-black shadow-black/80  bg-drawer bottom-0 overflow-hidden"
             [class.open]="isOpen()"
-            (click)="$event.stopPropagation()">
-            <h5
-                class="bg-drawer-header absolute  top-0  
-      left-0 right-0 h-14 z-20  flex items-center pl-4 pr-5 ">
-                <ng-content select="[drawer-title]"></ng-content>
-            </h5>
-            <div class="w-full absolute top-14 bottom-0 right-0 overflow-x-hidden overflow-y-auto">
-                <div class="pt-4 h-full">
-                    <ng-content> </ng-content>
-                </div>
-            </div>
+            (click)="onClick()">
+            <ng-content></ng-content>
         </div>
         <div
             class="fixed md:hidden top-0 left-0 z-12 bg-black/10 dark:bg-black/20 block opacity-100 w-screen h-screen"

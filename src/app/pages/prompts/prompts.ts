@@ -6,7 +6,7 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import {
     ListPrompts,
     SectionHeader,
-    FirestorePrompt,
+    Prompt,
     AppDataService,
     NotificationService,
 } from "../../core";
@@ -43,7 +43,7 @@ export class Prompts {
         }>
     );
 
-    prompts = computed(() => <FirestorePrompt[]>this.data()!.item.prompts);
+    prompts = computed(() => <Prompt[]>this.data()!.item.prompts);
     titulo = computed(() => <string>this.data()!.item.name);
     subtitulo = computed(() =>
         this.resolvedSubtitulo(this.prompts().length, this.data()!.type.lowercase)
@@ -60,15 +60,13 @@ export class Prompts {
             return;
         }
         if (this.data()?.type.lowercase === "etiqueta") {
-            this.persist.deleteTag(this.data()?.item.name!).subscribe(() => {
-                this.notificationService.success("Etiqueta eliminada.");
-                this.router.navigate(["/"]);
-            });
+            this.persist.deleteTag(this.data()?.item.name!);
+            this.notificationService.success("Etiqueta eliminada.");
+            this.router.navigate(["/"]);
         } else {
-            this.persist.deleteCategory(this.data()?.item.name!).subscribe(() => {
-                this.notificationService.success("Categoría eliminada.");
-                this.router.navigate(["/"]);
-            });
+            this.persist.deleteCategory(this.data()?.item.name!);
+            this.notificationService.success("Categoría eliminada.");
+            this.router.navigate(["/"]);
         }
     }
     private resolvedSubtitulo(numItems: number, type: string): string {

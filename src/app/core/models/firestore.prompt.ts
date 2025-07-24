@@ -1,7 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 
-export interface FirestorePrompt {
-    id: string;
+export interface Prompt {
+    id?: string;
     old_id?: number; // Para compatibilidad con IDs antiguos
     titulo: string;
     descripcion: string;
@@ -30,6 +30,6 @@ export interface FirestorePrompt {
 }
 
 export type AddPrompt = Pick<
-    FirestorePrompt,
+    Prompt,
     "titulo" | "descripcion" | "autor" | "categoria" | "tags" | "prompt" | "uso" | "idioma"
 >;

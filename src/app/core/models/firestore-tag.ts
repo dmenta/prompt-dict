@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 
-export interface FirestoreTag {
+export interface Tag {
     id?: string;
     name: string;
     slug: string;

@@ -1,6 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { Auth, signInWithPopup, signOut, GoogleAuthProvider, User } from "@angular/fire/auth";
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {

@@ -1,6 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { FirestoreService } from "./firestore.service";
-import { FirestorePrompt, AddPrompt } from "../models";
+import { Prompt, AddPrompt, Category, Tag } from "../models";
 import { map, of, tap } from "rxjs";
 
 @Injectable({
@@ -20,63 +20,35 @@ export class AppDataService {
      * Obtener categorías
      */
     prompts() {
-        return this.firestoreService.getPrompts();
+        return this.firestoreService.prompts();
     }
 
     /**
      * Obtener categorías
      */
     categories() {
-        return this.firestoreService.getCategories();
+        return of([] as Category[]); // Placeholder, replace with actual Firestore call if needed
     }
 
     /**
      * Obtener categorías
      */
     tags() {
-        return this.firestoreService.getTags();
+        return of([] as Tag[]); // Placeholder, replace with actual Firestore call if needed
     }
 
-    /**
-     * Obtener prompts por categoría
-     */
-    byCategorySlug(slug: string) {
-        return this.firestoreService.getCategoryBySlug(slug).pipe(
-            map((category) => {
-                if (!category) {
-                    throw new Error(`No se encontró la categoría '${slug}'.`);
-                }
-
-                return this.byCategoryName(category.name);
-            })
-        );
+    async byCategoryName(name: string) {
+        return {
+            name: this.titleCase(name),
+            prompts: await this.firestoreService.getPromptsByCategory(name),
+        };
     }
 
-    byCategoryName(name: string) {
-        return this.firestoreService.getPromptsByCategory(name).pipe(
-            map((prompts) => {
-                return { name: this.titleCase(name), prompts };
-            })
-        );
-    }
-
-    byTagSlug(slug: string) {
-        return this.firestoreService.getTagBySlug(slug).pipe(
-            map((tag) => {
-                if (!tag) {
-                    throw new Error(`No se encontró el tag '${slug}'.`);
-                }
-                return this.byTagName(tag.name);
-            })
-        );
-    }
-
-    byTagName(name: string) {
-        return this.firestoreService.getPromptsByTag(name).pipe(
-            map((prompts) => {
-                return { name: this.titleCase(name), prompts };
-            })
-        );
+    async byTagName(name: string) {
+        return {
+            name: this.titleCase(name),
+            prompts: await this.firestoreService.getPromptsByTag(name),
+        };
     }
 
     /**
@@ -161,24 +133,20 @@ export class AppDataService {
     }
 
     /** Eliminar prompt */
-    deletePrompt(id: string) {
-        this.firestoreService.getPromptById(id)?.subscribe(async (prompt) => {
-            if (!prompt) {
-                return;
-            }
+    async deletePrompt(id: string) {
+        const prompt = this.firestoreService.getPromptById(id)!;
 
-            const tags = [...prompt.tags];
-            const category = prompt.categoria;
+        const tags = [...prompt.tags];
+        const category = prompt.categoria;
 
-            await this.firestoreService.deletePrompt(id).then(() => {
-                this.updateOrDeleteCategory(category);
-                this.updateOrDeleteTags(tags);
-            });
+        await this.firestoreService.deletePrompt(id).then(() => {
+            this.updateOrDeleteCategory(category);
+            this.updateOrDeleteTags(tags);
         });
     }
 
     deleteTag(name: string) {
-        return this.tags().pipe(
+        this.tags().pipe(
             map((tags) => tags.find((t) => t.name.toLowerCase() === name.toLowerCase())),
             tap((tag) => {
                 if (!tag) {
@@ -192,7 +160,7 @@ export class AppDataService {
     }
 
     deleteCategory(name: string) {
-        return this.categories().pipe(
+        this.categories().pipe(
             map((cats) => cats.find((c) => c.name.toLowerCase() === name.toLowerCase())),
             tap((cat) => {
                 if (!cat) {
@@ -207,51 +175,41 @@ export class AppDataService {
     /**
      * Obtener prompt por slug
      */
-    bySlug(slug: string) {
+    async bySlug(slug: string) {
         return this.firestoreService.getPromptBySlug(slug);
-    }
-
-    /**
-     * Obtener prompt por ID
-     */
-    byId(id: string) {
-        return this.firestoreService.getPromptById(id);
     }
 
     // Métodos privados
 
     private searchInFirestore(searchTerm: string) {
         try {
-            return this.firestoreService.searchPrompts(searchTerm).pipe(
-                map((prompts) => {
-                    // Adaptar el resultado al formato esperado
-                    const found = prompts.map((prompt) => ({
-                        item: prompt,
-                        foundIn: "titulo" as const, // Simplificado para Firestore
-                        position: 0,
-                        relevanceScore: 1.0,
-                    }));
+            const found = this.firestoreService.searchPrompts(searchTerm).map((prompt) => {
+                // Adaptar el resultado al formato esperado
+                return {
+                    item: prompt,
+                    foundIn: "titulo" as const, // Simplificado para Firestore
+                    position: 0,
+                    relevanceScore: 1.0,
+                };
+            });
 
-                    return {
-                        search: searchTerm,
-                        found,
-                    };
-                })
-            );
+            return {
+                search: searchTerm,
+                found,
+            };
         } catch (error) {
             console.error("Error en búsqueda de Firestore:", error);
-            return of({
+            return {
                 search: searchTerm,
                 found: [] as {
-                    item: FirestorePrompt;
+                    item: Prompt;
                     foundIn: foundInKey;
                     position: number;
                     relevanceScore: number;
                 }[],
-            });
+            };
         }
     }
-
     private titleCase(str: string): string {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
@@ -260,7 +218,7 @@ export class AppDataService {
 export type ResultadoBusqueda = {
     search: string;
     found: {
-        item: FirestorePrompt;
+        item: Prompt;
         foundIn: foundInKey;
         position: number;
         relevanceScore: number;
@@ -269,4 +227,4 @@ export type ResultadoBusqueda = {
 
 type foundInKey = "titulo" | "prompt" | "descripcion" | "autor" | "categoria" | "tags";
 
-export type ListPrompts = { name: string; prompts: FirestorePrompt[] };
+export type ListPrompts = { name: string; prompts: Prompt[] };

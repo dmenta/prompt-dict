@@ -1,27 +1,8 @@
 import { Injectable, inject, signal } from "@angular/core";
-import {
-    Firestore,
-    collection,
-    doc,
-    addDoc,
-    updateDoc,
-    deleteDoc,
-    query,
-    where,
-    orderBy,
-    docData,
-    collectionData,
-} from "@angular/fire/firestore";
-import { FirestorePrompt, FirestoreTag, FirestoreCategory, AddPrompt } from "../models";
-import {
-    CollectionReference,
-    DocumentData,
-    limit,
-    QueryConstraint,
-    startAfter,
-    Timestamp,
-} from "firebase/firestore";
-import { map, Observable, of, take, tap } from "rxjs";
+import { Firestore, collection, doc, addDoc, updateDoc, deleteDoc } from "@angular/fire/firestore";
+import { Prompt, Tag, Category, AddPrompt } from "../models";
+import { getDocs, onSnapshot, query, Unsubscribe, where } from "firebase/firestore";
+import { of } from "rxjs";
 
 @Injectable({
     providedIn: "root",
@@ -29,101 +10,97 @@ import { map, Observable, of, take, tap } from "rxjs";
 export class FirestoreService {
     private firestore = inject(Firestore);
 
-    private promptsCollection = collection(this.firestore, "prompts");
-    private categoriesCollection = collection(this.firestore, "categories");
-    private tagsCollection = collection(this.firestore, "tags");
+    private promptsSubs: Unsubscribe;
+    public prompts = signal<Prompt[]>([]);
 
-    private currCategories = signal([] as FirestoreCategory[]);
-    private currTags = signal([] as FirestoreTag[]);
-
-    private promptsPaginados = signal<FirestorePrompt[]>([]);
-
-    private promptsLoaded = signal(false);
-
-    getPrompts() {
-        const curr = this.promptsPaginados();
-        if (curr.length > 0 && this.promptsLoaded()) {
-            return of(curr);
-        }
-        const lastValue =
-            curr.length === 0
-                ? [Timestamp.fromDate(new Date()), 1000]
-                : [curr[curr.length - 1].fecha_creacion, curr[curr.length - 1].old_id ?? 999];
-
-        return this.getPromptsQuery([
-            orderBy("fecha_creacion", "desc"),
-            orderBy("old_id", "desc"),
-            startAfter(...lastValue),
-            limit(10),
-        ]).pipe(
-            tap((prompts) => {
-                if (prompts.length <= 0) {
-                    this.promptsLoaded.set(true);
-                }
-                this.promptsPaginados.set([...curr, ...prompts]);
-            }),
-            map(() => {
-                return this.promptsPaginados();
-            })
-        );
+    constructor() {
+        this.promptsSubs = this.trackPrompts();
     }
 
-    getPromptBySlug(slug: string) {
-        const curr = this.promptsPaginados();
-        if (curr.length > 0) {
-            const promptCargado = curr.find((p) => p.slug === slug);
-            if (promptCargado) {
-                return of(promptCargado);
-            }
-        }
-
-        return this.getPromptsQuery([where("slug", "==", slug), limit(1)]).pipe(
-            map((prompts) => {
-                if (prompts.length === 0) {
-                    return null;
+    private trackPrompts(): Unsubscribe {
+        const query = collection(this.firestore, "prompts");
+        return onSnapshot(query, (snapshot) => {
+            snapshot.docChanges().forEach((change) => {
+                if (change.type === "added") {
+                    this.prompts.update((prompts) => [
+                        ...prompts,
+                        { id: change.doc.id, ...(change.doc.data() as Prompt) },
+                    ]);
                 }
-                return prompts[0];
-            })
-        );
+                if (change.type === "modified") {
+                    this.prompts.update((prompts) => {
+                        const index = prompts.findIndex((cat) => cat.id === change.doc.id);
+                        if (index !== -1) {
+                            prompts[index] = {
+                                id: change.doc.id,
+                                ...(change.doc.data() as Prompt),
+                            };
+                        }
+
+                        return [...prompts];
+                    });
+                }
+                if (change.type === "removed") {
+                    this.prompts.update((prompts) =>
+                        prompts.filter((cat) => cat.id !== change.doc.id)
+                    );
+                }
+            });
+        });
+    }
+
+    async getPromptBySlug(slug: string) {
+        if (this.prompts().length > 0) {
+            return this.prompts().find((p) => p.slug === slug)!;
+        } else {
+            return await getDocs(
+                query(collection(this.firestore, "prompts"), where("slug", "==", slug))
+            ).then((docSnap) => {
+                if (docSnap.empty) {
+                    throw new Error(`No se encontró un pormpt ${slug} `);
+                }
+                return docSnap.docs[0].data() as Prompt;
+            });
+        }
     }
 
     getPromptById(id: string) {
-        const curr = this.promptsPaginados();
-        if (curr.length > 0) {
-            const promptCargado = curr.find((p) => p.id === id);
-            if (promptCargado) {
-                return of(promptCargado);
-            }
+        return this.prompts().find((p) => p.id === id);
+    }
+
+    async getPromptsByCategory(category: string) {
+        if (this.prompts().length > 0) {
+            return this.prompts().filter((p) => p.categoria === category);
+        } else {
+            return await getDocs(
+                query(collection(this.firestore, "prompts"), where("categoria", "==", category))
+            ).then((docSnap) => {
+                if (docSnap.empty) {
+                    throw new Error(`No se encontró ningún prompt para la categoría ${category} `);
+                }
+                return docSnap.docs.map((doc) => ({
+                    id: doc.id,
+                    ...(doc.data() as Prompt),
+                }));
+            });
         }
-
-        try {
-            const docRef = doc(this.firestore, `prompts/${id}`);
-
-            return docData(docRef, { idField: "id" }) as Observable<FirestorePrompt>;
-        } catch (error) {
-            const errorMessage = `Error al obtener prompt ${id}: ${error}`;
-            console.error(errorMessage);
-            return null;
-        }
     }
 
-    getPromptsByCategory(category: string) {
-        return this.getPromptsQuery([where("categoria", "==", category)]);
-    }
-
-    getPromptsByTag(tag: string) {
-        return this.getPromptsQuery([where("tags", "array-contains", tag)]);
-    }
-
-    private getPromptsQuery(constraints: QueryConstraint[]) {
-        try {
-            return collectionData(query(this.promptsCollection, ...constraints), {
-                idField: "id",
-            }) as Observable<FirestorePrompt[]>;
-        } catch (error) {
-            const errorMessage = `Error al obtener prompts: ${error}`;
-            console.error(errorMessage);
-            return of([]);
+    async getPromptsByTag(tag: string) {
+        if (this.prompts().length > 0) {
+            return this.prompts().filter((p) => p.tags.includes(tag));
+        } else {
+            return await getDocs(
+                query(collection(this.firestore, "prompts"), where("tags", "array-contains", tag))
+            ).then((docSnap) => {
+                if (docSnap.empty) {
+                    throw new Error(`No se encontró ningún prompt para la etiqueta ${tag} `);
+                }
+                return docSnap.docs.map((doc) => ({
+                    id: doc.id,
+                    ...(doc.data() as Prompt),
+                }));
+            });
         }
     }
 
@@ -136,51 +113,33 @@ export class FirestoreService {
                 fecha_creacion: new Date(),
             };
 
-            const nuevo = await addDoc(this.promptsCollection, promptData).then((docRef) => {
-                return docData(docRef, { idField: "id" }) as Observable<FirestorePrompt>;
-            });
-
-            return nuevo.pipe(
-                tap((prompt) => this.promptsPaginados.update((prompts) => [prompt, ...prompts])),
-                map((prompt) => prompt.id)
-            );
+            await addDoc(collection(this.firestore, "prompts"), promptData);
         } catch (error) {
             const errorMessage = `Error al crear prompt: ${error}`;
             console.error(errorMessage);
-
-            return of(null);
         }
     }
 
-    async updatePrompt(id: string, updates: Partial<FirestorePrompt>): Promise<boolean> {
+    async updatePrompt(id: string, updates: Partial<Prompt>) {
         try {
             const docRef = doc(this.firestore, "prompts", id);
             await updateDoc(docRef, {
                 ...updates,
                 fechaModificacion: new Date(),
             });
-            return true;
         } catch (error) {
             const errorMessage = `Error al actualizar prompt ${id}: ${error}`;
             console.error(errorMessage);
-            return false;
         }
     }
 
-    async deletePrompt(id: string): Promise<boolean> {
+    async deletePrompt(id: string) {
         try {
             const docRef = doc(this.firestore, "prompts", id);
-            await deleteDoc(docRef).then(() => {
-                this.promptsPaginados.update((prompts) =>
-                    prompts.filter((prompt) => prompt.id !== id)
-                );
-            });
-
-            return true;
+            await deleteDoc(docRef);
         } catch (error) {
             const errorMessage = `Error al eliminar prompt ${id}: ${error}`;
             console.error(errorMessage);
-            return false;
         }
     }
 
@@ -192,22 +151,12 @@ export class FirestoreService {
         });
     }
 
-    async createCategory(data: Partial<FirestoreCategory>) {
-        await addDoc(this.categoriesCollection, {
+    async createCategory(data: Partial<Category>) {
+        await addDoc(collection(this.firestore, "categories"), {
             ...data,
             slug: this.generateSlug(data.name || ""),
             fecha_creacion: new Date(),
-        })
-            .then((docRef) => {
-                return docData(docRef, { idField: "id" }) as Observable<FirestoreCategory>;
-            })
-            .then((catNueva) => {
-                catNueva.pipe(take(1)).subscribe((cat) =>
-                    this.currCategories.update((cats) => {
-                        return [...cats, cat];
-                    })
-                );
-            });
+        });
     }
 
     async updateTagPromptCount(tagId: string, increment: number) {
@@ -218,144 +167,49 @@ export class FirestoreService {
         });
     }
 
-    async createTag(data: Partial<FirestoreTag>) {
-        await addDoc(this.tagsCollection, {
+    async createTag(data: Partial<Tag>) {
+        await addDoc(collection(this.firestore, "tags"), {
             ...data,
             slug: this.generateSlug(data.name || ""),
             fecha_creacion: new Date(),
-        })
-            .then((docRef) => {
-                return docData(docRef, { idField: "id" }) as Observable<FirestoreTag>;
-            })
-            .then((tagNueva) => {
-                return tagNueva
-                    .pipe(take(1))
-                    .subscribe((tag) => this.currTags.update((tags) => [...tags, tag]));
-            });
+        });
     }
 
-    async deleteCategory(id: string): Promise<boolean> {
+    async deleteCategory(id: string) {
         try {
             const docRef = doc(this.firestore, "categories", id);
-            await deleteDoc(docRef).then(() => {
-                this.currCategories.update((cats) => cats.filter((cat) => cat.id !== id));
-            });
-
-            return true;
+            await deleteDoc(docRef);
         } catch (error) {
             const errorMessage = `Error al eliminar la categoría ${id}: ${error}`;
             console.error(errorMessage);
-            return false;
         }
     }
 
-    async deleteTag(id: string): Promise<boolean> {
+    async deleteTag(id: string) {
         try {
             const docRef = doc(this.firestore, "tags", id);
-            await deleteDoc(docRef).then(() => {
-                this.currTags.update((tags) => tags.filter((tag) => tag.id !== id));
-            });
-
-            return true;
+            await deleteDoc(docRef);
         } catch (error) {
             const errorMessage = `Error al eliminar la etiqueta ${id}: ${error}`;
             console.error(errorMessage);
-            return false;
         }
     }
 
     searchPrompts(searchTerm: string) {
         try {
             const normalizedSearch = searchTerm.toLowerCase();
-            return this.getPrompts().pipe(
-                map((allPrompts) => {
-                    return allPrompts.filter(
-                        (prompt) =>
-                            prompt.titulo.toLowerCase().includes(normalizedSearch) ||
-                            prompt.prompt.toLowerCase().includes(normalizedSearch) ||
-                            prompt.descripcion.toLowerCase().includes(normalizedSearch) ||
-                            prompt.categoria.toLowerCase().includes(normalizedSearch) ||
-                            prompt.tags.some((tag) => tag.toLowerCase().includes(normalizedSearch))
-                    );
-                })
+            return this.prompts().filter(
+                (prompt) =>
+                    prompt.titulo.toLowerCase().includes(normalizedSearch) ||
+                    prompt.prompt.toLowerCase().includes(normalizedSearch) ||
+                    prompt.descripcion.toLowerCase().includes(normalizedSearch) ||
+                    prompt.categoria.toLowerCase().includes(normalizedSearch) ||
+                    prompt.tags.some((tag) => tag.toLowerCase().includes(normalizedSearch))
             );
         } catch (error) {
             const errorMessage = `Error en búsqueda: ${error}`;
             console.error(errorMessage);
-            return of([]);
-        }
-    }
-
-    getCategories() {
-        if (this.currCategories().length > 0) {
-            return of(this.currCategories());
-        }
-
-        return (
-            collectionData(this.categoriesCollection, { idField: "id" }) as Observable<
-                FirestoreCategory[]
-            >
-        ).pipe(tap((categories) => this.currCategories.set(categories)));
-    }
-
-    getTags() {
-        if (this.currTags().length > 0) {
-            return of(this.currTags());
-        }
-
-        return (
-            collectionData(this.tagsCollection, { idField: "id" }) as Observable<FirestoreTag[]>
-        ).pipe(tap((tags) => this.currTags.set(tags)));
-    }
-
-    getCategoryBySlug(slug: string) {
-        if (this.currCategories().length > 0) {
-            return of(this.currCategories().find((c) => c.slug === slug)!);
-        }
-
-        return this.getElementsQuery<FirestoreCategory>(this.categoriesCollection, [
-            where("slug", "==", slug),
-            limit(1),
-        ]).pipe(
-            map((categories) => {
-                if (categories === null || categories.length === 0) {
-                    return null;
-                }
-                return categories[0];
-            })
-        );
-    }
-
-    getTagBySlug(slug: string) {
-        if (this.currTags().length > 0) {
-            return of(this.currTags().find((c) => c.slug === slug)!);
-        }
-
-        return this.getElementsQuery<FirestoreTag>(this.tagsCollection, [
-            where("slug", "==", slug),
-            limit(1),
-        ]).pipe(
-            map((tags) => {
-                if (tags === null || tags.length === 0) {
-                    return null;
-                }
-                return tags[0];
-            })
-        );
-    }
-
-    private getElementsQuery<T>(
-        elementCollection: CollectionReference<DocumentData, DocumentData>,
-        constraints: QueryConstraint[]
-    ) {
-        try {
-            return collectionData(query(elementCollection, ...constraints), {
-                idField: "id",
-            }) as Observable<T[]>;
-        } catch (error) {
-            const errorMessage = `Error al obtener: ${error}`;
-            console.error(errorMessage);
-            return of([]);
+            return [] as Prompt[];
         }
     }
 
@@ -367,5 +221,9 @@ export class FirestoreService {
             .replace(/[^\w\s-]/g, "")
             .replace(/\s+/g, "-")
             .trim();
+    }
+
+    ngOnDestroy() {
+        this.promptsSubs?.();
     }
 }

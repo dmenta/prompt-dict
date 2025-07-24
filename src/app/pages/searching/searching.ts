@@ -4,7 +4,6 @@ import {
     HighlightedTextComponent,
     SearchHeader,
     AppDataService,
-    ResultadoBusqueda,
 } from "../../core";
 import { ActivatedRoute, Params, Router, RouterLink } from "@angular/router";
 import { filter, map } from "rxjs";
@@ -90,47 +89,46 @@ export class Searching {
         }
 
         this.currentSearchTerm.set(searchTerm);
-        this.persistService.search(searchTerm!).subscribe((res: ResultadoBusqueda) => {
-            if (res.found.length === 0) {
-                this.allSearchResults.set([]);
-                return;
+        const res = this.persistService.search(searchTerm!);
+        if (res.found.length === 0) {
+            this.allSearchResults.set([]);
+            return;
+        }
+
+        const salida = res.found.map((found) => {
+            const item: ItemEncontradoExtendido = {
+                id: found.item.id!,
+                titulo: { parts: [], in: -1 },
+                prompt: { parts: [], in: -1 },
+                descripcion: { parts: [], in: -1 },
+                autor: { parts: [], in: -1 },
+                matchType: found.relevanceScore === 1.0 ? "exact" : "fuzzy",
+                matchScore: found.relevanceScore,
+                originalItem: found.item,
+            };
+
+            // Solo procesar highlight si hay término de búsqueda
+            if (searchTerm.length > 0) {
+                if (found.foundIn !== "tags" && found.foundIn !== "categoria") {
+                    // Usar la nueva utilidad de highlight
+                    const highlight = createTextHighlight(
+                        found.item[found.foundIn] as string,
+                        searchTerm,
+                        this.longitud
+                    );
+                    item[found.foundIn] = {
+                        parts: highlight.parts,
+                        in: highlight.highlightIndex,
+                    };
+                }
             }
 
-            const salida = res.found.map((found) => {
-                const item: ItemEncontradoExtendido = {
-                    id: found.item.id,
-                    titulo: { parts: [], in: -1 },
-                    prompt: { parts: [], in: -1 },
-                    descripcion: { parts: [], in: -1 },
-                    autor: { parts: [], in: -1 },
-                    matchType: found.relevanceScore === 1.0 ? "exact" : "fuzzy",
-                    matchScore: found.relevanceScore,
-                    originalItem: found.item,
-                };
-
-                // Solo procesar highlight si hay término de búsqueda
-                if (searchTerm.length > 0) {
-                    if (found.foundIn !== "tags" && found.foundIn !== "categoria") {
-                        // Usar la nueva utilidad de highlight
-                        const highlight = createTextHighlight(
-                            found.item[found.foundIn] as string,
-                            searchTerm,
-                            this.longitud
-                        );
-                        item[found.foundIn] = {
-                            parts: highlight.parts,
-                            in: highlight.highlightIndex,
-                        };
-                    }
-                }
-
-                // Rellenar campos vacíos con valores por defecto
-                this.fillEmptyFields(item, found.item);
-                return item;
-            });
-
-            this.allSearchResults.set(salida);
+            // Rellenar campos vacíos con valores por defecto
+            this.fillEmptyFields(item, found.item);
+            return item;
         });
+
+        this.allSearchResults.set(salida);
     }
 
     private fillEmptyFields(item: ItemEncontrado, originalItem: any) {
