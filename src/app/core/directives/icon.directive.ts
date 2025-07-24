@@ -59,7 +59,6 @@ export class IconDirective {
         const iconPath = ICON_PATHS[this.icon()];
         if (!iconPath) {
             // Clear any existing content
-
             console.warn(`Icon "${this.icon()}" not found`);
             return;
         }

@@ -150,7 +150,7 @@ export class AppDataService {
                 if (currTag) {
                     const newCount = currTag.prompt_count - 1;
                     if (newCount <= 0) {
-                        this.firestoreService.daleteTag(currTag.id!);
+                        this.firestoreService.deleteTag(currTag.id!);
                     } else {
                         this.firestoreService.updateTagPromptCount(currTag.id!, newCount);
                         currTag.prompt_count = newCount;
@@ -186,7 +186,7 @@ export class AppDataService {
                 }
 
                 // Eliminar el tag
-                this.firestoreService.daleteTag(tag.id!);
+                this.firestoreService.deleteTag(tag.id!);
             })
         );
     }

@@ -35,12 +35,13 @@ export class FirestoreService {
 
     private currCategories = signal([] as FirestoreCategory[]);
     private currTags = signal([] as FirestoreTag[]);
-    private currPrompts = signal<FirestorePrompt[]>([]);
+
+    private promptsPaginados = signal<FirestorePrompt[]>([]);
 
     private promptsLoaded = signal(false);
 
     getPrompts() {
-        const curr = this.currPrompts();
+        const curr = this.promptsPaginados();
         if (curr.length > 0 && this.promptsLoaded()) {
             return of(curr);
         }
@@ -59,15 +60,23 @@ export class FirestoreService {
                 if (prompts.length <= 0) {
                     this.promptsLoaded.set(true);
                 }
-                this.currPrompts.set([...curr, ...prompts]);
+                this.promptsPaginados.set([...curr, ...prompts]);
             }),
             map(() => {
-                return this.currPrompts();
+                return this.promptsPaginados();
             })
         );
     }
 
     getPromptBySlug(slug: string) {
+        const curr = this.promptsPaginados();
+        if (curr.length > 0) {
+            const promptCargado = curr.find((p) => p.slug === slug);
+            if (promptCargado) {
+                return of(promptCargado);
+            }
+        }
+
         return this.getPromptsQuery([where("slug", "==", slug), limit(1)]).pipe(
             map((prompts) => {
                 if (prompts.length === 0) {
@@ -79,6 +88,14 @@ export class FirestoreService {
     }
 
     getPromptById(id: string) {
+        const curr = this.promptsPaginados();
+        if (curr.length > 0) {
+            const promptCargado = curr.find((p) => p.id === id);
+            if (promptCargado) {
+                return of(promptCargado);
+            }
+        }
+
         try {
             const docRef = doc(this.firestore, `prompts/${id}`);
 
@@ -124,7 +141,7 @@ export class FirestoreService {
             });
 
             return nuevo.pipe(
-                tap((prompt) => this.currPrompts.update((prompts) => [prompt, ...prompts])),
+                tap((prompt) => this.promptsPaginados.update((prompts) => [prompt, ...prompts])),
                 map((prompt) => prompt.id)
             );
         } catch (error) {
@@ -154,7 +171,9 @@ export class FirestoreService {
         try {
             const docRef = doc(this.firestore, "prompts", id);
             await deleteDoc(docRef).then(() => {
-                this.currPrompts.update((prompts) => prompts.filter((prompt) => prompt.id !== id));
+                this.promptsPaginados.update((prompts) =>
+                    prompts.filter((prompt) => prompt.id !== id)
+                );
             });
 
             return true;
@@ -230,7 +249,7 @@ export class FirestoreService {
         }
     }
 
-    async daleteTag(id: string): Promise<boolean> {
+    async deleteTag(id: string): Promise<boolean> {
         try {
             const docRef = doc(this.firestore, "tags", id);
             await deleteDoc(docRef).then(() => {
@@ -290,6 +309,10 @@ export class FirestoreService {
     }
 
     getCategoryBySlug(slug: string) {
+        if (this.currCategories().length > 0) {
+            return of(this.currCategories().find((c) => c.slug === slug)!);
+        }
+
         return this.getElementsQuery<FirestoreCategory>(this.categoriesCollection, [
             where("slug", "==", slug),
             limit(1),
@@ -304,6 +327,10 @@ export class FirestoreService {
     }
 
     getTagBySlug(slug: string) {
+        if (this.currTags().length > 0) {
+            return of(this.currTags().find((c) => c.slug === slug)!);
+        }
+
         return this.getElementsQuery<FirestoreTag>(this.tagsCollection, [
             where("slug", "==", slug),
             limit(1),
