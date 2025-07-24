@@ -1,13 +1,13 @@
-import { Component, inject, signal, computed } from "@angular/core";
+import { Component, inject, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ReactiveFormsModule, FormBuilder, Validators } from "@angular/forms";
-import { AdminService } from "../../core/services/admin.service";
+import { AdminService } from "../../core";
 
 @Component({
     selector: "pd-admin-management",
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule],
-    templateUrl: "./admin-management.component.html",
+    templateUrl: "./admin-management.html",
 })
 export class AdminManagementComponent {
     private adminService = inject(AdminService);
@@ -42,7 +42,10 @@ export class AdminManagementComponent {
         if (this.form.invalid) return;
         this.isLoading.set(true);
         try {
-            await this.adminService.addAdminByUid(this.form.value.uid!, this.form.value.email || undefined);
+            await this.adminService.addAdminByUid(
+                this.form.value.uid!,
+                this.form.value.email || undefined
+            );
             this.form.reset();
             await this.loadAdmins();
         } catch (e: any) {

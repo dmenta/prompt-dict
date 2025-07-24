@@ -5,3 +5,4 @@ export * from "./notification.service";
 export * from "./storage.service";
 export * from "./firestore.service";
 export * from "./app-data.service";
+export * from "./admin.service";

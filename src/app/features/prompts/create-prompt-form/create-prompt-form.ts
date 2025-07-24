@@ -1,7 +1,6 @@
 import { Component, inject, Output, output, signal } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { AppDataService } from "../../../core/services/app-data.service";
-import { NotificationService } from "../../../core/services/notification.service";
+import { AppDataService, NotificationService } from "../../../core";
 import { TitleCasePipe } from "@angular/common";
 import { map } from "rxjs";
 
@@ -9,7 +8,7 @@ import { map } from "rxjs";
     selector: "pd-create-prompt-form",
     standalone: true,
     imports: [ReactiveFormsModule, TitleCasePipe],
-    templateUrl: "./create-prompt-form.component.html",
+    templateUrl: "./create-prompt-form.html",
 })
 export class CreatePromptFormComponent {
     notificationService = inject(NotificationService);

@@ -3,7 +3,7 @@ import { CopyActions } from "../../../core";
 import { RouterLink } from "@angular/router";
 import { APP_BASE_HREF } from "@angular/common";
 import { PromptInfo } from "../prompt-info/prompt-info";
-import { FirestorePrompt } from "../../../core/models";
+import { FirestorePrompt } from "../../../core";
 
 @Component({
     selector: "pd-display-prompt, [pd-display-prompt]",

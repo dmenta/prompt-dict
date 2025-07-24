@@ -1,44 +1,42 @@
 import { Routes } from "@angular/router";
 import { categoryResolve, promptResolve, tagResolve } from "./core";
 import { navItemTypeLabels } from "./features";
-import { AuthGuard } from "./core/utils/auth.activate";
+import { AuthGuard } from "./core";
 
 export const routes: Routes = [
     {
         path: "",
-        loadComponent: () => import("./pages/home/home").then((m) => m.Home),
+        loadComponent: () => import("./pages").then((m) => m.Home),
         title: "Inicio | Prompter",
     },
     {
         path: "prompts/create",
-        loadComponent: () =>
-            import("./pages/create-prompt/create-prompt.page").then((m) => m.CreatePromptPage),
+        loadComponent: () => import("./pages").then((m) => m.CreatePromptPage),
         title: "Crear Prompt | Prompter",
     },
     {
         path: "category/:id",
-        loadComponent: () => import("./pages/prompts/prompts").then((m) => m.Prompts),
+        loadComponent: () => import("./pages").then((m) => m.Prompts),
         resolve: { item: categoryResolve, type: () => navItemTypeLabels["category"] },
     },
     {
         path: "tag/:id",
-        loadComponent: () => import("./pages/prompts/prompts").then((m) => m.Prompts),
+        loadComponent: () => import("./pages").then((m) => m.Prompts),
         resolve: { item: tagResolve, type: () => navItemTypeLabels["tag"] },
     },
     {
         path: "prompt/:id",
-        loadComponent: () =>
-            import("./pages/prompt-detail/prompt-detail").then((m) => m.PromptDetail),
+        loadComponent: () => import("./pages").then((m) => m.PromptDetail),
         resolve: { prompt: promptResolve },
     },
     {
         path: "searching",
-        loadComponent: () => import("./pages/searching/searching").then((m) => m.Searching),
+        loadComponent: () => import("./pages").then((m) => m.Searching),
         title: "Búsqueda | Prompter",
     },
     {
         path: "admin",
-        loadComponent: () => import("./pages/admin/admin.page").then((m) => m.AdminPage),
+        loadComponent: () => import("./pages").then((m) => m.AdminPage),
         title: "Administración | Prompter",
         canActivate: [AuthGuard],
     },

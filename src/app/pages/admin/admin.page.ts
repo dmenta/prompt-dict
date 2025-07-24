@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { AdminManagementComponent } from "../../features/admin/admin-management.component";
+import { AdminManagementComponent } from "../../features";
 
 @Component({
     selector: "pd-admin-page",

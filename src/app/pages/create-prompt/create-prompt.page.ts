@@ -1,6 +1,6 @@
 import { Component, signal } from "@angular/core";
-import { TaskHeader } from "../../core/components/header/task-header";
-import { CreatePromptFormComponent } from "../../features/prompts/create-prompt-form/create-prompt-form.component";
+import { TaskHeader } from "../../core";
+import { CreatePromptFormComponent } from "../../features";
 
 @Component({
     selector: "pd-create-prompt-page",

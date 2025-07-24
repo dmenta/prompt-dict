@@ -1,6 +1,6 @@
 import { Component, input } from "@angular/core";
 import { RelativeDatePipe } from "../../../core";
-import { FirestorePrompt } from "../../../core/models";
+import { FirestorePrompt } from "../../../core";
 import { Timestamp } from "firebase/firestore";
 
 @Component({

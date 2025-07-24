@@ -1,4 +1,4 @@
-import { FirestorePrompt } from "../../core/models";
+import { FirestorePrompt } from "../../core";
 
 export type NavigationItem = {
     name: string;

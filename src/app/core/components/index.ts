@@ -5,6 +5,7 @@ export * from "./header/header-layout.directive";
 export * from "./header/main-header";
 export * from "./header/search-header";
 export * from "./header/section-header";
+export * from "./header/task-header";
 export * from "./highlighted-text/highlighted-text";
 export * from "./key-value-item/label-value-item";
 export * from "./notification/notification.component";
