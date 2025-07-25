@@ -10,9 +10,9 @@ import { SimpleButton } from "./simple-button";
     hostDirectives: [{ directive: SimpleButton }],
 })
 export class ActionButton {
-    clicked = output<MouseEvent | TouchEvent>();
+    public clicked = output<MouseEvent | TouchEvent>();
 
-    onClick(event: MouseEvent) {
+    public onClick(event: MouseEvent) {
         this.clicked.emit(event);
     }
 }

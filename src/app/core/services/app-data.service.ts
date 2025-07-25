@@ -6,50 +6,54 @@ import { Prompt, AddPrompt } from "../models";
     providedIn: "root",
 })
 export class AppDataService {
-    private firestoreService = inject(FirestoreService);
+    private readonly firestoreService = inject(FirestoreService);
 
-    /**
-     * Buscar prompts
-     */
-    search(searchTerm: string) {
+    public search(searchTerm: string) {
         return this.searchInFirestore(searchTerm);
     }
 
-    /**
-     * Obtener categorías
-     */
-    prompts() {
+    public prompts() {
         return this.firestoreService.prompts();
     }
 
-    async byCategoryName(name: string) {
+    public categories() {
+        return this.firestoreService.categories();
+    }
+
+    public tags() {
+        return this.firestoreService.tags();
+    }
+
+    public async categoryNameBySlug(slug: string): Promise<string> {
+        return this.firestoreService.categoryNameBySlug(slug);
+    }
+
+    public async tagNameBySlug(slug: string): Promise<string> {
+        return this.firestoreService.tagNameBySlug(slug);
+    }
+
+    public async byCategoryName(name: string) {
         return {
             name: this.titleCase(name),
             prompts: await this.firestoreService.getPromptsByCategory(name),
         };
     }
 
-    async byTagName(name: string) {
+    public async byTagName(name: string) {
         return {
             name: this.titleCase(name),
             prompts: await this.firestoreService.getPromptsByTag(name),
         };
     }
 
-    /**
-     * Crear un nuevo prompt y actualizar tags/categoría
-     */
-    async createPrompt(prompt: AddPrompt) {
+    public async createPrompt(prompt: AddPrompt) {
         await this.firestoreService.createPrompt(prompt).then((id) => {
             this.addOrUpdateCategory(prompt.categoria);
             this.addOrUpdateTags(prompt.tags);
         });
     }
 
-    /**
-     * Actualizar o crear tags/categoría con prompt_count
-     */
-    async addOrUpdateCategory(categoria: string) {
+    private async addOrUpdateCategory(categoria: string) {
         const count = this.prompts().filter((p) => p.categoria === categoria.toLowerCase()).length;
         console.log("Count for category:", categoria.toLowerCase(), count);
         if (count > 1) {
@@ -66,7 +70,7 @@ export class AppDataService {
         }
     }
 
-    addOrUpdateTags(tags: string[]) {
+    private addOrUpdateTags(tags: string[]) {
         tags.forEach(async (tag) => {
             const count = this.prompts().filter((p) => p.tags.includes(tag.toLowerCase())).length;
             console.log("Count for tag:", tag.toLowerCase(), count);
@@ -82,7 +86,7 @@ export class AppDataService {
         });
     }
 
-    async updateOrDeleteCategory(categoria: string) {
+    private async updateOrDeleteCategory(categoria: string) {
         const count = this.prompts().filter((p) => p.categoria === categoria.toLowerCase()).length;
         console.log("Count for category:", categoria.toLowerCase(), count);
         if (count > 0) {
@@ -92,7 +96,7 @@ export class AppDataService {
         }
     }
 
-    async updateOrDeleteTags(tags: string[]) {
+    private async updateOrDeleteTags(tags: string[]) {
         tags.forEach(async (tag) => {
             const count = this.prompts().filter((p) => p.tags.includes(tag.toLowerCase())).length;
             console.log("Count for tag:", tag.toLowerCase(), count);
@@ -104,8 +108,7 @@ export class AppDataService {
         });
     }
 
-    /** Eliminar prompt */
-    async deletePrompt(id: string) {
+    public async deletePrompt(id: string) {
         const prompt = this.firestoreService.getPromptById(id)!;
 
         const tags = [...prompt.tags];
@@ -117,30 +120,24 @@ export class AppDataService {
         });
     }
 
-    async deleteTag(name: string) {
+    public async deleteTag(name: string) {
         await this.firestoreService.deleteTag(name.toLowerCase());
     }
 
-    async deleteCategory(name: string) {
+    public async deleteCategory(name: string) {
         await this.firestoreService.deleteCategory(name.toLowerCase());
     }
 
-    /**
-     * Obtener prompt por slug
-     */
-    async bySlug(slug: string) {
+    public async bySlug(slug: string) {
         return this.firestoreService.getPromptBySlug(slug);
     }
-
-    // Métodos privados
 
     private searchInFirestore(searchTerm: string) {
         try {
             const found = this.firestoreService.searchPrompts(searchTerm).map((prompt) => {
-                // Adaptar el resultado al formato esperado
                 return {
                     item: prompt,
-                    foundIn: "titulo" as const, // Simplificado para Firestore
+                    foundIn: "titulo" as const,
                     position: 0,
                     relevanceScore: 1.0,
                 };
@@ -167,16 +164,6 @@ export class AppDataService {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
 }
-
-export type ResultadoBusqueda = {
-    search: string;
-    found: {
-        item: Prompt;
-        foundIn: foundInKey;
-        position: number;
-        relevanceScore: number;
-    }[];
-};
 
 type foundInKey = "titulo" | "prompt" | "descripcion" | "autor" | "categoria" | "tags";
 

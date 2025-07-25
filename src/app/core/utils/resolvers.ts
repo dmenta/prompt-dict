@@ -6,7 +6,6 @@ import {
     type RouterStateSnapshot,
 } from "@angular/router";
 import { AppDataService, ListPrompts } from "../services";
-import { DefaultNavigationStore } from "../services/navigation.service";
 import { Prompt } from "../models";
 
 function getSlug(route: ActivatedRouteSnapshot): string {
@@ -38,16 +37,12 @@ class PromptResolver implements Resolve<Prompt> {
     providedIn: "root",
 })
 class CategoryResolver implements Resolve<ListPrompts> {
-    constructor(
-        private appDataService: AppDataService,
-        private navigationService: DefaultNavigationStore,
-        private router: Router
-    ) {}
+    constructor(private appDataService: AppDataService, private router: Router) {}
 
     async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<ListPrompts> {
         const name =
             this.router.getCurrentNavigation()?.extras.state?.["name"] ??
-            (await this.navigationService.categoryNameBySlug(getSlug(route)));
+            (await this.appDataService.categoryNameBySlug(getSlug(route)));
 
         if (name) {
             return this.appDataService.byCategoryName(name);
@@ -61,16 +56,12 @@ class CategoryResolver implements Resolve<ListPrompts> {
     providedIn: "root",
 })
 class TagResolver implements Resolve<ListPrompts> {
-    constructor(
-        private appDataService: AppDataService,
-        private navigationService: DefaultNavigationStore,
-        private router: Router
-    ) {}
+    constructor(private appDataService: AppDataService, private router: Router) {}
 
     async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<ListPrompts> {
         const name =
             this.router.getCurrentNavigation()?.extras.state?.["name"] ??
-            (await this.navigationService.tagNameBySlug(getSlug(route)));
+            (await this.appDataService.tagNameBySlug(getSlug(route)));
         if (name) {
             return this.appDataService.byTagName(name);
         }

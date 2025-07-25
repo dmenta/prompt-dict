@@ -4,7 +4,7 @@ import { Injectable } from "@angular/core";
     providedIn: "root",
 })
 export class StorageService {
-    baseId = "prompt-dict";
+    private readonly baseId = "prompt-dict";
     /**
      *
      * @param identifier
@@ -12,7 +12,7 @@ export class StorageService {
      * Saves a value to localStorage with the given identifier.
      * The value is stringified before saving.
      */
-    save<T>(identifier: string, value: NonNullable<T>) {
+    public save<T>(identifier: string, value: NonNullable<T>) {
         localStorage.setItem(this.fullIdentifier(identifier), JSON.stringify(value));
     }
 
@@ -22,7 +22,7 @@ export class StorageService {
      * Retrieves a value from localStorage by its identifier.
      * If the value is not found or cannot be parsed, it returns null.
      */
-    get<T>(identifier: string): T | null {
+    public get<T>(identifier: string): T | null {
         const value = localStorage.getItem(this.fullIdentifier(identifier));
         if (value) {
             try {
@@ -35,11 +35,11 @@ export class StorageService {
         return null;
     }
 
-    delete(identifier: string): void {
+    public delete(identifier: string): void {
         localStorage.removeItem(this.fullIdentifier(identifier));
     }
 
-    fullIdentifier(identifier: string): string {
+    private fullIdentifier(identifier: string): string {
         return `${this.baseId}-${identifier}`;
     }
 }

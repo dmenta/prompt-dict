@@ -1,8 +1,7 @@
 import { Component, computed, inject, signal } from "@angular/core";
-import { StorageService } from "../../../core";
+import { AppDataService, StorageService } from "../../../core";
 import { NavItemType, navItemTypeLabels } from "../navigation-item";
 import { NavList, NavListSort } from "../nav-list/nav-list";
-import { DefaultNavigationStore } from "../../../core/services/navigation.service";
 
 @Component({
     selector: "pd-nav-menu",
@@ -34,23 +33,20 @@ import { DefaultNavigationStore } from "../../../core/services/navigation.servic
             </div>
         </div>
     `,
-    styles: ``,
 })
 export class NavMenu {
     private store = inject(StorageService);
-    navigationStore = inject(DefaultNavigationStore);
     private listData = signal<NavListConfig>(
         this.store.get("navListConfig") ?? { category: "alpha", tag: "qty" }
     );
 
+    appService = inject(AppDataService);
     list = signal<NavItemType>(this.store.get("navList") ?? "category");
     sort = computed<NavListSort>(() => this.listData()[this.list()] ?? "qty");
 
     sortedItems = computed(() => {
         const items =
-            this.list() === "category"
-                ? this.navigationStore.categories()
-                : this.navigationStore.tags();
+            this.list() === "category" ? this.appService.categories() : this.appService.tags();
         const sort = this.sort();
         if (!items) {
             return [];

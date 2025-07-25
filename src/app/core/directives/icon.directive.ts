@@ -45,9 +45,9 @@ export class IconDirective {
     private elementRef = inject(ElementRef);
     private renderer = inject(Renderer2);
 
-    icon = input.required<IconType>({ alias: "pdIcon" });
-    size = input<number>(24);
-    fill = input<string>("currentColor");
+    public readonly icon = input.required<IconType>({ alias: "pdIcon" });
+    public readonly size = input<number>(24);
+    public readonly fill = input<string>("currentColor");
 
     constructor() {
         effect(() => {

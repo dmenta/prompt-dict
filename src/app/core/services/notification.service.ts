@@ -4,25 +4,30 @@ import { Injectable, OnDestroy, signal } from "@angular/core";
     providedIn: "root",
 })
 export class NotificationService implements OnDestroy {
-    showNotification = signal(false);
-    notificationMessage = signal<{ type: "404" | "success" | "warn"; message?: string }>({
+    public readonly showNotification = signal(false);
+
+    public readonly notificationMessage = signal<{
+        type: "404" | "success" | "warn";
+        message?: string;
+    }>({
         type: "success",
         message: "",
     });
+
     private lastTimeoutId: number | undefined = undefined;
     private abort: AbortController | undefined = undefined;
 
-    success(message?: string) {
+    public success(message?: string) {
         this.notificationMessage.set({ type: "success", message: message ?? "" });
         this.setNotification(true);
     }
 
-    warn(message?: string) {
+    public warn(message?: string) {
         this.notificationMessage.set({ type: "warn", message: message ?? "" });
         this.setNotification(true);
     }
 
-    notFound(message?: string) {
+    public notFound(message?: string) {
         this.notificationMessage.set({ type: "404", message: message ?? "" });
         this.setNotification(true);
     }
@@ -41,7 +46,11 @@ export class NotificationService implements OnDestroy {
                 signal: abortar,
                 capture: true,
             });
-            window.addEventListener("click", this.onClick.bind(this), { once: true, signal: abortar, capture: true });
+            window.addEventListener("click", this.onClick.bind(this), {
+                once: true,
+                signal: abortar,
+                capture: true,
+            });
 
             this.setHideTimeout();
         } else {

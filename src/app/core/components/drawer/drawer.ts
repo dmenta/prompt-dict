@@ -19,7 +19,7 @@ import { Component, OnDestroy, Renderer2, signal } from "@angular/core";
     },
 })
 export class Drawer implements OnDestroy {
-    public isOpen = signal(false);
+    public readonly isOpen = signal(false);
 
     private removeDocumentClickListenerFn: (() => void) | null = null;
     private removeDocumentEscapeListenerFn: (() => void) | null = null;

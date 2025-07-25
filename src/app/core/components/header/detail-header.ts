@@ -86,18 +86,17 @@ import { AsyncPipe } from "@angular/common";
     ],
 })
 export class DetailHeader {
-    adminService = inject(AdminService);
-    isAdmin$ = this.adminService.isCurrentUserAdmin();
-    lastUrl: string;
-    lastParams: Params;
-    lastName: string;
+    private readonly adminService = inject(AdminService);
+    public readonly isAdmin$ = this.adminService.isCurrentUserAdmin();
+    private lastUrl: string;
+    private lastParams: Params;
+    private lastName: string;
 
-    titulo = input<string>("Elemento");
-    subtitulo = input<string>("Información detallada del elemento");
-    copyPrompt = output<MouseEvent>();
-    share = output<MouseEvent>();
-
-    delete = output<MouseEvent>();
+    public readonly titulo = input<string>("Elemento");
+    public readonly subtitulo = input<string>("Información detallada del elemento");
+    public readonly copyPrompt = output<MouseEvent>();
+    public readonly share = output<MouseEvent>();
+    public readonly delete = output<MouseEvent>();
 
     constructor(private router: Router) {
         const lastUrl = this.router.parseUrl(
@@ -111,11 +110,11 @@ export class DetailHeader {
         this.lastUrl = lastUrl.toString().split("?")[0] || "/";
     }
 
-    onCopyPrompt(event: MouseEvent) {
+    public onCopyPrompt(event: MouseEvent) {
         this.copyPrompt.emit(event);
     }
 
-    onBack(event: MouseEvent) {
+    public onBack(event: MouseEvent) {
         event.stopPropagation();
         if (this.lastName) {
             this.router.navigate([this.lastUrl], {
@@ -128,11 +127,11 @@ export class DetailHeader {
         }
     }
 
-    onShare(event: MouseEvent) {
+    public onShare(event: MouseEvent) {
         this.share.emit(event);
     }
 
-    onDelete(event: MouseEvent) {
+    public onDelete(event: MouseEvent) {
         event.stopPropagation();
         this.delete.emit(event);
     }

@@ -43,15 +43,15 @@ import { SimpleButton } from "../../directives";
 })
 export class DialogComponent implements OnDestroy {
     @ViewChild("pdDialog", { static: true }) dialog!: ElementRef<HTMLDialogElement>;
-    dialogTitle = input<string>("");
+    public readonly dialogTitle = input<string>("");
 
-    confirm = output<MouseEvent>();
+    public readonly confirm = output<MouseEvent>();
 
-    show() {
+    public show() {
         this.dialog.nativeElement.showModal();
     }
 
-    onConfirm(event: MouseEvent) {
+    public onConfirm(event: MouseEvent) {
         this.dialog.nativeElement.close();
         this.confirm.emit(event);
     }

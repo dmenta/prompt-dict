@@ -6,7 +6,7 @@ import { formatRelativeTime } from "../utils/date-operation";
     standalone: true,
 })
 export class RelativeDatePipe {
-    transform(value: Date | string): string {
+    public transform(value: Date | string): string {
         if (!value) return "Sin información";
 
         formatRelativeTime(value instanceof Date ? value : new Date(value));

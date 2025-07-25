@@ -11,7 +11,7 @@ import { Observable } from "rxjs";
 export class AuthGuard implements CanActivate {
     constructor(private adminService: AdminService, private router: Router) {}
 
-    canActivate(
+    public canActivate(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {

@@ -26,7 +26,7 @@ export class AdminManagementComponent {
         this.loadAdmins();
     }
 
-    async loadAdmins() {
+    private async loadAdmins() {
         this.isLoading.set(true);
         this.error.set(null);
         try {

@@ -5,19 +5,17 @@ import { StorageService } from "./storage.service";
     providedIn: "root",
 })
 export class DarkModeService {
-    store = inject(StorageService);
-    readonly darkMode = signal(this.store.get<boolean>("darkMode") ?? this.darkModeSystem());
+    private readonly store = inject(StorageService);
+    public readonly darkMode = signal(this.store.get<boolean>("darkMode") ?? this.darkModeSystem());
 
-    setDarkMode(darkMode: boolean) {
-        this.darkMode.set(darkMode);
-    }
-    toggle() {
+    public toggle() {
         this.darkMode.set(!this.darkMode());
     }
 
     constructor() {
         effect(() => this.apply(this.darkMode()));
     }
+
     private apply(darkMode: boolean) {
         this.store.save("darkMode", darkMode);
 

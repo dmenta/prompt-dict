@@ -1,58 +1,52 @@
 import { Injectable, inject } from "@angular/core";
 import { Firestore, collection, getDocs, doc, setDoc, deleteDoc } from "@angular/fire/firestore";
 import { Auth } from "@angular/fire/auth";
-import { Functions, httpsCallable } from "@angular/fire/functions";
-import { Observable, from, map, of, switchMap } from "rxjs";
+import { Observable, from, map, of, switchMap, tap } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class AdminService {
-    private firestore = inject(Firestore);
-    private auth = inject(Auth);
-    private functions = inject(Functions);
+    private readonly firestore = inject(Firestore);
+    private readonly auth = inject(Auth);
+    private isAdminCache: { [uid: string]: boolean } = {};
 
-    async getAdmins() {
+    public async getAdmins() {
         const adminsCol = collection(this.firestore, "admins");
         const snap = await getDocs(adminsCol);
         return snap.docs.map((doc) => ({ uid: doc.id, ...doc.data() }));
     }
 
-    async getUidByEmail(email: string): Promise<{ uid: string; email: string }> {
-        const callable = httpsCallable(this.functions, "getUidByEmail");
-        const result = await callable({ email });
-        // result.data puede ser undefined/null si la función falla
-        const data = result && typeof result.data === "object" ? (result.data as any) : {};
-        if (!data.uid) throw new Error("No existe un usuario con ese email");
-        return { uid: data.uid, email: data.email };
-    }
-
-    async addAdminByEmail(email: string) {
-        const { uid } = await this.getUidByEmail(email);
-        await this.addAdminByUid(uid, email);
-    }
-
-    async addAdminByUid(uid: string, email?: string) {
+    public async addAdminByUid(uid: string, email?: string) {
         const ref = doc(this.firestore, "admins", uid);
         await setDoc(ref, { email });
     }
 
-    async removeAdmin(uid: string) {
+    public async removeAdmin(uid: string) {
         const ref = doc(this.firestore, "admins", uid);
         await deleteDoc(ref);
     }
 
-    /**
-     * Devuelve un observable que emite true si el usuario actual es admin, false si no.
-     */
-    isCurrentUserAdmin(): Observable<boolean> {
+    public isCurrentUserAdmin(): Observable<boolean> {
         if (!this.auth.currentUser) {
+            this.isAdminCache = {};
             return of(false);
+        }
+
+        if (this.isAdminCache.hasOwnProperty(this.auth.currentUser.uid)) {
+            return of(this.isAdminCache[this.auth.currentUser.uid]);
         }
 
         return from(this.auth.currentUser.getIdToken()).pipe(
             switchMap(() => {
                 const uid = this.auth.currentUser?.uid;
-                if (!uid) return of(false);
-                return of(doc(this.firestore, "admins", uid)).pipe(map((ref) => ref.id === uid));
+                if (!uid) {
+                    return of(false);
+                }
+                return of(doc(this.firestore, "admins", uid)).pipe(
+                    map((ref) => ref.id === uid),
+                    tap((isAdmin) => {
+                        this.isAdminCache[uid] = isAdmin;
+                    })
+                );
             })
         );
     }
