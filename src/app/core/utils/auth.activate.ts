@@ -1,5 +1,5 @@
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
-import { AdminService } from "../services/admin.service";
+import { AdminService } from "../services";
 import { map, take } from "rxjs";
 import { Injectable } from "@angular/core";
 import { CanActivate } from "@angular/router";

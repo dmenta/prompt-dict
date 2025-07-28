@@ -1,5 +1,5 @@
 import { Component, computed, inject } from "@angular/core";
-import { PromptsList } from "../../features/";
+import { PromptsList } from "../../features";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { toSignal } from "@angular/core/rxjs-interop";

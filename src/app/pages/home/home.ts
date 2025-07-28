@@ -1,7 +1,7 @@
 import { Component, inject } from "@angular/core";
 import { PromptsList } from "../../features";
 import { Drawer, MainHeader, AppDataService } from "../../core";
-import { NavMenu } from "../../features/navigation/nav-menu/nav-menu";
+import { NavMenu } from "../../features";
 
 @Component({
     selector: "pd-home",
